@@ -1,5 +1,5 @@
 <template>
-    <div>v-header</div>
+    <div class="header">v-header</div>
 </template>
 
 <script>
@@ -9,5 +9,8 @@
 </script>
 
 <style scoped lang="scss">
-
+    .header {
+        width: 100%;
+        background-color: rgba(0, 255, 0, .1);
+    }
 </style>
