@@ -1,41 +1,44 @@
 <template>
     <div class="footer">
-        <div class="icon">
-            <i class="material-icons">home</i>
-            <i class="font">首页</i>
-        </div>
-        <div class="icon">
-            <i class="material-icons">notifications</i>
-            <i class="font">发现</i>
-        </div>
-        <div class="add">
-            <i class="material-icons">control_point</i>
-        </div>
-        <div class="icon">
-            <i class="material-icons">shopping_cart</i>
-            <i class="font">购物车</i>
-        </div>
-        <div class="icon">
-            <i class="material-icons">person</i>
-            <i class="font">我的</i>
+        <div
+                class="icon"
+                v-for="item in items"
+                :key="item.id"
+                :class="{'active':current===item.id}"
+                @click="current=item.id"
+        >
+            <i class="material-icons">{{item.icon}}</i>
+            <i class="font" v-if="item.title">{{item.title}}</i>
         </div>
     </div>
 </template>
 
 <script>
   export default {
-    name: 'VFooter'
+    name: 'VFooter',
+    data () {
+      return {
+        current: 0,
+        items: [
+          { id: 0, icon: 'home', title: '首页' },
+          { id: 1, icon: 'notifications', title: '发现' },
+          { id: 2, icon: 'control_point', title: '' },
+          { id: 3, icon: 'shopping_cart', title: '购物车' },
+          { id: 4, icon: 'person', title: '我的' },
+        ]
+      }
+    }
   }
 </script>
 
 <style scoped lang="scss">
     .footer {
         width: 100%;
-        background-color: rgba(255, 0, 0, .1);
+        background-color: #2a293b;
         position: fixed;
         bottom: 0;
         left: 0;
-        height: 48px;
+        height: 52px;
         display: flex;
         justify-content: space-around;
         align-items: center;
@@ -49,6 +52,10 @@
             align-items: center;
             flex-grow: 1;
 
+            .font, .material-icons {
+                color: #fafafa;
+            }
+
             .material-icons {
                 font-size: 24px;
             }
@@ -57,18 +64,26 @@
                 font-size: 8px;
                 font-style: normal;
             }
-        }
 
-        .add {
-            align-self: flex-start;
-            width: 50px;
-            height: 50px;
-            margin-top: -25px;
-            background-color: #f00;
-            border-radius: 50%;
+            &:nth-of-type(3) {
+                align-self: flex-start;
+                width: 30px;
+                height: 50px;
+                margin-top: -10px;
+                background-color: #2a293b;
+                border-radius: 50%;
 
-            .material-icons {
-                font-size: 50px;
+                .material-icons {
+                    font-size: 40px;
+                    margin-top: 10px;
+                }
+            }
+
+            &.active {
+                .font, .material-icons {
+                    color: skyblue;
+                    transform: scale(1.2);
+                }
             }
         }
     }
