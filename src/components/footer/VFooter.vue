@@ -33,15 +33,17 @@
 
 <style scoped lang="scss">
     .footer {
+        @include bgc($black);
         width: 100%;
-        background-color: #2a293b;
         position: fixed;
         bottom: 0;
         left: 0;
-        height: 52px;
+        z-index: 100;
+        height: 58px;
         display: flex;
         justify-content: space-around;
         align-items: center;
+        padding-bottom: 10px;
 
         .icon {
             width: 40px;
@@ -57,31 +59,31 @@
             }
 
             .material-icons {
-                font-size: 24px;
+                font-size: 28px;
             }
 
             .font {
-                font-size: 8px;
+                font-size: 10px;
                 font-style: normal;
             }
 
             &:nth-of-type(3) {
+                @include bgc($black);
                 align-self: flex-start;
                 width: 30px;
                 height: 50px;
                 margin-top: -10px;
-                background-color: #2a293b;
                 border-radius: 50%;
 
                 .material-icons {
-                    font-size: 40px;
+                    font-size: 50px;
                     margin-top: 10px;
                 }
             }
 
             &.active {
                 .font, .material-icons {
-                    color: skyblue;
+                    @include font-color($orange);
                     transform: scale(1.2);
                 }
             }

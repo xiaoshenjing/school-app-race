@@ -4,8 +4,14 @@ import Vuex from 'vuex'
 Vue.use(Vuex)
 
 let store = new Vuex.Store({
-  state: {},
-  mutations: {},
+  state: {
+    login: false
+  },
+  mutations: {
+    login (state, str) {
+      state.login = str
+    }
+  },
   actions: {}
 })
 
