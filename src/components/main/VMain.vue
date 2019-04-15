@@ -29,6 +29,9 @@
                 <i class="name">实名商品</i>
             </div>
         </div>
+        <div class="goods-list">
+            <goods-list :goods="goods"></goods-list>
+        </div>
     </div>
 </template>
 
@@ -37,9 +40,28 @@
 
   export default {
     name: 'VMain',
+    data () {
+      return {
+        goods: []
+      }
+    },
     components: {
       SwipeItem,
       Swipe,
+      GoodsList: () => import('@/components/main/GoodsList')
+    },
+    methods: {
+      getData () {
+        this.$api.post('/main/goods')
+          .then((res) => {
+            if (res.status === 200) {
+              this.goods = res.data
+            }
+          })
+      }
+    },
+    created () {
+      this.getData()
     }
   }
 </script>

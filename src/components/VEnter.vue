@@ -29,7 +29,8 @@
     name: 'enter',
     computed: {
       show () {
-        return !this.$store.state.login
+        // return !this.$store.state.login
+        return false
       }
     },
     methods: {

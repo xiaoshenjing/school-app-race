@@ -5,8 +5,12 @@ import Axios from 'axios'
 import 'mint-ui/lib/style.css'
 import 'material-design-icons-iconfont/dist/material-design-icons.css'
 
-Axios.defaults.baseURL = ''
-Vue.prototype.$http = Axios
+/*Axios.defaults.baseURL = ''
+Vue.prototype.$http = Axios*/
+
+// Axios.defaults.withCredentials = true
+Axios.defaults.baseURL = '/data'
+Vue.prototype.$api = Axios
 
 require('./mock')
 
