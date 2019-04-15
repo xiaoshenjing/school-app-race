@@ -1,7 +1,12 @@
 import Vue from 'vue'
+import Axios from 'axios'
+import VueRouter from 'vue-router'
+
+Vue.use(VueRouter)
+
 import App from './App.vue'
 import store from './store'
-import Axios from 'axios'
+import router from './router'
 import 'mint-ui/lib/style.css'
 import 'material-design-icons-iconfont/dist/material-design-icons.css'
 
@@ -18,5 +23,6 @@ Vue.config.productionTip = false
 
 new Vue({
   render: h => h(App),
-  store
+  store,
+  router
 }).$mount('#app')

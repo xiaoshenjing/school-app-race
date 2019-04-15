@@ -20,6 +20,15 @@
 </script>
 
 <style>
+    html {
+        font-size: 10px;
+    }
+
+    a {
+        text-decoration: none;
+        color: #2c3e50;
+    }
+
     html, body {
         margin: 0;
         padding: 0;

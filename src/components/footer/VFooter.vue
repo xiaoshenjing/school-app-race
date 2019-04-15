@@ -2,10 +2,10 @@
     <div class="footer">
         <div
                 class="icon"
-                v-for="item in items"
-                :key="item.id"
-                :class="{'active':current===item.id}"
-                @click="current=item.id"
+                v-for="(item,index) in items"
+                :key="index"
+                :class="{'active':current===item.name}"
+                @click="jump(item.name)"
         >
             <i class="material-icons">{{item.icon}}</i>
             <i class="font" v-if="item.title">{{item.title}}</i>
@@ -18,15 +18,27 @@
     name: 'VFooter',
     data () {
       return {
-        current: 0,
+        current: 'home',
         items: [
-          { id: 0, icon: 'home', title: '首页' },
-          { id: 1, icon: 'notifications', title: '发现' },
-          { id: 2, icon: 'control_point', title: '' },
-          { id: 3, icon: 'shopping_cart', title: '购物车' },
-          { id: 4, icon: 'person', title: '我的' },
+          { name: 'home', icon: 'home', title: '首页' },
+          { name: 'find', icon: 'notifications', title: '发现' },
+          { name: 'add', icon: 'control_point', title: '' },
+          { name: 'shop-cart', icon: 'shopping_cart', title: '购物车' },
+          { name: 'mine', icon: 'person', title: '我的' },
         ]
       }
+    },
+    methods: {
+      jump (name) {
+        this.current = name
+        this.$router.push(name)
+      },
+      init () {
+        this.current = this.$route.path.split('/')[1]
+      }
+    },
+    created () {
+      this.init()
     }
   }
 </script>

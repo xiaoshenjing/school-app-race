@@ -129,7 +129,7 @@
         }
 
         &.enter-enter-active, &.enter-leave-active {
-            transition: all .5s;
+            transition: opacity .5s;
         }
 
         &.enter-enter, &.enter-leave-to {
