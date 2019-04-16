@@ -7,6 +7,19 @@
             <div class="content">
                 <div class="title">{{good.title}}</div>
                 <div class="price">￥ {{good.price}}</div>
+                <count class="count" :good="good"></count>
+            </div>
+        </div>
+        <div class="cart">
+            <div class="car-wrapper">
+                <div class="car">
+                    <i class="material-icons">add_shopping_cart</i>
+                    <span class="count" v-text="allCount">56</span>
+                </div>
+                <div class="price">￥ {{allPrice}}</div>
+            </div>
+            <div class="submit">
+                <span class="text">请添加购物车商品</span>
             </div>
         </div>
     </div>
@@ -15,6 +28,9 @@
 <script>
   export default {
     name: 'shopCart',
+    components: {
+      Count: () => import('@/components/main/Count')
+    },
     data () {
       return {
         cart: []
@@ -30,6 +46,22 @@
           })
       }
     },
+    computed: {
+      allCount () {
+        let count = 0
+        this.cart.forEach(good => {
+          count += good.count
+        })
+        return count
+      },
+      allPrice () {
+        let price = 0
+        this.cart.forEach(good => {
+          price += good.price * good.count
+        })
+        return price
+      }
+    },
     created () {
       this.getData()
     }
@@ -43,9 +75,8 @@
         .goods {
             margin: 20px auto;
             display: flex;
-            justify-content: space-between;
             align-items: center;
-            width: 35rem;
+            width: 90%;
             height: 100px;
             border-radius: 10px;
             overflow: hidden;
@@ -64,10 +95,12 @@
             }
 
             .content {
+                width: 64%;
                 padding: 5px;
+                position: relative;
 
                 .title {
-                    width: 240px;
+                    width: 100%;
                     overflow: hidden;
                     white-space: nowrap;
                     text-overflow: ellipsis;
@@ -78,6 +111,91 @@
                 .price {
                     font-size: 18px;
                     color: $orange;
+                }
+
+                .count {
+                    position: absolute;
+                    right: 10px;
+                    bottom: 10px;
+                }
+            }
+        }
+
+        .cart {
+            margin-bottom: 67px;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            z-index: 999;
+            width: 100%;
+            height: 70px;
+            @include bgc($black);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            .car-wrapper {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+
+                .car {
+                    width: 80px;
+                    height: 80px;
+                    background-color: $black;
+                    border-radius: 50%;
+                    margin: -20px 0 0 10px;
+                    box-shadow: 0 0 10px rgba(255, 255, 255, .4) inset;
+                    @extend %block-center;
+                    position: relative;
+
+                    .material-icons {
+                        font-size: 50px;
+                        color: $white;
+                    }
+
+                    .count {
+                        display: inline-block;
+                        width: 30px;
+                        height: 20px;
+                        background-color: #da495c;
+                        border-radius: 10px;
+                        position: absolute;
+                        font-size: 14px;
+                        font-weight: 700;
+                        color: $white;
+                        top: 0;
+                        right: 0;
+                        text-align: center;
+                        line-height: 20px;
+                    }
+
+                    &:active {
+                        box-shadow: 0 0 20px rgba(255, 255, 255, .8) inset;
+
+                        .material-icons {
+                            color: $orange;
+                        }
+                    }
+                }
+
+                .price {
+                    font-size: 24px;
+                    margin-left: 20px;
+                    font-weight: 700;
+                    color: $grey;
+                }
+            }
+
+            .submit {
+                width: 150px;
+                height: 70px;
+                background-color: #403e54;
+                @extend %block-center;
+
+                .text {
+                    font-size: 16px;
+                    color: $grey;
                 }
             }
         }

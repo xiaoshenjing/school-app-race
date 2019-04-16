@@ -109,10 +109,9 @@
             margin-top: 40px;
             display: flex;
             flex-wrap: wrap;
-            justify-content: center;
 
             .list {
-                width: 18rem;
+                width: 50%;
                 height: 18rem;
                 display: flex;
                 flex-direction: column;
