@@ -4,12 +4,13 @@
             <i class="material-icons">hdr_weak</i>
         </div>
         <div class="center">
-            <div class="search">
+            <div class="search" v-if="!title">
                 <span class="text">搜索</span>
             </div>
+            <div class="title">{{title}}</div>
         </div>
         <div class="right">
-            <i class="material-icons">chat</i>
+            <i class="material-icons">settings</i>
         </div>
     </div>
 </template>
@@ -20,6 +21,26 @@
     methods: {
       cancel () {
         this.$store.commit('login', false)
+      }
+    },
+    computed: {
+      title () {
+        let title = ''
+        switch (this.$store.state.headerTitle) {
+          case 'find':
+            title = '校园趣事'
+            break
+          case 'add':
+            title = '发布'
+            break
+          case 'shop-cart':
+            title = '购物车'
+            break
+          case 'mine':
+            title = '我的信息'
+            break
+        }
+        return title
       }
     }
   }
@@ -66,6 +87,11 @@
                     @include font-color($grey);
                     font-size: 12px;
                 }
+            }
+
+            .title {
+                @include font-color($grey);
+                font-size: 12px;
             }
         }
     }

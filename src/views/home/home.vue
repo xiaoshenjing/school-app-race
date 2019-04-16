@@ -1,10 +1,6 @@
 <template>
     <div class="home">
-        <swipe :auto="4000" class="swipe">
-            <swipe-item class="item" v-for="(item,index) in carousel" :key="index">
-                <a :href="item.href"><img :src="item.src" alt="" width="100%" height="100%"></a>
-            </swipe-item>
-        </swipe>
+        <swipe :carousel="carousel" :height="'200px'"></swipe>
         <div class="classification">
             <div class="item">
                 <div class="icon">
@@ -31,37 +27,43 @@
                 <i class="name">实名商品</i>
             </div>
         </div>
-        <div class="tip">
-            <div class="line"></div>
-            <div class="title">热卖商品</div>
-            <div class="line"></div>
-        </div>
+        <divider :lineWidth="'40%'" :content="{title:'热卖商品',pattern:'—'}"></divider>
         <goods-list :goods="goods"></goods-list>
+        <loading :loading="loading"></loading>
     </div>
 </template>
 
 <script>
-  import { Swipe, SwipeItem } from 'mint-ui'
-
   export default {
     name: 'home',
     components: {
-      SwipeItem,
-      Swipe,
-      GoodsList: () => import('@/components/main/GoodsList')
+      GoodsList: () => import('@/components/main/GoodsList'),
+      Loading: () => import('@/components/main/Loading'),
+      Swipe: () => import('@/components/main/Swipe'),
+      Divider: () => import('@/components/main/Divider')
     },
     data () {
       return {
-        goods: [],
+        loading: true,
+        goods: {
+          odd: [],
+          even: []
+        },
         carousel: []
       }
     },
     methods: {
       getData () {
-        this.$api.post('/home/goods')
+        this.$api.post('/home')
           .then((res) => {
             if (res.status === 200) {
-              this.goods = res.data.goods
+              for (let i = 0; i < res.data.goods.length; i++) {
+                if (i % 2 === 0) {
+                  this.goods.even.push(res.data.goods[i])
+                } else {
+                  this.goods.odd.push(res.data.goods[i])
+                }
+              }
               this.carousel = res.data.carousel
             }
           })
@@ -75,20 +77,6 @@
 
 <style scoped lang="scss">
     .home {
-        .swipe {
-            width: 100%;
-            height: 150px;
-            overflow: hidden;
-            margin-bottom: 5px;
-
-            .item {
-                width: 100%;
-                height: 100%;
-                text-align: center;
-                background-color: #f00;
-            }
-        }
-
         .classification {
             width: 100%;
             height: 90px;
@@ -138,22 +126,6 @@
                 &:nth-of-type(4) .icon {
                     background-color: #adb3fd;
                 }
-            }
-        }
-
-        .tip {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin: 20px 10px;
-
-            .line {
-                width: 40%;
-                @include border-1px(#ccc);
-            }
-
-            .title {
-                font-size: 14px;
             }
         }
     }

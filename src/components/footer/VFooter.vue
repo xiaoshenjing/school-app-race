@@ -31,10 +31,12 @@
     methods: {
       jump (name) {
         this.current = name
+        this.$store.commit('headerTitle', name)
         this.$router.push(name)
       },
       init () {
-        this.current = this.$route.path.split('/')[1]
+        this.current = this.$store.state.headerTitle
+        this.$router.push(this.$store.state.headerTitle)
       }
     },
     created () {

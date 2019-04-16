@@ -2,13 +2,13 @@ import Mock from 'mockjs'
 
 const Random = Mock.Random
 
-let main = {
+let home = {
   carousel: [
-    { src: Random.dataImage('400x150'), href: '#' },
-    { src: Random.dataImage('400x150'), href: '#' },
-    { src: Random.dataImage('400x150'), href: '#' },
-    { src: Random.dataImage('400x150'), href: '#' },
-    { src: Random.dataImage('400x150'), href: '#' },
+    { src: Random.dataImage('400x200'), href: '#' },
+    { src: Random.dataImage('400x200'), href: '#' },
+    { src: Random.dataImage('400x200'), href: '#' },
+    { src: Random.dataImage('400x200'), href: '#' },
+    { src: Random.dataImage('400x200'), href: '#' },
   ],
   goods: [
     {
@@ -91,4 +91,84 @@ let main = {
   ]
 }
 
-Mock.mock('/data/home/goods', 'post', main)
+let find = {
+  carousel: [
+    { src: Random.dataImage('400x150'), href: '#' },
+    { src: Random.dataImage('400x150'), href: '#' },
+    { src: Random.dataImage('400x150'), href: '#' },
+  ],
+  news: [
+    {
+      title: Random.ctitle(3, 5),
+      content: Random.cparagraph(20),
+      time: Random.datetime('y-M-d H:m:s'),
+      watches: Random.integer(0, 1000),
+      src: Random.dataImage('300x300'),
+    },
+    {
+      title: Random.ctitle(3, 5),
+      content: Random.cparagraph(20),
+      time: Random.datetime('y-M-d H:m:s'),
+      watches: Random.integer(0, 1000),
+      src: Random.dataImage('300x300'),
+    },
+    {
+      title: Random.ctitle(3, 5),
+      content: Random.cparagraph(20),
+      time: Random.datetime('y-M-d H:m:s'),
+      watches: Random.integer(0, 1000),
+      src: Random.dataImage('300x300'),
+    },
+    {
+      title: Random.ctitle(3, 5),
+      content: Random.cparagraph(20),
+      time: Random.datetime('y-M-d H:m:s'),
+      watches: Random.integer(0, 1000),
+      src: Random.dataImage('300x300'),
+    },
+    {
+      title: Random.ctitle(3, 5),
+      content: Random.cparagraph(20),
+      time: Random.datetime('y-M-d H:m:s'),
+      watches: Random.integer(0, 1000),
+      src: Random.dataImage('300x300'),
+    },
+    {
+      title: Random.ctitle(3, 5),
+      content: Random.cparagraph(20),
+      time: Random.datetime('y-M-d H:m:s'),
+      watches: Random.integer(0, 1000),
+      src: Random.dataImage('300x300'),
+    },
+    {
+      title: Random.ctitle(3, 5),
+      content: Random.cparagraph(20),
+      time: Random.datetime('y-M-d H:m:s'),
+      watches: Random.integer(0, 1000),
+      src: Random.dataImage('300x300'),
+    },
+    {
+      title: Random.ctitle(3, 5),
+      content: Random.cparagraph(20),
+      time: Random.datetime('y-M-d H:m:s'),
+      watches: Random.integer(0, 1000),
+      src: Random.dataImage('300x300'),
+    },
+    {
+      title: Random.ctitle(3, 5),
+      content: Random.cparagraph(20),
+      time: Random.datetime('y-M-d H:m:s'),
+      watches: Random.integer(0, 1000),
+      src: Random.dataImage('300x300'),
+    },
+    {
+      title: Random.ctitle(3, 5),
+      content: Random.cparagraph(20),
+      time: Random.datetime('y-M-d H:m:s'),
+      watches: Random.integer(0, 1000),
+      src: Random.dataImage('300x300'),
+    },
+  ]
+}
+Mock.mock('/data/home', 'post', home)
+Mock.mock('/data/find', 'post', find)

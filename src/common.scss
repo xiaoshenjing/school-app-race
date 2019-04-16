@@ -61,12 +61,8 @@ $blue: #60a4bf;
   color: $color;
 }
 
-/*
-!* clear float *!
-%clear {
-  &:after {
-    content: '';
-    clear: both;
-    display: block;
-  }
-}*/
+
+/* img opacity */
+@mixin img($num) {
+  opacity: $num;
+}
