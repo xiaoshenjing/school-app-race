@@ -170,5 +170,24 @@ let find = {
     },
   ]
 }
+
+let shop_cart = [
+  { src: Random.dataImage('90x90'), title: Random.cparagraph(20), price: Random.integer(0, 1000) },
+  { src: Random.dataImage('90x90'), title: Random.cparagraph(20), price: Random.integer(0, 1000) },
+  { src: Random.dataImage('90x90'), title: Random.cparagraph(20), price: Random.integer(0, 1000) },
+  { src: Random.dataImage('90x90'), title: Random.cparagraph(20), price: Random.integer(0, 1000) },
+  { src: Random.dataImage('90x90'), title: Random.cparagraph(20), price: Random.integer(0, 1000) },
+  { src: Random.dataImage('90x90'), title: Random.cparagraph(20), price: Random.integer(0, 1000) },
+  { src: Random.dataImage('90x90'), title: Random.cparagraph(20), price: Random.integer(0, 1000) },
+  { src: Random.dataImage('90x90'), title: Random.cparagraph(20), price: Random.integer(0, 1000) },
+  { src: Random.dataImage('90x90'), title: Random.cparagraph(20), price: Random.integer(0, 1000) },
+  { src: Random.dataImage('90x90'), title: Random.cparagraph(20), price: Random.integer(0, 1000) },
+  { src: Random.dataImage('90x90'), title: Random.cparagraph(20), price: Random.integer(0, 1000) },
+  { src: Random.dataImage('90x90'), title: Random.cparagraph(20), price: Random.integer(0, 1000) },
+  { src: Random.dataImage('90x90'), title: Random.cparagraph(20), price: Random.integer(0, 1000) },
+  { src: Random.dataImage('90x90'), title: Random.cparagraph(20), price: Random.integer(0, 1000) },
+]
+
 Mock.mock('/data/home', 'post', home)
 Mock.mock('/data/find', 'post', find)
+Mock.mock('/data/shop_cart', 'post', shop_cart)

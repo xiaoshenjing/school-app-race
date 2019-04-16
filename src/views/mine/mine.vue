@@ -4,7 +4,36 @@
             <div class="avatar"></div>
         </div>
         <div class="title">
-            <i class="material-icons">cake</i>
+            <div class="item">
+                <span class="num">20</span>
+                <span class="tile">我的趣事</span>
+            </div>
+            <div class="item">
+                <span class="num">22</span>
+                <span class="tile">我的足迹</span>
+            </div>
+            <div class="item">
+                <span class="num">5</span>
+                <span class="tile">我的商品</span>
+            </div>
+        </div>
+        <div class="list-wrapper">
+            <div class="list">
+                <i class="material-icons">place</i>
+                <span class="subheading">地址管理</span>
+            </div>
+            <div class="list">
+                <i class="material-icons">account_balance_wallet</i>
+                <span class="subheading">我的钱包</span>
+            </div>
+            <div class="list">
+                <i class="material-icons">assignment</i>
+                <span class="subheading">我的订单</span>
+            </div>
+            <div class="list">
+                <i class="material-icons">rate_review</i>
+                <span class="subheading">意见反馈</span>
+            </div>
         </div>
     </div>
 </template>
@@ -47,6 +76,70 @@
             margin: 130px auto 0;
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(0, 0, 0, .3);
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+
+            .item {
+                display: flex;
+                flex-direction: column;
+                justify-content: space-around;
+                align-items: center;
+                height: 60px;
+                width: 20%;
+
+                .num {
+                    font-size: 24px;
+                    font-weight: 700;
+                    color: $grey;
+
+                    &:active {
+                        color: $orange;
+                    }
+                }
+
+                .tile {
+                    font-size: 12px;
+                    color: $black;
+                }
+            }
+        }
+
+        .list-wrapper {
+            margin-top: 40px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+
+            .list {
+                width: 18rem;
+                height: 18rem;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+
+                &:active {
+                    .material-icons {
+                        color: $orange;
+                        font-size: 70px;
+                    }
+
+                    .subheading {
+                        color: $orange;
+                    }
+                }
+
+                .material-icons {
+                    font-size: 60px;
+                    margin-bottom: 20px;
+                }
+
+                .subheading {
+                    font-size: 14px;
+                    color: $grey;
+                }
+            }
         }
     }
 </style>
