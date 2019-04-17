@@ -21,9 +21,6 @@
       decrease () {
         this.good.count--
       }
-    },
-    created () {
-      console.log(this.good)
     }
   }
 </script>
