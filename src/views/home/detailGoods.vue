@@ -1,12 +1,13 @@
 <template>
     <div class="detailGoods">
-        <div class="banner" :style="$route.params.select==='3'?'margin-bottom:20px':''">
-            <img class="img" v-show="$route.params.select==='1'" src="./asset/1.png" width="100%">
-            <img class="img" v-show="$route.params.select==='2'" src="./asset/2.png" width="100%">
-            <img class="img" v-show="$route.params.select==='3'" src="./asset/3.png" width="100%">
+        <div class="banner" :style="select==='3'?'margin-bottom:20px':''">
+            <img class="img" v-show="select==='1'" src="./asset/1.png" width="100%">
+            <img class="img" v-show="select==='2'" src="./asset/2.png" width="100%">
+            <img class="img" v-show="select==='3'" src="./asset/3.png" width="100%">
         </div>
         <div class="search">
-            <input type="search">
+            <input type="search" class="input" @keypress.prevent="search($event)">
+            <i class="material-icons">search</i>
         </div>
         <goods-list :goodsData="goods"></goods-list>
         <loading :loading="loading"></loading>
@@ -24,16 +25,14 @@
       return {
         loading: true,
         goods: [],
-        search: ''
+        select: this.$route.params.select
       }
     },
     methods: {
       getSelectData () {
-        let select = this.$route.params.select
+        this.$store.commit('headerTitle', this.select)
 
-        this.$store.commit('headerTitle', select)
-
-        switch (select) {
+        switch (this.select) {
           case '1':
             this.$api.post('/home/1')
               .then(res => {
@@ -58,6 +57,13 @@
                 }
               })
             break
+        }
+      },
+      search (e) {
+        let keyCode = e.which
+        if (keyCode === 13) {
+          let content = e.target.value
+          console.log(content)
         }
       }
     },
@@ -86,7 +92,29 @@
 
         .search {
             width: 80%;
+            height: 30px;
             margin: 0 auto 20px;
+            position: relative;
+
+            .input {
+                width: 100%;
+                height: 100%;
+                border-radius: 20px;
+                outline: none;
+                border: 1px solid $grey;
+                padding: 5px;
+
+                &::-webkit-search-cancel-button {
+                    display: none;
+                }
+            }
+
+            .material-icons {
+                position: absolute;
+                right: 5px;
+                top: 50%;
+                transform: translateY(-50%);
+            }
         }
     }
 </style>
