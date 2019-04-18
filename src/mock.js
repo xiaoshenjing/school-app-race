@@ -91,6 +91,95 @@ let home = {
   ]
 }
 
+let home_1 = {
+  goods: [
+    {
+      price: Random.float(1, 1000, 2, 2),
+      num: Random.integer(0, 2000),
+      title: Random.cparagraph(2),
+      img: Random.dataImage('170x240'),
+      id: 1
+    },
+    {
+      price: Random.float(1, 1000, 1, 2),
+      num: Random.integer(0, 2000),
+      title: Random.cparagraph(2),
+      img: Random.dataImage('170x240'),
+      id: 2
+    },
+    {
+      price: Random.float(1, 1000, 1, 2),
+      num: Random.integer(0, 2000),
+      title: Random.cparagraph(2),
+      img: Random.dataImage('170x240'),
+      id: 3
+    },
+    {
+      price: Random.float(1, 1000, 1, 2),
+      num: Random.integer(0, 2000),
+      title: Random.cparagraph(2),
+      img: Random.dataImage('170x240'),
+      id: 4
+    },
+    {
+      price: Random.float(1, 1000, 1, 2),
+      num: Random.integer(0, 2000),
+      title: Random.cparagraph(2),
+      img: Random.dataImage('170x240'),
+      id: 5
+    },
+    {
+      price: Random.float(1, 1000, 1, 2),
+      num: Random.integer(0, 2000),
+      title: Random.cparagraph(2),
+      img: Random.dataImage('170x240'),
+      id: 6
+    },
+    {
+      price: Random.float(1, 1000, 1, 2),
+      num: Random.integer(0, 2000),
+      title: Random.cparagraph(2),
+      img: Random.dataImage('170x240'),
+      id: 7
+    },
+    {
+      price: Random.float(1, 1000, 1, 2),
+      num: Random.integer(0, 2000),
+      title: Random.cparagraph(2),
+      img: Random.dataImage('170x240'),
+      id: 8
+    },
+    {
+      price: Random.float(1, 1000, 1, 2),
+      num: Random.integer(0, 2000),
+      title: Random.cparagraph(2),
+      img: Random.dataImage('170x240'),
+      id: 9
+    },
+    {
+      price: Random.float(1, 1000, 1, 2),
+      num: Random.integer(0, 2000),
+      title: Random.cparagraph(2),
+      img: Random.dataImage('170x240'),
+      id: 10
+    },
+    {
+      price: Random.float(1, 1000, 1, 2),
+      num: Random.integer(0, 2000),
+      title: Random.cparagraph(2),
+      img: Random.dataImage('170x240'),
+      id: 11
+    },
+  ]
+}
+
+let shop_cart = [
+  { count: 0, src: Random.dataImage('90x90'), title: Random.cparagraph(20), price: Random.integer(0, 1000) },
+  { count: 0, src: Random.dataImage('90x90'), title: Random.cparagraph(20), price: Random.integer(0, 1000) },
+  { count: 0, src: Random.dataImage('90x90'), title: Random.cparagraph(20), price: Random.integer(0, 1000) },
+  { count: 0, src: Random.dataImage('90x90'), title: Random.cparagraph(20), price: Random.integer(0, 1000) },
+]
+
 let find = {
   carousel: [
     { src: Random.dataImage('400x150'), href: '#' },
@@ -171,13 +260,7 @@ let find = {
   ]
 }
 
-let shop_cart = [
-  { count: 0, src: Random.dataImage('90x90'), title: Random.cparagraph(20), price: Random.integer(0, 1000) },
-  { count: 0, src: Random.dataImage('90x90'), title: Random.cparagraph(20), price: Random.integer(0, 1000) },
-  { count: 0, src: Random.dataImage('90x90'), title: Random.cparagraph(20), price: Random.integer(0, 1000) },
-  { count: 0, src: Random.dataImage('90x90'), title: Random.cparagraph(20), price: Random.integer(0, 1000) },
-]
-
 Mock.mock('/data/home', 'post', home)
+Mock.mock('/data/home/1', 'post', home_1)
 Mock.mock('/data/find', 'post', find)
 Mock.mock('/data/shop_cart', 'post', shop_cart)

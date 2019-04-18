@@ -3,6 +3,10 @@
         <div class="bg">
             <div class="avatar"></div>
         </div>
+        <div class="school-logo">
+            <img src="https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=3999383367,725927817&fm=26&gp=0.jpg"
+                 width="100%">
+        </div>
         <div class="title">
             <div class="item">
                 <span class="num">20</span>
@@ -69,6 +73,16 @@
             }
         }
 
+        .school-logo {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -45%);
+            z-index: -1;
+            width: 100%;
+            opacity: .08;
+        }
+
         .title {
             width: 80%;
             height: 80px;
@@ -106,22 +120,24 @@
         }
 
         .list-wrapper {
-            margin-top: 40px;
+            width: 80%;
             display: flex;
             flex-wrap: wrap;
+            margin: 60px auto;
 
             .list {
                 width: 50%;
-                height: 18rem;
+                height: 16rem;
                 display: flex;
                 flex-direction: column;
                 justify-content: center;
                 align-items: center;
+                opacity: .8;
 
                 &:active {
                     .material-icons {
                         color: $orange;
-                        font-size: 70px;
+                        transform: scale(1.2);
                     }
 
                     .subheading {
@@ -136,7 +152,7 @@
 
                 .subheading {
                     font-size: 14px;
-                    color: $grey;
+                    color: #666;
                 }
             }
         }

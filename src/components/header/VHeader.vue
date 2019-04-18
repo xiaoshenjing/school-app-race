@@ -39,6 +39,15 @@
           case 'mine':
             title = '我的信息'
             break
+          case '1':
+            title = '学生自营'
+            break
+          case '2':
+            title = '校网经营'
+            break
+          case '3':
+            title = '校会托售'
+            break
         }
         return title
       }

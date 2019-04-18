@@ -2,33 +2,27 @@
     <div class="home">
         <swipe :carousel="carousel" :height="'200px'"></swipe>
         <div class="classification">
-            <div class="item">
+            <router-link tag="div" to="/home/detailGoods/1" class="item">
                 <div class="icon">
                     <i class="material-icons">face</i>
                 </div>
-                <i class="name">自营商品</i>
-            </div>
-            <div class="item">
+                <i class="name">学生自营</i>
+            </router-link>
+            <router-link tag="div" to="/home/detailGoods/2" class="item">
                 <div class="icon">
                     <i class="material-icons">location_city</i>
                 </div>
-                <i class="name">校营商品</i>
-            </div>
-            <div class="item">
+                <i class="name">校网经营</i>
+            </router-link>
+            <router-link tag="div" to="/home/detailGoods/3" class="item">
                 <div class="icon">
                     <i class="material-icons">person_outline</i>
                 </div>
-                <i class="name">匿名商品</i>
-            </div>
-            <div class="item">
-                <div class="icon">
-                    <i class="material-icons">person</i>
-                </div>
-                <i class="name">实名商品</i>
-            </div>
+                <i class="name">校会托售</i>
+            </router-link>
         </div>
         <divider :lineWidth="'40%'" :content="{title:'热卖商品',pattern:'—'}"></divider>
-        <goods-list :goods="goods"></goods-list>
+        <goods-list :goodsData="goods"></goods-list>
         <loading :loading="loading"></loading>
     </div>
 </template>
@@ -45,10 +39,7 @@
     data () {
       return {
         loading: true,
-        goods: {
-          odd: [],
-          even: []
-        },
+        goods: [],
         carousel: []
       }
     },
@@ -57,13 +48,7 @@
         this.$api.post('/home')
           .then((res) => {
             if (res.status === 200) {
-              for (let i = 0; i < res.data.goods.length; i++) {
-                if (i % 2 === 0) {
-                  this.goods.even.push(res.data.goods[i])
-                } else {
-                  this.goods.odd.push(res.data.goods[i])
-                }
-              }
+              this.goods = res.data.goods
               this.carousel = res.data.carousel
             }
           })

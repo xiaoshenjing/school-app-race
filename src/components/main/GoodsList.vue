@@ -34,8 +34,8 @@
   export default {
     name: 'GoodsList',
     props: {
-      goods: {
-        type: Object
+      goodsData: {
+        type: Array
       }
     },
     filters: {
@@ -44,7 +44,24 @@
         str = str[0] + '.' + str[1].padEnd(2, '0')
         return str
       }
-    }
+    },
+    computed: {
+      goods () {
+        let goods = { even: [], odd: [] }
+
+        if (this.goodsData) {
+          for (let i = 0; i < this.goodsData.length; i++) {
+            if (i % 2 === 0) {
+              goods.even.push(this.goodsData[i])
+            } else {
+              goods.odd.push(this.goodsData[i])
+            }
+          }
+        }
+
+        return goods
+      }
+    },
   }
 </script>
 
@@ -55,8 +72,10 @@
         .list-wrapper {
             display: flex;
             justify-content: space-around;
+
             .list {
                 width: 45%;
+
                 .item {
                     width: 100%;
                     height: 30rem;

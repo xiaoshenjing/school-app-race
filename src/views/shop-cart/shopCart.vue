@@ -10,18 +10,18 @@
                 <count class="count" :good="good"></count>
             </div>
         </div>
-        <div class="cart-wrapper" :class="{active:allCount>0}">
-            <div class="cart">
-                <div class="car-wrapper">
-                    <div class="car" @click="controlList">
+        <div class="cart-wrapper">
+            <div class="cart" :class="{active:allCount>0}">
+                <div class="car-wrapper" @click="controlList">
+                    <div class="car">
                         <i class="material-icons">add_shopping_cart</i>
-                        <span class="count" v-text="allCount">56</span>
+                        <span class="count" v-text="allCount"></span>
                     </div>
                     <div class="price">￥ {{allPrice}}</div>
                 </div>
-                <div class="submit">
+                <div class="submit" :class="{active:allCount>0}">
                     <span class="text" v-if="allCount<=0">请添加购物车商品</span>
-                    <span class="text" v-if="allCount>0">支付</span>
+                    <span class="text active" v-if="allCount>0">支付</span>
                 </div>
             </div>
             <transition name="list">
@@ -30,7 +30,16 @@
                         <div class="title">购物车</div>
                         <div class="empty">
                             <i class="material-icons">delete</i>
-                            <span class="clear">清空购物车</span>
+                            <span class="clear" @click="empty">清空购物车</span>
+                        </div>
+                    </div>
+                    <div class="content">
+                        <div class="item" v-for="(good,index) in cartList" :key="index">
+                            <div class="show">
+                                <span class="name">{{good.title}}</span>
+                                <span class="price">￥{{good.count * good.price}}</span>
+                            </div>
+                            <count class="count" :good="good"></count>
                         </div>
                     </div>
                 </div>
@@ -64,6 +73,11 @@
         if (this.allCount > 0) {
           this.fold = !this.fold
         }
+      },
+      empty () {
+        this.cart.forEach((good) => {
+          good.count = 0
+        })
       }
     },
     computed: {
@@ -83,10 +97,16 @@
       },
       listShow () {
         if (this.allCount <= 0) {
+          this.fold = true
           return false
         }
 
         return !this.fold
+      },
+      cartList () {
+        return this.cart.filter((good) => {
+          return good.count > 0
+        })
       }
     },
     created () {
@@ -200,20 +220,22 @@
                             text-align: center;
                             line-height: 20px;
                         }
-
-                        &:active {
-                            box-shadow: 0 0 20px rgba(255, 255, 255, .8) inset;
-
-                            .material-icons {
-                                color: $orange;
-                            }
-                        }
                     }
 
                     .price {
                         font-size: 18px;
                         margin-left: 20px;
                         color: $grey;
+                    }
+
+                    &:active {
+                        .car {
+                            box-shadow: 0 0 20px rgba(255, 255, 255, .8) inset;
+
+                            .material-icons {
+                                color: $orange;
+                            }
+                        }
                     }
                 }
 
@@ -223,9 +245,20 @@
                     background-color: #403e54;
                     @extend %block-center;
 
+
                     .text {
                         font-size: 16px;
                         color: $grey;
+                    }
+
+                    &.active {
+                        &:active {
+                            background-color: #4b952f;
+
+                            .text {
+                                color: #999;
+                            }
+                        }
                     }
                 }
 
@@ -254,6 +287,72 @@
                 box-shadow: 0 -5px 10px rgba(0, 0, 0, .2);
                 z-index: -1;
                 transform: translateY(-100%);
+
+                .header {
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    height: 40px;
+                    padding: 0 20px;
+                    @include border-1px(#ccc);
+
+                    .title {
+                        font-size: 18px;
+                        font-weight: 700;
+                    }
+
+                    .empty {
+                        @extend %block-center;
+
+                        .clear, .material-icons {
+                            color: $blue;
+                        }
+
+                        &:active {
+                            .clear, .material-icons {
+                                color: $orange;
+                            }
+                        }
+                    }
+                }
+
+                .content {
+                    width: 100%;
+
+                    .item {
+                        width: 100%;
+                        height: 40px;
+                        display: flex;
+                        justify-content: space-around;
+                        align-items: center;
+
+                        .show {
+                            width: 70%;
+                            overflow: hidden;
+                            white-space: nowrap;
+                            display: flex;
+                            justify-content: space-around;
+                            align-items: center;
+
+                            .name {
+                                width: 70%;
+                                overflow: hidden;
+                                text-overflow: ellipsis;
+                                white-space: nowrap;
+                                font-size: 14px;
+                                color: $black;
+                                text-align: center;
+                            }
+
+                            .price {
+                                width: 20%;
+                                font-size: 14px;
+                                color: $orange;
+                                text-align: center;
+                            }
+                        }
+                    }
+                }
 
                 &.list-enter-active, &.list-leave-active {
                     transition: all .5s;
