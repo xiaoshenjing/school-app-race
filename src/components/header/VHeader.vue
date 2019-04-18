@@ -4,9 +4,6 @@
             <i class="material-icons">hdr_weak</i>
         </div>
         <div class="center">
-            <div class="search" v-if="!title">
-                <span class="text">搜索</span>
-            </div>
             <div class="title">{{title}}</div>
         </div>
         <div class="right">
@@ -27,6 +24,9 @@
       title () {
         let title = ''
         switch (this.$store.state.headerTitle) {
+          case 'home':
+            title = '首页'
+            break
           case 'find':
             title = '校园趣事'
             break

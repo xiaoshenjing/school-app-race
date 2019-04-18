@@ -1,5 +1,13 @@
 <template>
-    <div>
+    <div class="detailGoods">
+        <div class="banner" :style="$route.params.select==='3'?'margin-bottom:20px':''">
+            <img class="img" v-show="$route.params.select==='1'" src="./asset/1.png" width="100%">
+            <img class="img" v-show="$route.params.select==='2'" src="./asset/2.png" width="100%">
+            <img class="img" v-show="$route.params.select==='3'" src="./asset/3.png" width="100%">
+        </div>
+        <div class="search">
+            <input type="search">
+        </div>
         <goods-list :goodsData="goods"></goods-list>
         <loading :loading="loading"></loading>
     </div>
@@ -16,6 +24,7 @@
       return {
         loading: true,
         goods: [],
+        search: ''
       }
     },
     methods: {
@@ -59,5 +68,25 @@
 </script>
 
 <style scoped lang="scss">
+    .detailGoods {
+        overflow: hidden;
 
+        .banner {
+            width: 338px;
+            height: 132px;
+            margin: 20px auto 70px;
+            position: relative;
+
+            .img {
+                position: absolute;
+                top: 0;
+                left: 0;
+            }
+        }
+
+        .search {
+            width: 80%;
+            margin: 0 auto 20px;
+        }
+    }
 </style>
