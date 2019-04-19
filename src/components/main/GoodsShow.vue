@@ -1,16 +1,14 @@
 <template>
     <div class="goods-show">
         <div class="header-img">
-            <ul class="carousel">
-                <transition-group name="show" mode="out-in">
-                    <li class="img-wrapper" v-for="(item,index) in goodsData.src" v-show="select.num===index"
-                        :key="index">
-                        <img class="img" :src="item" alt="" width="100%">
-                    </li>
-                </transition-group>
-            </ul>
+            <transition-group div="ul" class="carousel" :name="select.arrow" mode="out-in">
+                <li class="img-wrapper" v-for="(item,index) in goodsData.src" v-show="select.num===index"
+                    :key="index">
+                    <img class="img" :src="item">
+                </li>
+            </transition-group>
             <div class="control">
-                <div class="left" @click="carousel(0)">
+                <div class="left" @click="carousel('left')">
                     <i class="material-icons">arrow_left</i>
                 </div>
                 <div class="dot">
@@ -18,16 +16,29 @@
                             class="material-icons"
                             v-for="item in this.select.length"
                             :key="item"
+                            @click="carousel(item)"
                     >
                         {{select.num===(parseInt(item)-1)?'lens':'trip_origin'}}
                     </i>
                 </div>
-                <div class="right" @click="carousel">
+                <div class="right" @click="carousel('right')">
                     <i class="material-icons">arrow_right</i>
                 </div>
             </div>
         </div>
-
+        <div class="content">
+            <div class="header">
+                <div class="title">{{goodsData.title}}</div>
+                <div class="time">发布时间：{{goodsData.time}}</div>
+                <div class="price">￥{{goodsData.price}}</div>
+            </div>
+            <div class="main">
+                <div class="desc">商品描述：{{goodsData.desc}}</div>
+            </div>
+            <div class="footer">
+                <div class="release"></div>
+            </div>
+        </div>
     </div>
 </template>
 
@@ -40,6 +51,7 @@
         select: {
           num: 0,
           length: 0,
+          arrow: ''
         }
       }
     },
@@ -54,13 +66,26 @@
             }
           })
       },
-      carousel (direction = 1) {
-        if (direction === 1) {
-          this.select.num === 2 ? this.select.num = 0 : this.select.num++
-        } else {
-          this.select.num === 0 ? this.select.num = 2 : this.select.num--
+      carousel (direction) {
+        switch (direction) {
+          case 'left':
+            this.select.arrow = 'left'
+            this.select.num === 0 ? this.select.num = 2 : this.select.num--
+            break
+          case 'right':
+            this.select.arrow = 'right'
+            this.select.num === 2 ? this.select.num = 0 : this.select.num++
+            break
         }
-        console.log(this.select.num)
+        if (typeof direction === 'number') {
+          if (direction > this.select.num) {
+            this.select.arrow = 'right'
+            this.select.num = direction - 1
+          } else {
+            this.select.arrow = 'left'
+            this.select.num = direction - 1
+          }
+        }
       }
     },
     created () {
@@ -71,51 +96,56 @@
 
 <style scoped lang="scss">
     .goods-show {
+        $height: 37.5rem;
+
         .header-img {
             width: 100%;
             position: relative;
-            height: 37.5rem;
+            height: $height;
+            overflow: hidden;
+            top: 0;
 
-            .carousel {
+            .carousel .img-wrapper {
+                position: absolute;
+                top: 0;
+                left: 0;
                 width: 100%;
-                height: 100%;
+                height: 0;
+                padding-top: 100%;
 
-                .img-wrapper {
+                .img {
                     position: absolute;
                     top: 0;
                     left: 0;
                     width: 100%;
-                    height: 0;
-                    padding-top: 100%;
+                    height: 100%;
+                    opacity: .6;
+                }
 
-                    .img {
-                        position: absolute;
-                        top: 0;
-                        left: 0;
-                        width: 100%;
-                        height: 100%;
-                    }
+                &.left-enter-active, &.left-leave-active, &.right-enter-active, &.right-leave-active {
+                    transition: all .5s;
+                }
 
-                    &.show-enter-active, &.show-leave-active {
-                        transition: all .5s;
-                    }
+                &.left-enter, &.right-leave-to {
+                    transform: translateX(-100%);
+                }
 
-                    &.show-enter {
-                        transform: translateX(100%);
-                    }
-
-                    &.show-leave-to {
-                        transform: translateX(-100%);
-                    }
+                &.left-leave-to, &.right-enter {
+                    transform: translateX(100%);
                 }
             }
 
             .control {
-                $arrow_size: 60px;
+                position: absolute;
+                top: 0;
+                width: 100%;
+                height: $height;
 
                 .left, .right, .dot {
                     position: absolute;
                 }
+
+                $arrow_size: 60px;
 
                 .left, .right {
                     top: 50%;
@@ -125,6 +155,7 @@
                     border-radius: 50%;
                     box-shadow: 0 0 10px rgba(0, 0, 0, .3) inset;
                     opacity: .6;
+                    @extend %block-center;
 
                     .material-icons {
                         font-size: $arrow_size;
@@ -146,14 +177,62 @@
                 }
 
                 .dot {
-                    width: 2rem;
+                    width: 100%;
+                    height: 2rem;
                     position: absolute;
                     left: 50%;
                     bottom: 1rem;
                     transform: translateX(-50%);
                     display: flex;
-                    justify-content: space-around;
+                    justify-content: center;
                     align-items: center;
+
+                    .material-icons {
+                        font-size: 18px;
+                        margin: 5px;
+                    }
+                }
+            }
+        }
+
+        .content {
+            $f-color: #666;
+            $b-border: 2rem solid $white;
+
+            .header {
+                border-bottom: $b-border;
+                font-size: 18px;
+                padding: 10px;
+
+                .title {
+                    font-size: 18px;
+                    font-weight: 700;
+                    color: $f-color;
+                }
+
+                .time {
+                    font-size: 12px;
+                    color: $f-color;
+                    margin: 5px 0;
+                }
+
+                .price {
+                    font-size: 20px;
+                    font-weight: 700;
+                    color: $orange;
+                    margin-top: 10px;
+                }
+            }
+
+            .main {
+                border-bottom: $b-border;
+                padding: 10px;
+
+                .desc {
+                    font-size: 16px;
+                    color: $grey;
+                    text-indent: 2em;
+                    line-height: 24px;
                 }
             }
         }

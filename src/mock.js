@@ -267,11 +267,16 @@ let goods_show = {
     Random.dataImage('320x320'),
   ],
   title: Random.ctitle(3, 5),
-  time: Random.datetime('y-M-d H:m:s'),
+  time: Random.datetime('yyyy-M-d H:m:s'),
   already_pay: Random.integer(0, 1000),
-  comment: Random.cparagraph(3),
+  comment: [
+    {time:Random.datetime('yyyy-M-d H:m:s'),content:Random.cparagraph(3)},
+    {time:Random.datetime('yyyy-M-d H:m:s'),content:Random.cparagraph(3)},
+    {time:Random.datetime('yyyy-M-d H:m:s'),content:Random.cparagraph(3)},
+    {time:Random.datetime('yyyy-M-d H:m:s'),content:Random.cparagraph(3)}
+  ],
   price: Random.float(1, 1000, 2, 2),
-  desc: Random.cparagraph(2)
+  desc: Random.cparagraph(6)
 }
 
 Mock.mock('/data/home', 'post', home)

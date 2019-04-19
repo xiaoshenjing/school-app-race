@@ -89,7 +89,7 @@
                     height: 23rem;
                     background-color: #fff;
                     box-shadow: 0 0 10px rgba(0, 0, 0, .3);
-                    border-radius: 20px;
+                    border-radius: 10px;
                     overflow: hidden;
                     margin: 0 auto 20px;
 
