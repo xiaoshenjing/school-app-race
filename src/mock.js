@@ -270,10 +270,10 @@ let goods_show = {
   time: Random.datetime('yyyy-M-d H:m:s'),
   already_pay: Random.integer(0, 1000),
   comment: [
-    {time:Random.datetime('yyyy-M-d H:m:s'),content:Random.cparagraph(3)},
-    {time:Random.datetime('yyyy-M-d H:m:s'),content:Random.cparagraph(3)},
-    {time:Random.datetime('yyyy-M-d H:m:s'),content:Random.cparagraph(3)},
-    {time:Random.datetime('yyyy-M-d H:m:s'),content:Random.cparagraph(3)}
+    { person: Random.ctitle(3, 5), time: Random.datetime('yyyy-M-d H:m:s'), content: Random.cparagraph(3) },
+    { person: Random.ctitle(3, 5), time: Random.datetime('yyyy-M-d H:m:s'), content: Random.cparagraph(3) },
+    { person: Random.ctitle(3, 5), time: Random.datetime('yyyy-M-d H:m:s'), content: Random.cparagraph(3) },
+    { person: Random.ctitle(3, 5), time: Random.datetime('yyyy-M-d H:m:s'), content: Random.cparagraph(3) }
   ],
   price: Random.float(1, 1000, 2, 2),
   desc: Random.cparagraph(6)

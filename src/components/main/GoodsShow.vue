@@ -36,7 +36,10 @@
                 <div class="desc">商品描述：{{goodsData.desc}}</div>
             </div>
             <div class="footer">
-                <div class="release"></div>
+                <div class="post">
+                    <textarea class="comment"></textarea>
+                    <button class="submit">发布</button>
+                </div>
             </div>
         </div>
     </div>
@@ -233,6 +236,47 @@
                     color: $grey;
                     text-indent: 2em;
                     line-height: 24px;
+                }
+            }
+
+            .footer {
+                margin-bottom: 20px;
+
+                .comment {
+                    display: block;
+                    margin: 10px auto;
+                    width: 90%;
+                    height: 60px;
+                    border-radius: 10px;
+                    padding: 10px;
+                    box-sizing: border-box;
+                    outline: none;
+                }
+
+                .submit {
+                    width: 6rem;
+                    height: 3rem;
+                    border-radius: 10px;
+                    border: none;
+                    outline: none;
+                    background-color: $black;
+                    text-align: center;
+                    float: right;
+                    margin-right: 1.6rem;
+                    font-size: 14px;
+                    color: $white;
+                    margin-bottom: 10px;
+
+                    &:active {
+                        background-color: $grey;
+                    }
+                }
+
+                &:after {
+                    content: '';
+                    display: block;
+                    clear: both;
+                    visibility: hidden;
                 }
             }
         }
