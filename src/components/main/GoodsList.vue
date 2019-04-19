@@ -2,7 +2,7 @@
     <div class="goods-list">
         <div class="list-wrapper">
             <div class="list">
-                <div class="item" v-for="(item,index) in goods.even" :key="index">
+                <div class="item" v-for="(item,index) in goods.even" :key="index" @click="showDetail(item.id)">
                     <div class="img">
                         <img @click.prevent="" :src="item.img" alt="" width="100%" height="100%">
                     </div>
@@ -15,7 +15,7 @@
             </div>
 
             <div class="list">
-                <div class="item" v-for="(item,index) in goods.odd" :key="index">
+                <div class="item" v-for="(item,index) in goods.odd" :key="index" @click="showDetail(item.id)">
                     <div class="img">
                         <img @click.prevent="" :src="item.img" alt="" width="100%" height="100%">
                     </div>
@@ -33,9 +33,17 @@
 <script>
   export default {
     name: 'GoodsList',
+    data () {
+      return {}
+    },
     props: {
       goodsData: {
         type: Array
+      }
+    },
+    methods: {
+      showDetail (id) {
+        this.$router.push('/goodsShow/' + id)
       }
     },
     filters: {
@@ -78,7 +86,7 @@
 
                 .item {
                     width: 100%;
-                    height: 30rem;
+                    height: 23rem;
                     background-color: #fff;
                     box-shadow: 0 0 10px rgba(0, 0, 0, .3);
                     border-radius: 20px;
@@ -87,7 +95,7 @@
 
                     .img {
                         width: 100%;
-                        height: 24rem;
+                        height: 17rem;
                         cursor: default;
                         user-select: none;
                         @include img(1)

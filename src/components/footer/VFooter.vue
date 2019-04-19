@@ -32,7 +32,7 @@
       jump (name) {
         this.current = name
         this.$store.commit('headerTitle', name)
-        this.$router.push(name)
+        this.$router.push('/' + name)
       },
       init () {
         this.current = this.$store.state.headerTitle

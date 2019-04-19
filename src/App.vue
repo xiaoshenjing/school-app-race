@@ -15,11 +15,26 @@
       VMain: () => import('@/components/main/VMain'),
       VFooter: () => import('@/components/footer/VFooter'),
       VEnter: () => import('@/components/VEnter')
+    },
+    methods: {
+      init () {
+        let html = document.documentElement.clientWidth
+        let fsz = (html * (10 / 375)).toFixed(2)
+        document.querySelector('html').style.fontSize = fsz + 'px'
+      }
+    },
+    created () {
+      this.init()
     }
   }
 </script>
 
 <style>
+    html, body, ul, li {
+        margin: 0;
+        padding: 0;
+    }
+
     html {
         font-size: 10px;
     }
@@ -29,9 +44,8 @@
         color: #2c3e50;
     }
 
-    html, body {
-        margin: 0;
-        padding: 0;
+    ul, li {
+        list-style: none;
     }
 
     #app {

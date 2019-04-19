@@ -7,6 +7,9 @@ import Add from './views/add/add'
 import Mine from './views/mine/mine'
 import ShopCart from './views/shop-cart/shopCart'
 
+// components
+import GoodsShow from './components/main/GoodsShow'
+
 let router = new VueRouter({
   routes: [
     { path: '/', redirect: './home' },
@@ -16,6 +19,9 @@ let router = new VueRouter({
     { path: '/add', component: Add },
     { path: '/mine', component: Mine },
     { path: '/shop-cart', component: ShopCart },
+
+    // components
+    { path: '/goodsShow/:id', component: GoodsShow }
   ]
 })
 

@@ -18,6 +18,7 @@
         width: 100%;
         margin-top: 40px;
         margin-bottom: 68px;
+        position: relative;
 
         .fade-enter-active, .fade-leave-active {
             transition: opacity .5s;

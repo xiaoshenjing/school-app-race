@@ -15,77 +15,77 @@ let home = {
       price: Random.float(1, 1000, 2, 2),
       num: Random.integer(0, 2000),
       title: Random.cparagraph(2),
-      img: Random.dataImage('170x240'),
+      img: Random.dataImage('320x320'),
       id: 1
     },
     {
       price: Random.float(1, 1000, 1, 2),
       num: Random.integer(0, 2000),
       title: Random.cparagraph(2),
-      img: Random.dataImage('170x240'),
+      img: Random.dataImage('320x320'),
       id: 2
     },
     {
       price: Random.float(1, 1000, 1, 2),
       num: Random.integer(0, 2000),
       title: Random.cparagraph(2),
-      img: Random.dataImage('170x240'),
+      img: Random.dataImage('320x320'),
       id: 3
     },
     {
       price: Random.float(1, 1000, 1, 2),
       num: Random.integer(0, 2000),
       title: Random.cparagraph(2),
-      img: Random.dataImage('170x240'),
+      img: Random.dataImage('320x320'),
       id: 4
     },
     {
       price: Random.float(1, 1000, 1, 2),
       num: Random.integer(0, 2000),
       title: Random.cparagraph(2),
-      img: Random.dataImage('170x240'),
+      img: Random.dataImage('320x320'),
       id: 5
     },
     {
       price: Random.float(1, 1000, 1, 2),
       num: Random.integer(0, 2000),
       title: Random.cparagraph(2),
-      img: Random.dataImage('170x240'),
+      img: Random.dataImage('320x320'),
       id: 6
     },
     {
       price: Random.float(1, 1000, 1, 2),
       num: Random.integer(0, 2000),
       title: Random.cparagraph(2),
-      img: Random.dataImage('170x240'),
+      img: Random.dataImage('320x320'),
       id: 7
     },
     {
       price: Random.float(1, 1000, 1, 2),
       num: Random.integer(0, 2000),
       title: Random.cparagraph(2),
-      img: Random.dataImage('170x240'),
+      img: Random.dataImage('320x320'),
       id: 8
     },
     {
       price: Random.float(1, 1000, 1, 2),
       num: Random.integer(0, 2000),
       title: Random.cparagraph(2),
-      img: Random.dataImage('170x240'),
+      img: Random.dataImage('320x320'),
       id: 9
     },
     {
       price: Random.float(1, 1000, 1, 2),
       num: Random.integer(0, 2000),
       title: Random.cparagraph(2),
-      img: Random.dataImage('170x240'),
+      img: Random.dataImage('320x320'),
       id: 10
     },
     {
       price: Random.float(1, 1000, 1, 2),
       num: Random.integer(0, 2000),
       title: Random.cparagraph(2),
-      img: Random.dataImage('170x240'),
+      img: Random.dataImage('320x320'),
       id: 11
     },
   ]
@@ -97,77 +97,77 @@ let home_1 = {
       price: Random.float(1, 1000, 2, 2),
       num: Random.integer(0, 2000),
       title: Random.cparagraph(2),
-      img: Random.dataImage('170x240'),
+      img: Random.dataImage('320x320'),
       id: 1
     },
     {
       price: Random.float(1, 1000, 1, 2),
       num: Random.integer(0, 2000),
       title: Random.cparagraph(2),
-      img: Random.dataImage('170x240'),
+      img: Random.dataImage('320x320'),
       id: 2
     },
     {
       price: Random.float(1, 1000, 1, 2),
       num: Random.integer(0, 2000),
       title: Random.cparagraph(2),
-      img: Random.dataImage('170x240'),
+      img: Random.dataImage('320x320'),
       id: 3
     },
     {
       price: Random.float(1, 1000, 1, 2),
       num: Random.integer(0, 2000),
       title: Random.cparagraph(2),
-      img: Random.dataImage('170x240'),
+      img: Random.dataImage('320x320'),
       id: 4
     },
     {
       price: Random.float(1, 1000, 1, 2),
       num: Random.integer(0, 2000),
       title: Random.cparagraph(2),
-      img: Random.dataImage('170x240'),
+      img: Random.dataImage('320x320'),
       id: 5
     },
     {
       price: Random.float(1, 1000, 1, 2),
       num: Random.integer(0, 2000),
       title: Random.cparagraph(2),
-      img: Random.dataImage('170x240'),
+      img: Random.dataImage('320x320'),
       id: 6
     },
     {
       price: Random.float(1, 1000, 1, 2),
       num: Random.integer(0, 2000),
       title: Random.cparagraph(2),
-      img: Random.dataImage('170x240'),
+      img: Random.dataImage('320x320'),
       id: 7
     },
     {
       price: Random.float(1, 1000, 1, 2),
       num: Random.integer(0, 2000),
       title: Random.cparagraph(2),
-      img: Random.dataImage('170x240'),
+      img: Random.dataImage('320x320'),
       id: 8
     },
     {
       price: Random.float(1, 1000, 1, 2),
       num: Random.integer(0, 2000),
       title: Random.cparagraph(2),
-      img: Random.dataImage('170x240'),
+      img: Random.dataImage('320x320'),
       id: 9
     },
     {
       price: Random.float(1, 1000, 1, 2),
       num: Random.integer(0, 2000),
       title: Random.cparagraph(2),
-      img: Random.dataImage('170x240'),
+      img: Random.dataImage('320x320'),
       id: 10
     },
     {
       price: Random.float(1, 1000, 1, 2),
       num: Random.integer(0, 2000),
       title: Random.cparagraph(2),
-      img: Random.dataImage('170x240'),
+      img: Random.dataImage('320x320'),
       id: 11
     },
   ]
@@ -260,7 +260,22 @@ let find = {
   ]
 }
 
+let goods_show = {
+  src: [
+    Random.dataImage('320x320'),
+    Random.dataImage('320x320'),
+    Random.dataImage('320x320'),
+  ],
+  title: Random.ctitle(3, 5),
+  time: Random.datetime('y-M-d H:m:s'),
+  already_pay: Random.integer(0, 1000),
+  comment: Random.cparagraph(3),
+  price: Random.float(1, 1000, 2, 2),
+  desc: Random.cparagraph(2)
+}
+
 Mock.mock('/data/home', 'post', home)
 Mock.mock('/data/home/1', 'post', home_1)
 Mock.mock('/data/find', 'post', find)
 Mock.mock('/data/shop_cart', 'post', shop_cart)
+Mock.mock('/data/goods_show', 'post', goods_show)
