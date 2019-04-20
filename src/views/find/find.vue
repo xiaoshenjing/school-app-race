@@ -6,14 +6,14 @@
                 :lineWidth="'34%'"
                 :font="{fontSize:'16px',color:'#fb6d00'}"
         ></divider>
-
         <div
                 class="news"
                 v-for="(item,index) in news"
                 :key="index"
+                @click="article(item)"
         >
             <div class="title">
-                <p><span>#{{item.title}}#</span> {{item.content}}</p>
+                <p><span>#{{item.author}}#</span> {{item.title}}</p>
             </div>
             <div class="img">
                 <img :src="item.src" alt="" @click.prevent="" width="100%" height="100%">
@@ -37,7 +37,7 @@
     components: {
       Loading: () => import('@/components/main/Loading'),
       Swipe: () => import('@/components/main/Swipe'),
-      Divider: () => import('@/components/main/Divider')
+      Divider: () => import('@/components/main/Divider'),
     },
     data () {
       return {
@@ -56,6 +56,10 @@
               this.carousel = res.data.carousel
             }
           })
+      },
+      article (data) {
+        this.$store.commit('article', data)
+        this.$router.push('/find/article')
       }
     }
     ,

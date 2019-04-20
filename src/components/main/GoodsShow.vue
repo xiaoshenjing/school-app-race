@@ -35,12 +35,7 @@
             <div class="main">
                 <div class="desc">商品描述：{{goodsData.desc}}</div>
             </div>
-            <div class="footer">
-                <div class="post">
-                    <textarea class="comment"></textarea>
-                    <button class="submit">发布</button>
-                </div>
-            </div>
+            <comment :comment="goodsData.comment"></comment>
         </div>
     </div>
 </template>
@@ -48,6 +43,9 @@
 <script>
   export default {
     name: 'GoodsShow',
+    components: {
+      Comment: () => import('@/components/main/Comment')
+    },
     data () {
       return {
         goodsData: {},
@@ -55,7 +53,7 @@
           num: 0,
           length: 0,
           arrow: ''
-        }
+        },
       }
     },
     methods: {
@@ -157,7 +155,7 @@
                     height: $arrow_size;
                     border-radius: 50%;
                     box-shadow: 0 0 10px rgba(0, 0, 0, .3) inset;
-                    opacity: .6;
+                    opacity: .4;
                     @extend %block-center;
 
                     .material-icons {
@@ -174,7 +172,7 @@
                     }
 
                     &:active {
-                        opacity: .8;
+                        opacity: .6;
                         box-shadow: 0 0 20px rgba(0, 0, 0, .3) inset;
                     }
                 }
@@ -189,6 +187,7 @@
                     display: flex;
                     justify-content: center;
                     align-items: center;
+                    opacity: .4;
 
                     .material-icons {
                         font-size: 18px;
@@ -206,6 +205,7 @@
                 border-bottom: $b-border;
                 font-size: 18px;
                 padding: 10px;
+                background-color: #fff;
 
                 .title {
                     font-size: 18px;
@@ -229,6 +229,7 @@
 
             .main {
                 border-bottom: $b-border;
+                background-color: #fff;
                 padding: 10px;
 
                 .desc {
@@ -236,47 +237,6 @@
                     color: $grey;
                     text-indent: 2em;
                     line-height: 24px;
-                }
-            }
-
-            .footer {
-                margin-bottom: 20px;
-
-                .comment {
-                    display: block;
-                    margin: 10px auto;
-                    width: 90%;
-                    height: 60px;
-                    border-radius: 10px;
-                    padding: 10px;
-                    box-sizing: border-box;
-                    outline: none;
-                }
-
-                .submit {
-                    width: 6rem;
-                    height: 3rem;
-                    border-radius: 10px;
-                    border: none;
-                    outline: none;
-                    background-color: $black;
-                    text-align: center;
-                    float: right;
-                    margin-right: 1.6rem;
-                    font-size: 14px;
-                    color: $white;
-                    margin-bottom: 10px;
-
-                    &:active {
-                        background-color: $grey;
-                    }
-                }
-
-                &:after {
-                    content: '';
-                    display: block;
-                    clear: both;
-                    visibility: hidden;
                 }
             }
         }

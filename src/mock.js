@@ -188,74 +188,18 @@ let find = {
   ],
   news: [
     {
-      title: Random.ctitle(3, 5),
+      author: Random.ctitle(3, 5),
+      title: Random.ctitle(5, 10),
       content: Random.cparagraph(20),
-      time: Random.datetime('y-M-d H:m:s'),
+      time: Random.datetime('yyyy-M-d H:m:s'),
       watches: Random.integer(0, 1000),
       src: Random.dataImage('300x300'),
-    },
-    {
-      title: Random.ctitle(3, 5),
-      content: Random.cparagraph(20),
-      time: Random.datetime('y-M-d H:m:s'),
-      watches: Random.integer(0, 1000),
-      src: Random.dataImage('300x300'),
-    },
-    {
-      title: Random.ctitle(3, 5),
-      content: Random.cparagraph(20),
-      time: Random.datetime('y-M-d H:m:s'),
-      watches: Random.integer(0, 1000),
-      src: Random.dataImage('300x300'),
-    },
-    {
-      title: Random.ctitle(3, 5),
-      content: Random.cparagraph(20),
-      time: Random.datetime('y-M-d H:m:s'),
-      watches: Random.integer(0, 1000),
-      src: Random.dataImage('300x300'),
-    },
-    {
-      title: Random.ctitle(3, 5),
-      content: Random.cparagraph(20),
-      time: Random.datetime('y-M-d H:m:s'),
-      watches: Random.integer(0, 1000),
-      src: Random.dataImage('300x300'),
-    },
-    {
-      title: Random.ctitle(3, 5),
-      content: Random.cparagraph(20),
-      time: Random.datetime('y-M-d H:m:s'),
-      watches: Random.integer(0, 1000),
-      src: Random.dataImage('300x300'),
-    },
-    {
-      title: Random.ctitle(3, 5),
-      content: Random.cparagraph(20),
-      time: Random.datetime('y-M-d H:m:s'),
-      watches: Random.integer(0, 1000),
-      src: Random.dataImage('300x300'),
-    },
-    {
-      title: Random.ctitle(3, 5),
-      content: Random.cparagraph(20),
-      time: Random.datetime('y-M-d H:m:s'),
-      watches: Random.integer(0, 1000),
-      src: Random.dataImage('300x300'),
-    },
-    {
-      title: Random.ctitle(3, 5),
-      content: Random.cparagraph(20),
-      time: Random.datetime('y-M-d H:m:s'),
-      watches: Random.integer(0, 1000),
-      src: Random.dataImage('300x300'),
-    },
-    {
-      title: Random.ctitle(3, 5),
-      content: Random.cparagraph(20),
-      time: Random.datetime('y-M-d H:m:s'),
-      watches: Random.integer(0, 1000),
-      src: Random.dataImage('300x300'),
+      comment:[
+        { person: Random.ctitle(3, 5), time: Random.datetime('yyyy-M-d H:m:s'), content: Random.cparagraph(3) },
+        { person: Random.ctitle(3, 5), time: Random.datetime('yyyy-M-d H:m:s'), content: Random.cparagraph(3) },
+        { person: Random.ctitle(3, 5), time: Random.datetime('yyyy-M-d H:m:s'), content: Random.cparagraph(3) },
+        { person: Random.ctitle(3, 5), time: Random.datetime('yyyy-M-d H:m:s'), content: Random.cparagraph(3) }
+      ]
     },
   ]
 }

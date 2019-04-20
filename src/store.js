@@ -15,7 +15,8 @@ let store = new Vuex.Store({
   })],
   state: {
     login: false,
-    headerTitle: 'home'
+    headerTitle: 'home',
+    article: {}
   },
   mutations: {
     login (state, str) {
@@ -23,8 +24,10 @@ let store = new Vuex.Store({
     },
     headerTitle (state, str) {
       state.headerTitle = str
+    },
+    article (state, str) {
+      state.article = str
     }
-
   },
   actions: {}
 })

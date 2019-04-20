@@ -9,6 +9,7 @@ import ShopCart from './views/shop-cart/shopCart'
 
 // components
 import GoodsShow from './components/main/GoodsShow'
+import Article from './components/main/Article'
 
 let router = new VueRouter({
   routes: [
@@ -21,7 +22,8 @@ let router = new VueRouter({
     { path: '/shop-cart', component: ShopCart },
 
     // components
-    { path: '/goodsShow/:id', component: GoodsShow }
+    { path: '/home/goodsShow/:id', component: GoodsShow },
+    { path: '/find/article', component: Article }
   ]
 })
 

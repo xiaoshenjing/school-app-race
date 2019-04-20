@@ -43,7 +43,7 @@
     },
     methods: {
       showDetail (id) {
-        this.$router.push('/goodsShow/' + id)
+        this.$router.push('/home/goodsShow/' + id)
       }
     },
     filters: {
