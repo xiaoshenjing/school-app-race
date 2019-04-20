@@ -12,6 +12,14 @@
                         <div class="time">{{item.time}}</div>
                     </div>
                     <div class="content">{{item.content}}</div>
+
+                    <div class="callback-wrapper" v-if="item.callback">
+                        <div class="callback" v-for="(callback,index) in item.callback" :key="index">
+                            <span class="name">{{callback.person}}：</span>&nbsp;<span
+                                class="back">{{callback.content}}</span>
+                        </div>
+                        <div class="callback-btn">回复</div>
+                    </div>
                 </div>
             </div>
         </transition>
@@ -28,7 +36,7 @@
     name: 'Comment',
     props: {
       comment: {
-        type: Object,
+        type: Array,
         required: true
       }
     },
@@ -104,13 +112,13 @@
             .item {
                 margin-bottom: 10px;
                 padding-bottom: 10px;
-                @include border-1px($black);
+                @include border-1px(#ccc);
 
                 .origin {
                     display: flex;
                     justify-content: space-between;
                     align-items: flex-end;
-                    margin-bottom: 5px;
+                    margin-bottom: 10px;
 
                     .person {
                         margin-right: 10px;
@@ -126,7 +134,38 @@
 
                 .content {
                     font-size: 14px;
-                    color: $grey;
+                    color: $font-color-2;
+                }
+
+                .callback-wrapper {
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: center;
+                    align-items: flex-start;
+
+                    .callback {
+                        margin: 10px 5px 0;
+                        font-size: 12px;
+
+                        .name {
+                            color: $blue;
+                        }
+
+                        .back {
+                            color: $grey;
+                        }
+                    }
+
+                    .callback-btn {
+                        align-self: flex-end;
+                        color: $orange;
+                        padding: 10px 10px 0;
+                        font-size: 14px;
+
+                        &:active {
+                            color: $blue;
+                        }
+                    }
                 }
 
                 &:last-of-type {

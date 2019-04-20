@@ -134,7 +134,7 @@
                     }
 
                     &:active {
-                        @include click(20px, .2)
+                        @include click(10px, .2)
                     }
                 }
             }
