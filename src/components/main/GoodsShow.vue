@@ -30,7 +30,10 @@
             <div class="header">
                 <div class="title">{{goodsData.title}}</div>
                 <div class="time">发布时间：{{goodsData.time}}</div>
-                <div class="price">￥{{goodsData.price}}</div>
+                <div class="purchase">
+                    <div class="price">￥{{goodsData.price}}</div>
+                    <div class="add-cart" @click="addCart">添加到购物车</div>
+                </div>
             </div>
             <div class="main">
                 <div class="desc">商品描述：{{goodsData.desc}}</div>
@@ -87,6 +90,10 @@
             this.select.num = direction - 1
           }
         }
+      },
+      addCart () {
+        console.log(this.goodsData)
+        this.$store.commit('shopCart', 1)
       }
     },
     created () {
@@ -219,11 +226,31 @@
                     margin: 5px 0;
                 }
 
-                .price {
-                    font-size: 20px;
-                    font-weight: 700;
-                    color: $orange;
-                    margin-top: 10px;
+                .purchase {
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+
+                    .price {
+                        font-size: 20px;
+                        font-weight: 700;
+                        color: $orange;
+                        margin-top: 10px;
+                    }
+
+                    .add-cart {
+                        width: 10rem;
+                        height: 2.5rem;
+                        border-radius: 10px;
+                        background-color: $black;
+                        color: $white;
+                        font-size: 12px;
+                        @extend %block-center;
+
+                        &:active {
+                            background-color: $grey;
+                        }
+                    }
                 }
             }
 

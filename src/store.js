@@ -16,7 +16,9 @@ let store = new Vuex.Store({
   state: {
     login: false,
     headerTitle: 'home',
-    article: {}
+    article: {},
+    person: {},
+    shopCart: {},
   },
   mutations: {
     login (state, str) {
@@ -27,6 +29,12 @@ let store = new Vuex.Store({
     },
     article (state, str) {
       state.article = str
+    },
+    person (state, str) {
+      state.person = str
+    },
+    shopCart (state, str) {
+      state.shopCart = str
     }
   },
   actions: {}

@@ -5,7 +5,7 @@
             <button class="submit">发布</button>
         </div>
         <transition name="comment" mode="out-in">
-            <div v-if="arrowFlag" class="all">
+            <div v-if="arrowFlag&&comment" class="all">
                 <div class="item" v-for="(item,index) in comment" :key="index">
                     <div class="origin">
                         <div class="person">{{item.person}}</div>
@@ -15,10 +15,13 @@
 
                     <div class="callback-wrapper" v-if="item.callback">
                         <div class="callback" v-for="(callback,index) in item.callback" :key="index">
-                            <span class="name">{{callback.person}}：</span>&nbsp;<span
-                                class="back">{{callback.content}}</span>
+                            <span class="name">{{callback.person}}：</span>&nbsp;
+                            <span class="back">{{callback.content}}</span>
                         </div>
-                        <div class="callback-btn">回复</div>
+                        <div class="send">
+                            <textarea class="comment"></textarea>
+                            <i class="material-icons" @click="send">send</i>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -36,13 +39,17 @@
     name: 'Comment',
     props: {
       comment: {
-        type: Array,
-        required: true
+        type: Array
       }
     },
     data () {
       return {
-        arrowFlag: false
+        arrowFlag: false,
+      }
+    },
+    methods: {
+      send () {
+        console.log(123)
       }
     }
   }
@@ -50,13 +57,14 @@
 
 <style scoped lang="scss">
     .wrapper {
+        overflow: hidden;
+
         .post {
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: flex-end;
             padding: 10px;
-            background-color: #fff;
 
             .comment {
                 width: 100%;
@@ -87,6 +95,8 @@
         }
 
         .all-comment {
+            position: relative;
+            z-index: 1;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -103,7 +113,6 @@
 
         .all {
             position: relative;
-            z-index: -1;
             bottom: 0;
             left: 0;
             font-size: 14px;
@@ -156,14 +165,32 @@
                         }
                     }
 
-                    .callback-btn {
-                        align-self: flex-end;
-                        color: $orange;
-                        padding: 10px 10px 0;
-                        font-size: 14px;
+                    .send {
+                        position: relative;
+                        width: 34rem;
+                        align-self: self-end;
+                        padding: 1rem;
 
-                        &:active {
-                            color: $blue;
+                        .comment {
+                            width: 100%;
+                            height: 3rem;
+                            border-radius: 10px;
+                            outline: none;
+                            box-sizing: border-box;
+                            border: 1px solid $grey;
+                            padding: 4px 2.8rem 4px 4px;
+                        }
+
+                        .material-icons {
+                            position: absolute;
+                            font-size: 20px;
+                            right: 2rem;
+                            top: 42%;
+                            transform: translateY(-50%) rotate(-30deg);
+
+                            &:active {
+                                color: $orange;
+                            }
                         }
                     }
                 }
