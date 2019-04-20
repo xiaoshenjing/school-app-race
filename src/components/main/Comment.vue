@@ -42,8 +42,6 @@
 
 <style scoped lang="scss">
     .wrapper {
-        margin-bottom: 20px;
-
         .post {
             display: flex;
             flex-direction: column;
@@ -129,6 +127,15 @@
                 .content {
                     font-size: 14px;
                     color: $grey;
+                }
+
+                &:last-of-type {
+                    margin-bottom: 0;
+                    padding-bottom: 5px;
+
+                    &:after {
+                        display: none;
+                    }
                 }
             }
 
