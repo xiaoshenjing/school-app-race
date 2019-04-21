@@ -34,7 +34,7 @@
 <style scoped lang="scss">
     .main {
         width: 100%;
-        margin-top: 40px;
+        margin-top: 50px;
         margin-bottom: 68px;
         position: relative;
 

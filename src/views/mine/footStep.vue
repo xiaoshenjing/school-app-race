@@ -1,10 +1,20 @@
 <template>
-    <div>footStep</div>
+    <div>
+        <goods-list :goodsData="personData.foot_step"></goods-list>
+    </div>
 </template>
 
 <script>
   export default {
-    name: 'footStep'
+    name: 'footStep',
+    components: {
+      GoodsList: () => import('@/components/main/GoodsList')
+    },
+    props: {
+      personData: {
+        type: Object
+      }
+    }
   }
 </script>
 

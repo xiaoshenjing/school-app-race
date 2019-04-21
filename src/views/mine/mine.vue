@@ -20,10 +20,6 @@
                 <span class="tile">我的商品</span>
             </router-link>
         </div>
-        <div class="school-logo">
-            <img src="https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=3999383367,725927817&fm=26&gp=0.jpg"
-                 width="100%">
-        </div>
         <div class="list-wrapper">
             <router-link tag="div" to="/mine/address" class="list">
                 <i class="material-icons">place</i>
@@ -41,13 +37,16 @@
                 <i class="material-icons">rate_review</i>
                 <span class="subheading">意见反馈</span>
             </router-link>
+            <div class="school-logo">
+                <img src="https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=3999383367,725927817&fm=26&gp=0.jpg"
+                     width="100%">
+            </div>
         </div>
-        </div>
+    </div>
 </template>
 
 <script>
   export default {
-    name: 'mine',
     props: {
       personData: {
         type: Object
@@ -77,7 +76,7 @@
             top: 0;
             left: 0;
             width: 100%;
-            height: 180px;
+            height: 20rem;
             background-color: $black;
             border-bottom-right-radius: 40%;
             border-bottom-left-radius: 40%;
@@ -142,21 +141,22 @@
             }
         }
 
-        .school-logo {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -45%);
-            z-index: -1;
-            width: 100%;
-            opacity: .08;
-        }
-
         .list-wrapper {
             width: 80%;
             display: flex;
             flex-wrap: wrap;
             margin: 60px auto;
+            position: relative;
+
+            .school-logo {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                z-index: -1;
+                width: 120%;
+                opacity: .08;
+            }
 
             .list {
                 width: 50%;

@@ -18,7 +18,8 @@
         type: Object
       },
       lineWidth: {
-        type: String
+        type: String,
+        default: '40%'
       },
       font: {
         type: Object,

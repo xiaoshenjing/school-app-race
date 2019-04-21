@@ -1,10 +1,19 @@
 <template>
-    <div>news</div>
+    <div>
+        <news :newsData="personData.news"></news>
+    </div>
 </template>
 
 <script>
   export default {
-    name: 'news'
+    props: {
+      personData: {
+        type: Object
+      }
+    },
+    components: {
+      News: () => import('@/components/main/NewsList')
+    },
   }
 </script>
 

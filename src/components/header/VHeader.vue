@@ -59,7 +59,7 @@
     .header {
         width: 100%;
         @include bgc($black);
-        height: 40px;
+        height: 50px;
         display: flex;
         position: fixed;
         top: 0;
@@ -85,22 +85,9 @@
             height: 100%;
             @extend %block-center;
 
-            .search {
-                width: 80%;
-                height: 70%;
-                border-radius: 10px;
-                background-color: #171721;
-                @extend %block-center;
-
-                .text {
-                    @include font-color($grey);
-                    font-size: 12px;
-                }
-            }
-
             .title {
                 @include font-color($grey);
-                font-size: 12px;
+                font-size: 18px;
             }
         }
     }

@@ -1,4 +1,4 @@
-##### https://blog.csdn.net/listmana/article/details/53942361
+##### canvas实现图片剪裁：https://www.cnblogs.com/yingge/p/5978479.html
 
 # school-app-race
 

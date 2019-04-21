@@ -1,10 +1,21 @@
 <template>
-    <div>goods</div>
+    <div>
+        <goods-list :goodsData="personData.goods"></goods-list>
+
+    </div>
 </template>
 
 <script>
   export default {
-    name: 'goods'
+    name: 'goods',
+    components: {
+      GoodsList: () => import('@/components/main/GoodsList'),
+    },
+    props: {
+      personData: {
+        type: Object
+      }
+    }
   }
 </script>
 

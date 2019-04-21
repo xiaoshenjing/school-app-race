@@ -84,14 +84,11 @@
                     .material-icons {
                         color: $white;
                     }
-
-                    &:active {
-                        @include click(50%, .5);
-                    }
                 }
 
                 .name {
                     font-style: normal;
+                    color: $font-color-1;
                     font-size: 12px;
                     margin-bottom: 5px;
                 }
@@ -110,6 +107,16 @@
 
                 &:nth-of-type(4) .icon {
                     background-color: #adb3fd;
+                }
+
+                &:active {
+                    .icon {
+                        @include click(50%, .5);
+                    }
+
+                    .name {
+                        color: $black;
+                    }
                 }
             }
         }
