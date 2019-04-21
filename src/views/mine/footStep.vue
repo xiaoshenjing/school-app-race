@@ -1,10 +1,10 @@
 <template>
-    <div>address</div>
+    <div>footStep</div>
 </template>
 
 <script>
   export default {
-    name: 'Address'
+    name: 'footStep'
   }
 </script>
 

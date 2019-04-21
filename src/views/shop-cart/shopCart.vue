@@ -1,13 +1,15 @@
 <template>
     <div class="shop-cart">
-        <div class="goods" v-for="(good,index) in cart" :key="index">
-            <div class="img">
-                <img :src="good.src" alt="" width="100%" height="100%">
-            </div>
-            <div class="content">
-                <div class="title">{{good.title}}</div>
-                <div class="price">￥ {{good.price}}</div>
-                <count class="count" :good="good"></count>
+        <div v-if="cart">
+            <div class="goods" v-for="(good,index) in cart" :key="index">
+                <div class="img" @click="showDetail(good)">
+                    <img :src="good.src[0]" alt="" width="100%" height="100%">
+                </div>
+                <div class="content">
+                    <div class="title">{{good.title}}</div>
+                    <div class="price">￥ {{good.price}}</div>
+                    <count class="count" :good="good"></count>
+                </div>
             </div>
         </div>
         <div class="cart-wrapper">
@@ -62,12 +64,7 @@
     },
     methods: {
       getData () {
-        this.$api.post('/shop_cart')
-          .then(res => {
-            if (res.status === 200) {
-              this.cart = res.data
-            }
-          })
+        this.cart = this.$store.state.shopCart
       },
       controlList () {
         if (this.allCount > 0) {
@@ -78,6 +75,10 @@
         this.cart.forEach((good) => {
           good.count = 0
         })
+      },
+      showDetail (data) {
+        this.$store.commit('goodsShow', data)
+        this.$router.push('/home/goodsShow')
       }
     },
     computed: {
@@ -93,11 +94,10 @@
         this.cart.forEach(good => {
           price += good.price * good.count
         })
-        return price
+        return price.toFixed(2)
       },
       listShow () {
         if (this.allCount <= 0) {
-          this.fold = true
           return false
         }
 

@@ -16,9 +16,10 @@ let store = new Vuex.Store({
   state: {
     login: false,
     headerTitle: 'home',
+    shopCart: [],
+    footStep: [],
     article: {},
-    person: {},
-    shopCart: {},
+    goodsShow: {},
   },
   mutations: {
     login (state, str) {
@@ -27,14 +28,19 @@ let store = new Vuex.Store({
     headerTitle (state, str) {
       state.headerTitle = str
     },
+
+    addShopCart (state, obj) {
+      state.shopCart.push(obj)
+    },
+    footStep (state, obj) {
+      state.footStep.push(obj)
+    },
+
     article (state, str) {
       state.article = str
     },
-    person (state, str) {
-      state.person = str
-    },
-    shopCart (state, str) {
-      state.shopCart = str
+    goodsShow (state, str) {
+      state.goodsShow = str
     }
   },
   actions: {}

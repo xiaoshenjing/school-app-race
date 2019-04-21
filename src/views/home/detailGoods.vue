@@ -34,7 +34,7 @@
 
         switch (this.select) {
           case '1':
-            this.$api.post('/home/1')
+            this.$api.post('/home')
               .then(res => {
                 if (res.status === 200) {
                   this.goods = res.data.goods
@@ -42,7 +42,7 @@
               })
             break
           case '2':
-            this.$api.post('/home/1')
+            this.$api.post('/home')
               .then(res => {
                 if (res.status === 200) {
                   this.goods = res.data.goods
@@ -50,7 +50,7 @@
               })
             break
           case '3':
-            this.$api.post('/home/1')
+            this.$api.post('/home')
               .then(res => {
                 if (res.status === 200) {
                   this.goods = res.data.goods

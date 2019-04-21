@@ -29,7 +29,10 @@
         <div class="content">
             <div class="header">
                 <div class="title">{{goodsData.title}}</div>
-                <div class="time">发布时间：{{goodsData.time}}</div>
+                <div class="desc">
+                    <div class="time">发布时间：{{goodsData.time}}</div>
+                    <div class="count">库存：{{goodsData.max_count}}</div>
+                </div>
                 <div class="purchase">
                     <div class="price">￥{{goodsData.price}}</div>
                     <div class="add-cart" @click="addCart">添加到购物车</div>
@@ -61,14 +64,8 @@
     },
     methods: {
       getData () {
-        // console.log(this.$route.params)
-        this.$api.post('/goods_show')
-          .then(res => {
-            if (res.status === 200) {
-              this.goodsData = res.data
-              this.select.length = this.goodsData.src.length
-            }
-          })
+        this.goodsData = this.$store.state.goodsShow
+        this.select.length = this.$store.state.goodsShow.src.length
       },
       carousel (direction) {
         switch (direction) {
@@ -92,8 +89,20 @@
         }
       },
       addCart () {
-        console.log(this.goodsData)
-        this.$store.commit('shopCart', 1)
+        let once = true
+        this.$store.state.shopCart.forEach(good => {
+          if (good.id === this.goodsData.id) {
+            once = false
+          }
+        })
+
+        if (once) {
+          this.once = false
+          alert('添加成功')
+          this.$store.commit('addShopCart', this.goodsData)
+        } else {
+          alert('已添加到购物车')
+        }
       }
     },
     created () {
@@ -220,10 +229,17 @@
                     color: $f-color;
                 }
 
-                .time {
+                .desc {
                     font-size: 12px;
                     color: $f-color;
-                    margin: 5px 0;
+                    margin: 10px 0;
+                    display: flex;
+                    justify-content: flex-start;
+                    align-items: center;
+
+                    .time {
+                        margin-right: 30px;
+                    }
                 }
 
                 .purchase {

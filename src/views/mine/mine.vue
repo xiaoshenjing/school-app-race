@@ -2,23 +2,23 @@
     <div class="mine">
         <div class="bg">
             <div class="avatar">
-                <img :src="mainData.avatar" width="100%" height="100%">
+                <img :src="personData.avatar" width="100%" height="100%">
             </div>
-            <div class="message">student_ID：{{mainData.student_id}}</div>
+            <div class="message">student_ID：{{personData.student_id}}</div>
         </div>
         <div class="title">
-            <div class="item">
-                <span class="num">20</span>
+            <router-link tag="div" to="/mine/news" class="item">
+                <span class="num" v-text="titleNum.news"></span>
                 <span class="tile">我的趣事</span>
-            </div>
-            <div class="item">
-                <span class="num">22</span>
+            </router-link>
+            <router-link tag="div" to="/mine/foot-step" class="item">
+                <span class="num" v-text="titleNum.foot_step"></span>
                 <span class="tile">我的足迹</span>
-            </div>
-            <div class="item">
-                <span class="num">5</span>
+            </router-link>
+            <router-link tag="div" to="/mine/goods" class="item">
+                <span class="num" v-text="titleNum.goods"></span>
                 <span class="tile">我的商品</span>
-            </div>
+            </router-link>
         </div>
         <div class="school-logo">
             <img src="https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=3999383367,725927817&fm=26&gp=0.jpg"
@@ -42,30 +42,30 @@
                 <span class="subheading">意见反馈</span>
             </router-link>
         </div>
-    </div>
+        </div>
 </template>
 
 <script>
   export default {
     name: 'mine',
-    data () {
-      return {
-        mainData: {}
+    props: {
+      personData: {
+        type: Object
       }
     },
-    methods: {
-      getData () {
-        this.$api.post('/mine')
-          .then(res => {
-            if (res.status === 200) {
-              this.mainData = res.data
-              this.$store.commit('person', this.mainData)
-            }
-          })
-      },
+    data () {
+      return {
+        titleNum: {
+          news: 0,
+          foot_step: 0,
+          goods: 0,
+        }
+      }
     },
-    created () {
-      this.getData()
+    mounted () {
+      this.titleNum.news = this.personData.news.length
+      this.titleNum.goods = this.personData.goods.length
+      this.titleNum.foot_step = this.personData.foot_step.length
     }
   }
 </script>

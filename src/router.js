@@ -19,6 +19,9 @@ import Wallet from './views/mine/wallet'
 import Order from './views/mine/order'
 import Callback from './views/mine/callback'
 import Address from './views/mine/address'
+import News from './views/mine/news'
+import FootStep from './views/mine/footStep'
+import Goods from './views/mine/goods'
 
 // components
 import GoodsShow from './components/main/GoodsShow'
@@ -46,9 +49,12 @@ let router = new VueRouter({
     { path: '/mine/order', component: Order },
     { path: '/mine/callback', component: Callback },
     { path: '/mine/address', component: Address },
+    { path: '/mine/news', component: News },
+    { path: '/mine/goods', component: Goods },
+    { path: '/mine/foot-step', component: FootStep },
 
     // components
-    { path: '/home/goodsShow/:id', component: GoodsShow },
+    { path: '/home/goodsShow', component: GoodsShow },
     { path: '/find/article', component: Article }
   ]
 })

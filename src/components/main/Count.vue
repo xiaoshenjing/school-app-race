@@ -16,10 +16,16 @@
     },
     methods: {
       add () {
-        this.good.count++
+        if (this.good.count < this.good.max_count) {
+          this.good.count++
+        } else {
+          alert('已达到库存上限')
+        }
       },
       decrease () {
-        this.good.count--
+        if (this.good.count > 0) {
+          this.good.count--
+        }
       }
     }
   }

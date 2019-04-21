@@ -1,7 +1,7 @@
 <template>
     <div class="main">
         <transition name="fade" mode="out-in">
-            <router-view></router-view>
+            <router-view :personData="personData"></router-view>
         </transition>
     </div>
 </template>
@@ -10,6 +10,24 @@
 
   export default {
     name: 'VMain',
+    data () {
+      return {
+        personData: {}
+      }
+    },
+    methods: {
+      getData () {
+        this.$api.post('/mine')
+          .then(res => {
+            if (res.status === 200) {
+              this.personData = res.data
+            }
+          })
+      },
+    },
+    created () {
+      this.getData()
+    }
   }
 </script>
 

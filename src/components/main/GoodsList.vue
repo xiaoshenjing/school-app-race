@@ -2,27 +2,27 @@
     <div class="goods-list">
         <div class="list-wrapper">
             <div class="list">
-                <div class="item" v-for="(item,index) in goods.even" :key="index" @click="showDetail(item.id)">
+                <div class="item" v-for="(item,index) in goods.even" :key="index" @click="showDetail(item)">
                     <div class="img">
-                        <img @click.prevent="" :src="item.img" alt="" width="100%" height="100%">
+                        <img @click.prevent="" :src="item.src[0]" alt="" width="100%" height="100%">
                     </div>
                     <div class="desc">
                         <div class="title">{{item.title}}</div>
                         <div class="price">￥{{item.price|formatPrice}}</div>
-                        <div class="num">{{item.num}}</div>
+                        <div class="watch"><i class="material-icons">visibility</i>&nbsp;&nbsp;{{item.watch}}</div>
                     </div>
                 </div>
             </div>
 
             <div class="list">
-                <div class="item" v-for="(item,index) in goods.odd" :key="index" @click="showDetail(item.id)">
+                <div class="item" v-for="(item,index) in goods.odd" :key="index" @click="showDetail(item)">
                     <div class="img">
-                        <img @click.prevent="" :src="item.img" alt="" width="100%" height="100%">
+                        <img @click.prevent="" :src="item.src[0]" alt="" width="100%" height="100%">
                     </div>
                     <div class="desc">
                         <div class="title">{{item.title}}</div>
                         <div class="price">￥{{item.price|formatPrice}}</div>
-                        <div class="num">{{item.num}}</div>
+                        <div class="watch"><i class="material-icons">visibility</i>&nbsp;&nbsp;{{item.watch}}</div>
                     </div>
                 </div>
             </div>
@@ -39,11 +39,29 @@
     props: {
       goodsData: {
         type: Array
+      },
+      order: {
+        type: Boolean,
+        default: false
       }
     },
     methods: {
-      showDetail (id) {
-        this.$router.push('/home/goodsShow/' + id)
+      showDetail (data) {
+        // show footStep
+        let once = true
+        this.$store.state.footStep.forEach(good => {
+          if (good.id === data.id) {
+            once = false
+          }
+        })
+        if (once) {
+          this.once = false
+          this.$store.commit('footStep', data)
+        }
+
+        // setting goodsShow and router
+        this.$store.commit('goodsShow', data)
+        this.$router.push('/home/goodsShow')
       }
     },
     filters: {
@@ -55,14 +73,25 @@
     },
     computed: {
       goods () {
+        let data = []
         let goods = { even: [], odd: [] }
 
         if (this.goodsData) {
           for (let i = 0; i < this.goodsData.length; i++) {
-            if (i % 2 === 0) {
-              goods.even.push(this.goodsData[i])
+            if (this.goodsData[i].max_count > 0 && !this.order) {
+              data.push(this.goodsData[i])
+            } else if (this.order) {
+              data.push(this.goodsData[i])
             } else {
-              goods.odd.push(this.goodsData[i])
+              // delete this goods
+            }
+          }
+
+          for (let i = 0; i < data.length; i++) {
+            if (i % 2 === 0) {
+              goods.even.push(data[i])
+            } else {
+              goods.odd.push(data[i])
             }
           }
         }
@@ -124,12 +153,19 @@
                             color: $orange;
                         }
 
-                        .num {
+                        .watch {
                             float: right;
                             margin-top: 6px;
                             font-size: 12px;
                             color: $grey;
                             vertical-align: baseline;
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+
+                            .material-icons {
+                                font-size: 14px;
+                            }
                         }
                     }
 
