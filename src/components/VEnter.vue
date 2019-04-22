@@ -29,13 +29,14 @@
     name: 'enter',
     computed: {
       show () {
-        // return !this.$store.state.login
-        return false
+        return !this.$store.state.login
+        // return false
       }
     },
     methods: {
       login () {
         this.$store.commit('login', true)
+        this.$router.push('/home')
       }
     }
   }
@@ -55,7 +56,7 @@
         .login {
             width: 80%;
             border: 1px solid $grey;
-            margin: 250px auto;
+            margin: 200px auto;
             border-radius: 20px;
             padding: 55px 30px 20px;
             box-sizing: border-box;

@@ -1,25 +1,25 @@
 <template>
     <div class="add">
         <div class="classification">
-            <div class="item" @click="select.num=0">
+            <div class="item" @click="deleteSelect(0)">
                 <div class="icon">
                     <i class="material-icons">face</i>
                 </div>
                 <i class="name">学生自营</i>
             </div>
-            <div class="item" @click="select.num=1">
+            <div class="item" @click="deleteSelect(1)">
                 <div class="icon">
                     <i class="material-icons">location_city</i>
                 </div>
                 <i class="name">校网经营</i>
             </div>
-            <div class="item" @click="select.num=2">
+            <div class="item" @click="deleteSelect(2)">
                 <div class="icon">
                     <i class="material-icons">person_outline</i>
                 </div>
                 <i class="name">校会托售</i>
             </div>
-            <div class="item" @click="select.num=3">
+            <div class="item" @click="deleteSelect(3)">
                 <div class="icon">
                     <i class="material-icons">person_outline</i>
                 </div>
@@ -27,8 +27,8 @@
             </div>
         </div>
         <div class="publish"></div>
-        <goods-publish v-show="select.num!==3" :select="select"></goods-publish>
-        <news-publish v-show="select.num===3" :select="select"></news-publish>
+        <goods-publish v-show="select.num!==3" :select="select" ref="goodsFather"></goods-publish>
+        <news-publish v-show="select.num===3" :select="select" ref="newsFather"></news-publish>
     </div>
 </template>
 
@@ -51,6 +51,13 @@
           num: 0
         }
       }
+    },
+    methods: {
+      deleteSelect (id) {
+        this.select.num = id
+        this.$refs.goodsFather.deleteAll()
+        this.$refs.newsFather.deleteAll()
+      },
     }
   }
 </script>

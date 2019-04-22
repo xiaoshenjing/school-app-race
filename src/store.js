@@ -28,7 +28,6 @@ let store = new Vuex.Store({
     headerTitle (state, str) {
       state.headerTitle = str
     },
-
     addShopCart (state, obj) {
       state.shopCart.push(obj)
     },

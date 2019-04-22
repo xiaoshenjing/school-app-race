@@ -11,16 +11,22 @@
                         :img="previewImage.img"
                         :outputSize="previewImage.size"
                         :outputType="previewImage.outputType"
+                        :autoCropWidth="previewImage.width"
+                        :autoCropHeight="previewImage.height"
                         :autoCrop="true"
                         :fixed="true"
                         :canMove="false"
                 ></vueCropper>
             </div>
             <div class="clip-wrapper">
-                <button class="clip" @click="endClip" :style="previewImage.img?'opacity: 1;':'opacity: 0;'">确定剪裁</button>
-                <!--<button class="clip" @click="startClip" :style="previewImage.img?'opacity: 1;':'opacity: 0;'">修改图片</button>-->
+                <button
+                        class="clip"
+                        @click="endClip"
+                        :style="previewImage.img?'opacity: 1;':'opacity: 0;'"
+                >确定剪裁
+                </button>
                 <div class="form-src">
-                    <span class="text">上传封面图片</span>
+                    <span class="text">上传展示图片</span>
                     <input accept="image/*" @change="previewImg($event)" class="btn" type="file">
                 </div>
             </div>
@@ -62,21 +68,22 @@
           author: '',
           title: '',
           time: '',
-          imgFile: ''
+          imgFile: '',
+          content: ''
         },
         previewImage: {
           img: '',
           size: 1,
           outputType: 'jpeg',
+          width: '250',
+          height: '250',
         },
         // 在这里预定义输入内容
-        content: ``,
         editorOption: {
           modules: {
             toolbar: {
               container: [
                 [{ 'size': ['small', 'large', 'huge'] }],
-                ['bold'],
                 [{ 'color': [] }],
                 [{ 'align': [] }],
                 ['image'],
@@ -96,10 +103,6 @@
       }
     },
     methods: {
-      // 获取富文本编辑器内容
-      onEditorChange (event) {
-        this.content = event.html
-      },
       previewImg (e) {
         let file = e.target.files[0]
         let that = this
@@ -112,35 +115,50 @@
         }
 
         reader.onload = function () {
+          that.previewImage.width = that.previewImage.height = '250'
           that.previewImage.img = this.result
         }
       },
       endClip () {
-        this.previewImage.clip = false
+        // 获取截图的blob数据
+        this.$refs.cropper.getCropBlob((data) => {
+          this.form.imgFile = data
+
+          this.previewImage.width = this.previewImage.height = '300'
+        })
 
         // 获取截图的base64 数据
         this.$refs.cropper.getCropData((data) => {
           this.previewImage.img = data
         })
-
-        // 获取截图的blob数据
-        this.$refs.cropper.getCropBlob((data) => {
-          this.form.imgFile = data
-        })
+      },
+      deleteAll () {
+        // 清空表单
+        for (let item in this.form) {
+          if (item !== 'imgFile') {
+            this.form[item] = ''
+          }
+        }
+        // 清空富文本编辑器
+        this.$refs.myQuillEditor.quill.container.children[0].innerHTML = ''
       },
       // 提交内容
       publish () {
-        console.log(123)
+        console.log(this.form)
         /*this.$http.post('/article', {
-          content: this.content,
+          content: this.form.content,
         })
           .then(res => {
             this.$check(res.data, '文章发布成功', () => {
-              this.content = ''
+              this.form.content = ''
               // 还原编辑器的内容
               this.$refs.myQuillEditor.quill.container.children[0].innerHTML = ''
             })
           })*/
+      },
+      // 获取富文本编辑器内容
+      onEditorChange (event) {
+        this.form.content = event.html
       },
       // 将富文本编辑器的内容上传至服务器，以 url 保存在 content 内
       imgPut (e) {
@@ -196,7 +214,7 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            padding-bottom: 20px;
+            padding: 0 20px 20px;
 
             .form-item {
                 color: $grey;

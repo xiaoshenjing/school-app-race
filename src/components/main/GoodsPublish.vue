@@ -2,10 +2,13 @@
     <div class="publish-wrapper">
         <div class="title">{{select.name[select.num]}}:</div>
         <div class="form">
-            <div class="preview" ref="preview"></div>
-            <div class="form-src">
-                <span class="text">点击上传图片</span>
-                <input accept="image/*" class="btn" type="file" @change="previewImg($event)">
+            <div class="img">
+                <div class="preview" ref="preview" @click="deleteCanvas"></div>
+                <div class="tips" v-if="!form.imgFile[0]">注意：默认会截取图片中央为展示图片，上传后的图片再次点击删除</div>
+                <div class="form-src">
+                    <span class="text">点击上传图片</span>
+                    <input accept="image/*" class="btn" type="file" @change="previewImg($event)">
+                </div>
             </div>
             <label class="form-item" for="title"><span>商品名称：</span>
                 <input class="text" type="text" id="title" v-model="form.title">
@@ -47,6 +50,25 @@
       publish () {
         console.log(this.form)
       },
+      deleteAll () {
+        // 清空表单
+        for (let item in this.form) {
+          this.form[item] = ''
+          this.form['imgFile'] = []
+        }
+        // 清空预览图片
+        for (let i = 0; i < this.$refs.preview.children.length; i++) {
+          this.$refs.preview.removeChild(this.$refs.preview.children[i])
+        }
+      },
+      deleteCanvas () {
+        for (let i = 0; i < this.$refs.preview.children.length; i++) {
+          this.$refs.preview.children[i].onclick = () => {
+            this.$refs.preview.removeChild(this.$refs.preview.children[i])
+            this.form.imgFile.splice(i, 1)
+          }
+        }
+      },
       previewImg (e) {
         let file = e.target.files[0]
         let that = this
@@ -87,9 +109,12 @@
               sy = (height - width) / 2
               sheight = sy + width
             }
+            let arr = [sx, sy, swidth, sheight].map((item) => {
+              return Math.floor(item)
+            })
 
             // 绘制图片并在页面添加节点
-            ctx.drawImage(previewImage, sx, sy, swidth, sheight, 0, 0, 300, 300)
+            ctx.drawImage(previewImage, arr[0], arr[1], arr[2], arr[3], 0, 0, 300, 300)
             preview.appendChild(canvas)
 
             canvas.toBlob((data) => {
@@ -98,7 +123,7 @@
           }
         }
       }
-    }
+    },
   }
 </script>
 
@@ -132,35 +157,45 @@
             justify-content: center;
             align-items: center;
 
-            .preview {
+            .img {
                 width: 300px;
-            }
 
-            %common { // form-src
-                width: 100%;
-                height: 3rem;
-            }
-
-            .form-src {
-                position: relative;
-                background-color: $font-color-1;
-                border-radius: 5px;
-                @extend %common;
-                margin: 20px 0;
-
-                .text {
-                    @extend %common;
-                    position: absolute;
-                    top: 0;
-                    left: 0;
-                    @extend %block-center;
-                    color: $white;
-                    font-size: 16px;
+                .preview {
+                    width: 300px;
                 }
 
-                .btn {
+                .tips {
+                    padding: 10px 10px 0 10px;
+                    font-size: 14px;
+                    color: $danger;
+                }
+
+                %common { // form-src
+                    width: 100%;
+                    height: 3rem;
+                }
+
+                .form-src {
+                    position: relative;
+                    background-color: $font-color-1;
+                    border-radius: 5px;
                     @extend %common;
-                    opacity: 0;
+                    margin: 20px 0;
+
+                    .text {
+                        @extend %common;
+                        position: absolute;
+                        top: 0;
+                        left: 0;
+                        @extend %block-center;
+                        color: $white;
+                        font-size: 16px;
+                    }
+
+                    .btn {
+                        @extend %common;
+                        opacity: 0;
+                    }
                 }
             }
 

@@ -27,6 +27,9 @@ import Goods from './views/mine/goods'
 import GoodsShow from './components/main/GoodsShow'
 import Article from './components/main/Article'
 
+// all
+import Set from './views/set'
+
 let router = new VueRouter({
   routes: [
     // home
@@ -55,7 +58,10 @@ let router = new VueRouter({
 
     // components
     { path: '/home/goodsShow', component: GoodsShow },
-    { path: '/find/article', component: Article }
+    { path: '/find/article', component: Article },
+
+    // all
+    { path: '/set', component: Set }
   ]
 })
 
