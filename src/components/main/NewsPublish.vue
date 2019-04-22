@@ -5,7 +5,24 @@
             <label class="form-item" for="title"><span>趣事标题：</span>
                 <input class="text" type="text" id="title" v-model="form.title">
             </label>
-            <div class="form-src"><span class="text">上传封面图片</span><input accept="image/*" class="btn" type="file"></div>
+            <div class="preview">
+                <vueCropper
+                        ref="cropper"
+                        :img="previewImage.img"
+                        :outputSize="previewImage.size"
+                        :outputType="previewImage.outputType"
+                        :autoCrop="true"
+                        :fixed="true"
+                ></vueCropper>
+            </div>
+            <div class="clip-wrapper">
+                <button class="clip" @click="endClip" :style="previewImage.img?'opacity: 1;':'opacity: 0;'">确定剪裁</button>
+                <!--<button class="clip" @click="startClip" :style="previewImage.img?'opacity: 1;':'opacity: 0;'">修改图片</button>-->
+                <div class="form-src">
+                    <span class="text">上传封面图片</span>
+                    <input accept="image/*" @change="previewImg($event)" class="btn" type="file">
+                </div>
+            </div>
             <!-- 设置其 opacity 为 0 -->
             <input type="file" class="imgPut" @change="imgPut($event)" accept="image/*">
             <!--富文本编辑器组件-->
@@ -44,6 +61,12 @@
           author: '',
           title: '',
           time: '',
+          imgFile: ''
+        },
+        previewImage: {
+          img: '',
+          size: 1,
+          outputType: 'jpeg',
         },
         // 在这里预定义输入内容
         content: ``,
@@ -75,6 +98,34 @@
       // 获取富文本编辑器内容
       onEditorChange (event) {
         this.content = event.html
+      },
+      previewImg (e) {
+        let file = e.target.files[0]
+        let that = this
+        if (!e || !window.FileReader) {
+          alert('您的设备不支持图片预览功能，如需该功能请升级您的设备！')
+        }
+        let reader = new FileReader()
+        if (file) {
+          reader.readAsDataURL(file)
+        }
+
+        reader.onload = function () {
+          that.previewImage.img = this.result
+        }
+      },
+      endClip () {
+        this.previewImage.clip = false
+
+        // 获取截图的base64 数据
+        this.$refs.cropper.getCropData((data) => {
+          this.previewImage.img = data
+        })
+
+        // 获取截图的blob数据
+        this.$refs.cropper.getCropBlob((data) => {
+          this.form.imgFile = data
+        })
       },
       // 提交内容
       publish () {
@@ -118,7 +169,7 @@
 <style scoped lang="scss">
     .publish-wrapper {
         width: 90%;
-        margin: 0 auto;
+        margin: 20px auto;
         border: 1px solid $grey;
         display: flex;
         justify-content: space-around;
@@ -131,6 +182,7 @@
             position: absolute;
             top: 0;
             left: 2rem;
+            z-index: 1;
             transform: translateY(-50%);
             background-color: #fff;
             font-size: 16px;
@@ -167,31 +219,63 @@
                 }
             }
 
-            %common { // form-src
-                width: 100%;
-                height: 3rem;
+            .preview {
+                width: 300px;
+                height: 300px;
             }
 
-            .form-src {
-                position: relative;
-                background-color: $font-color-1;
-                border-radius: 5px;
-                @extend %common;
+            .clip-wrapper {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
                 margin: 20px 0;
 
-                .text {
-                    @extend %common;
-                    position: absolute;
-                    top: 0;
-                    left: 0;
-                    @extend %block-center;
-                    color: $white;
-                    font-size: 16px;
+                %common { // form-src
+                    width: 40%;
+                    height: 3rem;
                 }
 
-                .btn {
+                .clip {
                     @extend %common;
-                    opacity: 0;
+                    background-color: $font-color-1;
+                    border-radius: 5px;
+                    color: $white;
+                    font-size: 14px;
+                    border: none;
+                    outline: none;
+
+                    &:active {
+                        background-color: $grey;
+                    }
+                }
+
+                .form-src {
+                    position: relative;
+                    background-color: $font-color-1;
+                    border-radius: 5px;
+                    @extend %common;
+
+
+                    .text {
+                        width: 100%;
+                        height: 100%;
+                        position: absolute;
+                        top: 0;
+                        left: 0;
+                        @extend %block-center;
+                        color: $white;
+                        font-size: 14px;
+                    }
+
+                    .btn {
+                        width: 100%;
+                        height: 100%;
+                        opacity: 0;
+                    }
+
+                    &:active {
+                        background-color: $grey;
+                    }
                 }
             }
 

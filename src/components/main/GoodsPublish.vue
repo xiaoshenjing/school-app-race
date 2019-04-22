@@ -4,7 +4,7 @@
         <div class="form">
             <div class="preview">
                 <div v-for="(item,index) in previewImages" :key="index" class="item">
-                    <img :src="item" alt="">
+                    <canvas width="300" height="0"></canvas>
                 </div>
             </div>
             <div class="form-src">
@@ -71,7 +71,7 @@
 <style scoped lang="scss">
     .publish-wrapper {
         width: 90%;
-        margin: 0 auto;
+        margin: 20px auto;
         border: 1px solid $grey;
         display: flex;
         justify-content: space-around;
@@ -84,6 +84,7 @@
             position: absolute;
             top: 0;
             left: 2rem;
+            z-index: 1;
             transform: translateY(-50%);
             background-color: #fff;
             font-size: 16px;

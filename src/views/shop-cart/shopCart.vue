@@ -308,6 +308,11 @@
                             color: $blue;
                         }
 
+                        .clear {
+                            font-size: 12px;
+                            margin-left: 5px;
+                        }
+
                         &:active {
                             .clear, .material-icons {
                                 color: $orange;
