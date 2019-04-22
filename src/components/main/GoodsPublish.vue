@@ -2,11 +2,7 @@
     <div class="publish-wrapper">
         <div class="title">{{select.name[select.num]}}:</div>
         <div class="form">
-            <div class="preview">
-                <div v-for="(item,index) in previewImages" :key="index" class="item">
-                    <canvas width="300" height="0"></canvas>
-                </div>
-            </div>
+            <div class="preview" ref="preview"></div>
             <div class="form-src">
                 <span class="text">点击上传图片</span>
                 <input accept="image/*" class="btn" type="file" @change="previewImg($event)">
@@ -19,6 +15,9 @@
             </label>
             <label class="form-item" for="price"><span>商品价格：</span>
                 <input class="text" type="number" id='price' v-model="form.price">
+            </label>
+            <label class="form-item" for="max_count"><span>商品数量：</span>
+                <input class="text" type="number" id='max_count' v-model="form.max_count">
             </label>
             <button class="submit" @click="publish">发布商品</button>
         </div>
@@ -42,12 +41,11 @@
           title: '',
           time: '',
         },
-        previewImages: []
       }
     },
     methods: {
       publish () {
-        console.log(123)
+        console.log(this.form)
       },
       previewImg (e) {
         let file = e.target.files[0]
@@ -59,10 +57,46 @@
         if (file) {
           reader.readAsDataURL(file)
         }
+
+        // 图片压缩与剪裁
+        let canvas = document.createElement('canvas')
+        let preview = this.$refs.preview
+        let previewImage = new Image()
+        let ctx = canvas.getContext('2d')
+
         reader.onload = function () {
-          that.previewImages.push(this.result)
+          previewImage.src = this.result
+
+          // ctx.drawImage() 是个异步操作，需要在图片 load 完成后再调用
+          previewImage.onload = () => {
+            canvas.width = 300
+            canvas.height = 300
+
+            let [width, height] = [previewImage.width, previewImage.height]
+            let [sx, sy, swidth, sheight] = [0, 0, 0, 0]
+
+            // 获取图片正中部位
+            if (width >= height) {
+              sy = 0
+              sheight = height
+              sx = (width - height) / 2
+              swidth = sx + height
+            } else {
+              sx = 0
+              swidth = width
+              sy = (height - width) / 2
+              sheight = sy + width
+            }
+
+            // 绘制图片并在页面添加节点
+            ctx.drawImage(previewImage, sx, sy, swidth, sheight, 0, 0, 300, 300)
+            preview.appendChild(canvas)
+
+            canvas.toBlob((data) => {
+              that.form.imgFile.push(data)
+            }, 'image/jpeg')
+          }
         }
-        this.form.imgFile.push(file)
       }
     }
   }
@@ -97,6 +131,10 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
+
+            .preview {
+                width: 300px;
+            }
 
             %common { // form-src
                 width: 100%;

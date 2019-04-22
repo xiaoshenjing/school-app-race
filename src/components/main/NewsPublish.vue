@@ -13,6 +13,7 @@
                         :outputType="previewImage.outputType"
                         :autoCrop="true"
                         :fixed="true"
+                        :canMove="false"
                 ></vueCropper>
             </div>
             <div class="clip-wrapper">
@@ -195,11 +196,12 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
+            padding-bottom: 20px;
 
             .form-item {
                 color: $grey;
                 font-size: 16px;
-                margin: 10px 0;
+                margin: 20px 0;
                 width: 100%;
                 display: flex;
                 flex-direction: row;
