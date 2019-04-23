@@ -18,3 +18,5 @@ router.use(function (err, req, res, next) {
     result: false
   })*/
 })
+
+module.exports = router

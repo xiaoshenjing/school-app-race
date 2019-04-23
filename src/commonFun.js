@@ -8,5 +8,6 @@ commonFun.install = function (Vue) {
       }
     }
   }
-
 }
+
+export default commonFun

@@ -35,4 +35,4 @@ const newsSchema = new Schema({
   ]
 })
 
-module.exports = mongoose.module('New', newsSchema)
+module.exports = mongoose.model('New', newsSchema)

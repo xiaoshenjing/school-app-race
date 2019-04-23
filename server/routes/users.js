@@ -5,9 +5,10 @@ var router = express.Router()
 let Users = require('../models/users')
 
 /* GET users listing. */
-router.post('/login', function (req, res, next) {
+router.post('/login', async function (req, res, next) {
   try {
-    console.log(req.body)
+    let req = req.body
+
   } catch (err) {
     next(err)
   }
