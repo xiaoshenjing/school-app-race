@@ -18,6 +18,7 @@ let store = new Vuex.Store({
     headerTitle: 'home',
     shopCart: [],
     footStep: [],
+    tip: {},
     article: {},
     goodsShow: {},
   },
@@ -27,6 +28,10 @@ let store = new Vuex.Store({
     },
     headerTitle (state, str) {
       state.headerTitle = str
+    },
+    tip (state, obj) {
+      // { reason: '', color: 'red/green/yellow' }
+      state.tip = obj
     },
     addShopCart (state, obj) {
       state.shopCart.push(obj)

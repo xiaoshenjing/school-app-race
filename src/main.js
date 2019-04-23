@@ -14,10 +14,10 @@ import store from './store'
 import router from './router'
 import 'material-design-icons-iconfont/dist/material-design-icons.css'
 
-/*Axios.defaults.baseURL = ''
-Vue.prototype.$http = Axios*/
+Axios.defaults.baseURL = 'http://10.14.4.153:3000/'
+Vue.prototype.$http = Axios
+Axios.defaults.withCredentials = true
 
-// Axios.defaults.withCredentials = true
 Axios.defaults.baseURL = '/data'
 Vue.prototype.$api = Axios
 

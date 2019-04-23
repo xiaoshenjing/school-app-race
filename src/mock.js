@@ -437,6 +437,7 @@ let find = {
 let person = {
   avatar: Random.dataImage('100x100'),
   student_id: Random.integer(1000000000000, 10000000000000),
+  money: Random.integer(0, 100),
   goods: [
     {
       id: 1,
@@ -1052,7 +1053,6 @@ let person = {
     { pos: Random.cparagraph(3), main: false },
     { pos: Random.cparagraph(3), main: false },
   ],
-  money: Random.integer(0, 100),
 }
 
 Mock.mock('/data/home', 'post', home)

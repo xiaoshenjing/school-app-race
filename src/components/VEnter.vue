@@ -4,7 +4,7 @@
             <div class="login">
                 <div class="select-wrapper">
                     <label for="select">学校：</label>
-                    <select name="select" id="select" class="select">
+                    <select name="select" id="select" class="select" v-model="form.school">
                         <option value="1">华北电力大学</option>
                         <option value="2">河北大学</option>
                         <option value="3">清华大学</option>
@@ -12,11 +12,11 @@
                 </div>
                 <div class="count-wrapper">
                     <label for="count">学号：</label>
-                    <input type="text" id="count" class="count">
+                    <input type="text" id="count" class="count" v-model="form.student_id">
                 </div>
                 <div class="password-wrapper">
                     <label for="password">密码：</label>
-                    <input type="password" id="password" class="password">
+                    <input type="password" id="password" class="password" v-model="form.password">
                 </div>
                 <button class="submit" id="submit" @click="login">提交</button>
             </div>
@@ -33,11 +33,46 @@
         // return false
       }
     },
+    data () {
+      return {
+        form: {
+          school: '',
+          student_id: '',
+          password: '',
+        },
+        empty: ''
+      }
+    },
     methods: {
       login () {
-        this.$store.commit('login', true)
+        this.empty = this.$checkEmpty(this.form)
+
+        if (this.empty) {
+          switch (this.empty) {
+            case 'school':
+              this.$store.commit('tip', { reason: '学校不能为空', color: 'red' })
+              break
+            case 'student_id':
+              this.$store.commit('tip', { reason: '学号不能为空', color: 'red' })
+              break
+            case 'password':
+              this.$store.commit('tip', { reason: '密码不能为空', color: 'red' })
+              break
+          }
+          return
+        }
+
+        this.$http.post('/users/login', {
+          school: this.form.school,
+          student_id: this.form.student_id,
+          password: this.form.password
+        })
+          .then((res) => {
+            console.log(res)
+          })
+        /*this.$store.commit('login', true)
         this.$router.push('/home')
-        this.$store.commit('headerTitle', 'home')
+        this.$store.commit('headerTitle', 'home')*/
       }
     }
   }
@@ -48,7 +83,7 @@
         position: fixed;
         top: 0;
         left: 0;
-        z-index: 999;
+        z-index: 1000;
         width: 100%;
         height: 100%;
         background-color: #fff;

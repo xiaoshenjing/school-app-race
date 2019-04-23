@@ -1,5 +1,6 @@
 <template>
     <div id="app">
+        <v-tip></v-tip>
         <v-enter></v-enter>
         <v-header></v-header>
         <v-main></v-main>
@@ -14,7 +15,8 @@
       VHeader: () => import('@/components/header/VHeader'),
       VMain: () => import('@/components/main/VMain'),
       VFooter: () => import('@/components/footer/VFooter'),
-      VEnter: () => import('@/components/VEnter')
+      VEnter: () => import('@/components/VEnter'),
+      VTip: () => import('@/components/VTip')
     },
     methods: {
       init () {
