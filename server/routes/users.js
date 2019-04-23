@@ -5,9 +5,34 @@ var router = express.Router()
 let Users = require('../models/users')
 
 /* GET users listing. */
+router.get('/', function (req, res, next) {
+  try {
+    let user = new Users({
+      school: '1',
+      student_id: 'admin1',
+      password: 'admin1'
+    })
+    let add = user.save()
+    console.log(add)
+  } catch (err) {
+    next(err)
+  }
+})
+
+/* GET users listing. */
 router.post('/login', async function (req, res, next) {
   try {
     let req = req.body
+
+    let search = Users.findOne(req)
+
+    if (search) {
+      res.status(200).json({
+        err_code: 0,
+        result: true,
+        token: ''
+      })
+    }
 
   } catch (err) {
     next(err)
