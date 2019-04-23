@@ -1,4 +1,5 @@
 ##### canvas实现图片剪裁：https://www.cnblogs.com/yingge/p/5978479.html
+##### token : https://blog.csdn.net/hxg117/article/details/76954606
 
 # school-app-race
 

@@ -37,6 +37,7 @@
       login () {
         this.$store.commit('login', true)
         this.$router.push('/home')
+        this.$store.commit('headerTitle', 'home')
       }
     }
   }
