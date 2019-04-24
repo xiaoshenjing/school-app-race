@@ -2,23 +2,25 @@
     <transition name="enter">
         <div class="enter" v-show="show">
             <div class="login">
-                <div class="select-wrapper">
-                    <label for="select">学校：</label>
-                    <select name="select" id="select" class="select" v-model="form.school">
-                        <option value="1">华北电力大学</option>
-                        <option value="2">河北大学</option>
-                        <option value="3">清华大学</option>
-                    </select>
-                </div>
-                <div class="count-wrapper">
-                    <label for="count">学号：</label>
-                    <input type="text" id="count" class="count" v-model="form.student_id">
-                </div>
-                <div class="password-wrapper">
-                    <label for="password">密码：</label>
-                    <input type="password" id="password" class="password" v-model="form.password">
-                </div>
-                <button class="submit" id="submit" @click="login">提交</button>
+                <form>
+                    <div class="select-wrapper">
+                        <label for="select">学校：</label>
+                        <select name="select" id="select" class="select" v-model="form.school">
+                            <option value="1">华北电力大学</option>
+                            <option value="2">河北大学</option>
+                            <option value="3">清华大学</option>
+                        </select>
+                    </div>
+                    <div class="count-wrapper">
+                        <label for="count">学号：</label>
+                        <input type="text" id="count" class="count" v-model="form.student_id">
+                    </div>
+                    <div class="password-wrapper">
+                        <label for="password">密码：</label>
+                        <input type="password" id="password" class="password" v-model="form.password">
+                    </div>
+                    <button class="submit" id="submit" @click="login">提交</button>
+                </form>
             </div>
         </div>
     </transition>
@@ -27,12 +29,6 @@
 <script>
   export default {
     name: 'enter',
-    computed: {
-      show () {
-        return !this.$store.state.login
-        // return false
-      }
-    },
     data () {
       return {
         form: {
@@ -43,6 +39,12 @@
         empty: ''
       }
     },
+    computed: {
+      show () {
+        return !this.$store.state.login
+        // return false
+      }
+    },
     methods: {
       login () {
         this.empty = this.$checkEmpty(this.form)
@@ -50,13 +52,13 @@
         if (this.empty) {
           switch (this.empty) {
             case 'school':
-              this.$store.commit('tip', { reason: '学校不能为空', color: 'red' })
+              this.$store.commit('tip', { reason: '学校不能为空', color: 'red', update: new Date() })
               break
             case 'student_id':
-              this.$store.commit('tip', { reason: '学号不能为空', color: 'red' })
+              this.$store.commit('tip', { reason: '学号不能为空', color: 'red', update: new Date() })
               break
             case 'password':
-              this.$store.commit('tip', { reason: '密码不能为空', color: 'red' })
+              this.$store.commit('tip', { reason: '密码不能为空', color: 'red', update: new Date() })
               break
           }
           return
@@ -68,12 +70,32 @@
           password: this.form.password
         })
           .then((res) => {
-            console.log(res)
+            if (res.data.result) {
+              this.$store.commit('loginMessage', this.form)
+              this.$store.commit('login', true)
+              this.$store.commit('headerTitle', 'home')
+              this.$store.commit('token', res.data.token)
+              this.$store.commit('tip', { reason: res.data.reason, color: 'green', update: new Date() })
+              this.$router.push('/home')
+              this.$jwt(res.data)
+            } else {
+              this.$store.commit('tip', { reason: res.data.reason, color: 'red', update: new Date() })
+            }
           })
-        /*this.$store.commit('login', true)
-        this.$router.push('/home')
-        this.$store.commit('headerTitle', 'home')*/
+      },
+      init () {
+        let init = this.$store.state.loginMessage
+        if (init) {
+          this.$nextTick(() => {
+            this.form.school = init.school
+            this.form.student_id = init.student_id
+            this.form.password = init.password
+          })
+        }
       }
+    },
+    created () {
+      this.init()
     }
   }
 </script>
@@ -124,7 +146,6 @@
                 padding: 5px 20px;
                 font-size: 16px;
                 border-radius: 10px;
-                margin-right: 15px;
                 position: relative;
 
                 &:active {

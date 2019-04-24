@@ -19,7 +19,10 @@ import 'material-design-icons-iconfont/dist/material-design-icons.css'
 let Http = Axios.create({
   // baseURL: 'http://10.14.4.153:3000/', // dt
   baseURL: 'http://172.16.79.215:3000/',// 校园网
-  withCredentials: true
+  withCredentials: true,
+  headers: {
+    'Token': store.state.token,
+  }
 })
 Vue.prototype.$http = Http
 

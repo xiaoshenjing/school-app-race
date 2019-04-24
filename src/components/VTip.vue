@@ -49,12 +49,12 @@
         box-shadow: 0 0 10px rgba(245, 108, 108, .2);
     }
 
-    %green {
+    %yellow {
         border: 1px solid #E6A23C;
         box-shadow: 0 0 10px rgba(230, 162, 60, .2);
     }
 
-    %yellow {
+    %green {
         border: 1px solid #67C23A;
         box-shadow: 0 0 10px rgba(103, 194, 58, .2);
     }
@@ -124,7 +124,7 @@
         }
 
         &.tip-enter-active, &.tip-leave-active {
-            transition: opacity .5s;
+            transition: opacity 1s;
         }
 
         &.tip-enter, &.tip-leave-to {
