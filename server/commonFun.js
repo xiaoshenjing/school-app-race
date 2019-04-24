@@ -2,7 +2,7 @@ let jwt = require('jsonwebtoken')
 
 function creatToken (school_id, userId) {
   return jwt.sign({
-    username: username,
+    username: school_id,
     userId: userId,
   }, 'xiaoze', { expiresIn: '7d' })
 }
@@ -14,7 +14,6 @@ function checkToken (token, callback) {
     } else {
       callback(true)
     }
-    console.log(decode)
   })
 }
 
