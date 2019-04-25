@@ -42,12 +42,13 @@
     computed: {
       show () {
         return !this.$store.state.login
-        // return false
       }
     },
     methods: {
       login () {
         this.empty = this.$checkEmpty(this.form)
+
+        this.$store.commit('loginMessage', this.form)
 
         if (this.empty) {
           switch (this.empty) {
@@ -71,12 +72,11 @@
         })
           .then((res) => {
             if (res.data.result) {
+              this.$router.push('/home')
               this.$store.commit('token', res.data.token)
-              this.$store.commit('loginMessage', this.form)
               this.$store.commit('login', true)
               this.$store.commit('headerTitle', 'home')
               this.$store.commit('tip', { reason: res.data.reason, color: 'green', update: new Date() })
-              this.$router.push('/home')
             } else {
               this.$store.commit('tip', { reason: res.data.reason, color: 'red', update: new Date() })
             }
@@ -85,15 +85,13 @@
       init () {
         let init = this.$store.state.loginMessage
         if (init) {
-          this.$nextTick(() => {
-            this.form.school = init.school
-            this.form.student_id = init.student_id
-            this.form.password = init.password
-          })
+          this.form.school = init.school
+          this.form.student_id = init.student_id
+          this.form.password = init.password
         }
       }
     },
-    created () {
+    mounted () {
       this.init()
     }
   }

@@ -33,7 +33,7 @@ import Set from './views/set'
 let router = new VueRouter({
   routes: [
     // home
-    { path: '/', redirect: './home' },
+    { path: '/', redirect: '/home' },
     { path: '/home', component: Home },
     { path: '/home/detailGoods/:select', component: DetailGoods },
 

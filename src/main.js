@@ -16,13 +16,16 @@ import store from './store'
 import router from './router'
 import 'material-design-icons-iconfont/dist/material-design-icons.css'
 
+// http
 let Http = Axios.create({
   // baseURL: 'http://10.14.4.153:3000/', // dt
-  baseURL: 'http://172.16.79.215:3000/',// 校园网
+  // baseURL: 'http://172.16.79.215:3000/',// 校园网
+  baseURL: 'http://192.168.43.87:3000/',// 手机
   withCredentials: true,
 })
 Vue.prototype.$http = Http
 
+// mock
 let Api = Axios.create({
   baseURL: '/data',
 })
