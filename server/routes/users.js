@@ -15,9 +15,9 @@ router.post('/login', async function (req, res, next) {
       let jwt = commonFun.creatToken(search.school_id, search._id)
 
       // 保存 userId
-      res.cookie('userId', search._id, { maxAge: 1000 * 24 * 60 * 60 * 7, signed: true })
+      res.cookie('userId', search._id, { maxAge: 1000 * 24 * 60 * 60 * 7, signed: false })
 
-      res.status(200).json({
+      return res.status(200).json({
         result: true,
         reason: '登陆成功',
         token: jwt
@@ -28,20 +28,6 @@ router.post('/login', async function (req, res, next) {
   } catch (err) {
     next(err)
   }
-})
-
-// 全局处理错误
-router.use(function (err, req, res, next) {
-  if (err.reason) {
-    console.log(err)
-    res.status(200).json(err)
-    return
-  }
-  console.log(err)
-  res.status(200).json({
-    result: false,
-    reason: '服务器错误'
-  })
 })
 
 module.exports = router

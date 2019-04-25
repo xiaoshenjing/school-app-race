@@ -49,7 +49,8 @@
     methods: {
       publish () {
         this.$http.post('/goods/add', {
-          select: this.select.num
+          select: this.select.num,
+          form: this.form
         })
           .then(res => {
             if (this.$jwt(res.data)) {

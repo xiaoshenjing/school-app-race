@@ -2,25 +2,23 @@
     <transition name="enter">
         <div class="enter" v-show="show">
             <div class="login">
-                <form>
-                    <div class="select-wrapper">
-                        <label for="select">学校：</label>
-                        <select name="select" id="select" class="select" v-model="form.school">
-                            <option value="1">华北电力大学</option>
-                            <option value="2">河北大学</option>
-                            <option value="3">清华大学</option>
-                        </select>
-                    </div>
-                    <div class="count-wrapper">
-                        <label for="count">学号：</label>
-                        <input type="text" id="count" class="count" v-model="form.student_id">
-                    </div>
-                    <div class="password-wrapper">
-                        <label for="password">密码：</label>
-                        <input type="password" id="password" class="password" v-model="form.password">
-                    </div>
-                    <button class="submit" id="submit" @click="login">提交</button>
-                </form>
+                <div class="select-wrapper">
+                    <label for="select">学校：</label>
+                    <select name="select" id="select" class="select" v-model="form.school">
+                        <option value="1">华北电力大学</option>
+                        <option value="2">河北大学</option>
+                        <option value="3">清华大学</option>
+                    </select>
+                </div>
+                <div class="count-wrapper">
+                    <label for="count">学号：</label>
+                    <input type="text" id="count" class="count" v-model="form.student_id">
+                </div>
+                <div class="password-wrapper">
+                    <label for="password">密码：</label>
+                    <input type="password" id="password" class="password" v-model="form.password">
+                </div>
+                <button class="submit" id="submit" @click="login">提交</button>
             </div>
         </div>
     </transition>
@@ -61,6 +59,8 @@
             case 'password':
               this.$store.commit('tip', { reason: '密码不能为空', color: 'red', update: new Date() })
               break
+            default:
+              this.$store.commit('tip', { reason: '内容不能为空', color: 'red', update: new Date() })
           }
           return
         }

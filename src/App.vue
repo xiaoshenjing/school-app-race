@@ -27,6 +27,11 @@
         this.$http.defaults.headers.common['Token'] = this.$store.state.token
       }
     },
+    watch: {
+      '$store.state.token': function (newVal, oldVal) {
+        this.$http.defaults.headers.common['Token'] = newVal
+      }
+    },
     created () {
       this.init()
     }

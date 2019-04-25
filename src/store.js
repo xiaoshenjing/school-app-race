@@ -27,7 +27,7 @@ let store = new Vuex.Store({
     PersistedState({
       storage: {
         getItem: key => Cookies.get(key),
-        setItem: (key, value) => Cookies.set(key, value, { expires: 7, secure: true }),
+        setItem: (key, value) => Cookies.set(key, value, { expires: 7 }),
         removeItem: key => Cookies.remove(key)
       },
       reducer (val) {

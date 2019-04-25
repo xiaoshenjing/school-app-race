@@ -11,12 +11,4 @@ router.get('/', function (req, res, next) {
   }
 })
 
-// 全局处理错误
-router.use(function (err, req, res, next) {
-  console.log(err)
-  /*res.status(200).json({
-    result: false
-  })*/
-})
-
 module.exports = router
