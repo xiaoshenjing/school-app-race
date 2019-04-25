@@ -71,13 +71,12 @@
         })
           .then((res) => {
             if (res.data.result) {
+              this.$store.commit('token', res.data.token)
               this.$store.commit('loginMessage', this.form)
               this.$store.commit('login', true)
               this.$store.commit('headerTitle', 'home')
-              this.$store.commit('token', res.data.token)
               this.$store.commit('tip', { reason: res.data.reason, color: 'green', update: new Date() })
               this.$router.push('/home')
-              this.$jwt(res.data)
             } else {
               this.$store.commit('tip', { reason: res.data.reason, color: 'red', update: new Date() })
             }

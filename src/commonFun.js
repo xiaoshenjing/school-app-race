@@ -9,6 +9,7 @@ commonFun.install = function (Vue) {
       }
     }
   }
+
   // 验证 token 是否过期
   Vue.prototype.$jwt = function (obj) {
     if (obj.jwt) {
@@ -16,6 +17,8 @@ commonFun.install = function (Vue) {
       this.$store.commit('login', false)
       this.$store.commit('token', '')
       this.$store.commit('tip', { reason: obj.reason, color: 'red', update: new Date() })
+    } else {
+      return true
     }
   }
 }

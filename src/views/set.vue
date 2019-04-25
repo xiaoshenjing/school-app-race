@@ -8,7 +8,10 @@
   export default {
     methods: {
       cancel () {
+        this.$router.push('/home')
         this.$store.commit('login', false)
+        this.$store.commit('token', '')
+        this.$store.commit('tip', { reason: '注销成功', color: 'green', update: new Date() })
       }
     }
   }

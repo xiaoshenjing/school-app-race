@@ -16,6 +16,7 @@ const goodsSchema = new Schema({
   ],
   goods: [
     {
+      select: Number,
       price: Number,
       watch: Number,
       count: {

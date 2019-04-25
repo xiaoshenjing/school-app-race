@@ -1,9 +1,4 @@
 var express = require('express')
-
-// session
-var cookieParser = require('cookie-parser')
-express().use(cookieParser())
-
 var router = express.Router()
 
 let commonFun = require('../commonFun')
@@ -18,7 +13,13 @@ router.post('/login', async function (req, res, next) {
     let search = await Users.findOne(body)
     if (search) {
       let jwt = commonFun.creatToken(search.school_id, search._id)
-      req.JSONCookie(search._id)
+      console.log(jwt)
+      console.log(search._id)
+
+      // 保存 userId
+      res.cookie('userId', search._id, { maxAge: 1000 * 24 * 60 * 60 * 7, signed: true })
+      console.log(req.signedCookies)
+
       res.status(200).json({
         result: true,
         reason: '登陆成功',

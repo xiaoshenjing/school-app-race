@@ -23,6 +23,8 @@
         let html = document.documentElement.clientWidth
         let fsz = (html * (10 / 375)).toFixed(2)
         document.querySelector('html').style.fontSize = fsz + 'px'
+
+        this.$http.defaults.headers.common['Token'] = this.$store.state.token
       }
     },
     created () {

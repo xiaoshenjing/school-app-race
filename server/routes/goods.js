@@ -3,10 +3,13 @@ var router = express.Router()
 
 let Goods = require('../models/goods')
 
-/* GET home page. */
-router.get('/', function (req, res, next) {
+// 上传商品
+router.post('/add', async function (req, res, next) {
   try {
-    res.send('goods')
+    console.log(req.body, '------', req.signedCookies.userId)
+    res.status(200).json({
+      result: true
+    })
   } catch (err) {
     next(err)
   }

@@ -48,7 +48,14 @@
     },
     methods: {
       publish () {
-        console.log(this.form)
+        this.$http.post('/goods/add', {
+          select: this.select.num
+        })
+          .then(res => {
+            if (this.$jwt(res.data)) {
+              console.log(res)
+            }
+          })
       },
       deleteAll () {
         // 清空表单

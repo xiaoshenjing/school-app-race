@@ -1,6 +1,7 @@
 var express = require('express')
 var path = require('path')
 var logger = require('morgan')
+var cookiePareser = require('cookie-parser')
 
 let commonFun = require('./commonFun')
 var goodsRouter = require('./routes/goods')
@@ -21,6 +22,8 @@ app.all('*', (req, res, next) => {
 app.use(logger('dev'))
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
+//若需要使用签名，需要指定一个secret,字符串,否者会报错
+app.use(cookiePareser('xiaoze'))
 app.use(express.static(path.join(__dirname, 'public')))
 
 /* add data */
@@ -43,7 +46,7 @@ app.use('/add', function (req, res, next) {
 app.use(function (req, res, next) {
   if (req.url !== '/users/login') {
     commonFun.checkToken(req.headers.token, function (flag) {
-      if (!flag) {
+      if (flag) {
         res.status(200).json({
           result: false,
           reason: '登陆状态过期，请重新登陆',
