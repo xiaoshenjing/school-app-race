@@ -33,7 +33,7 @@
       }
     },
     watch: {
-      '$store.state.token': function (newVal, oldVal) {
+      '$store.state.token': function (newVal, ) {
         this.$http.defaults.headers.common['Token'] = newVal
       }
     },

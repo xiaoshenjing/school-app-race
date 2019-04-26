@@ -8,7 +8,7 @@ let storage = multer.diskStorage({
     cb(null, 'public/upload/goods')// 配置文件保存路径
   },
   filename: function (req, file, cb) {
-    cb(null, file.originalname)// 文件名
+    cb(null, file.fieldname + '-' + Date.now())// 文件名
   }
 })
 let upload = multer({ storage })
@@ -16,7 +16,7 @@ let upload = multer({ storage })
 let Goods = require('../models/goods')
 
 // 上传商品
-router.post('/add', upload.array('imgFile'), async function (req, res, next) {
+router.post('/add', upload.array('img_file'), async function (req, res, next) {
   try {
     let goods = req.body
     goods.src = []
@@ -33,6 +33,8 @@ router.post('/add', upload.array('imgFile'), async function (req, res, next) {
         reason: '发布成功'
       })
     }
+
+    next({ result: false, reason: '发布失败' })
   } catch (err) {
     next(err)
   }

@@ -4,7 +4,7 @@
         <div class="form">
             <div class="img">
                 <div class="preview" ref="preview" @click="deleteCanvas($event)"></div>
-                <div class="tips" v-if="!form.imgFile[0]">注意：默认会截取图片中央为展示图片，上传后的图片再次点击删除</div>
+                <div class="tips" v-if="!form.img_file[0]">注意：默认会截取图片中央为展示图片，上传后的图片再次点击删除</div>
                 <div class="form-src">
                     <span class="text">点击上传图片</span>
                     <input accept="image/*" class="btn" type="file" @change="previewImg($event)">
@@ -19,7 +19,7 @@
             <label class="form-item" for="price"><span>商品价格：</span>
                 <input class="text" type="number" id='price' v-model="form.price">
             </label>
-            <label class="form-item" for="max_count"><span>商品数量：</span>
+            <label class="form-item" for="max_count"><span>商品库存：</span>
                 <input class="text" type="number" id='max_count' v-model="form.max_count">
             </label>
             <button class="submit" @click="publish">发布商品</button>
@@ -37,19 +37,43 @@
     data () {
       return {
         form: {
+          img_file: [],
+          title: '',
           desc: '',
           price: '',
           max_count: '',
-          imgFile: [],
-          title: '',
         },
       }
     },
     methods: {
       publish () {
+        // check empty
+        let empty = this.$checkEmpty(this.form)
+        if (empty) {
+          switch (empty) {
+            case 'img_file':
+              this.$store.commit('tip', { reason: '请发布商品图片至少一张', color: 'red', update: new Date() })
+              break
+            case 'title':
+              this.$store.commit('tip', { reason: '请输入商品名称', color: 'red', update: new Date() })
+              break
+            case 'desc':
+              this.$store.commit('tip', { reason: '请输入商品描述内容', color: 'red', update: new Date() })
+              break
+            case 'price':
+              this.$store.commit('tip', { reason: '请输入商品价格', color: 'red', update: new Date() })
+              break
+            case 'max_count':
+              this.$store.commit('tip', { reason: '请输入商品库存', color: 'red', update: new Date() })
+              break
+          }
+          return
+        }
+
+        // publish
         let form = new FormData()
-        this.form.imgFile.forEach(item => {
-          form.append('imgFile', item)
+        this.form.img_file.forEach(item => {
+          form.append('img_file', item)
         })
         form.append('select', this.select.num)
         form.append('desc', this.form.desc)
@@ -74,7 +98,7 @@
         // 清空表单
         for (let item in this.form) {
           this.form[item] = ''
-          this.form['imgFile'] = []
+          this.form['img_file'] = []
         }
         // 清空预览图片
         this.$refs.preview.innerHTML = ''
@@ -131,8 +155,7 @@
             preview.appendChild(canvas)
 
             canvas.toBlob((data) => {
-              console.log(data)
-              that.form.imgFile.push(data)
+              that.form.img_file.push(data)
             }, 'image/jpeg')
           }
         }

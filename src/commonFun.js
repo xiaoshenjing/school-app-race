@@ -7,7 +7,7 @@ commonFun.install = function (Vue) {
       return true
 
     for (let item in obj) {
-      if (obj[item] === '' || obj[item] === undefined) {
+      if (obj[item] === '' || obj[item] === undefined ||  obj[item].length === 0) {
         return item
       }
     }

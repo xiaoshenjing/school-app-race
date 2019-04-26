@@ -35,7 +35,8 @@
         this.$router.push('/' + name)
       },
       init () {
-        this.$router.push(this.$store.state.headerTitle)
+        this.current = this.$route.path.split('/')[1]
+        this.$router.push('/' + this.$store.state.headerTitle)
       }
     },
     watch: {

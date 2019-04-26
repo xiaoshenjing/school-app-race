@@ -54,8 +54,6 @@
             case 'password':
               this.$store.commit('tip', { reason: '密码不能为空', color: 'red', update: new Date() })
               break
-            default:
-              this.$store.commit('tip', { reason: '内容不能为空', color: 'red', update: new Date() })
           }
           return
         }
