@@ -5,7 +5,7 @@ let path = require('path')
 
 let storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, 'public/upload/goods')// 配置文件保存路径
+    cb(null, 'public/ign_upload/goods')// 配置文件保存路径
   },
   filename: function (req, file, cb) {
     cb(null, file.fieldname + '-' + Date.now())// 文件名
@@ -22,7 +22,7 @@ router.post('/add', upload.array('img_file'), async function (req, res, next) {
     goods.src = []
     goods.userId = req.userId
     for (let i = 0; i < req.files.length; i++) {
-      goods.src.push(req.publicUrl + '/upload/goods/' + path.basename(req.files[i].path))
+      goods.src.push(req.publicUrl + '/ign_upload/goods/' + path.basename(req.files[i].path))
     }
 
     let addGoods = await new Goods(goods).save()
