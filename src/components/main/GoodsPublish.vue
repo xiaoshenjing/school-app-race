@@ -3,7 +3,7 @@
         <div class="title">{{select.name[select.num]}}:</div>
         <div class="form">
             <div class="img">
-                <div class="preview" ref="preview" @click="deleteCanvas"></div>
+                <div class="preview" ref="preview" @click="deleteCanvas($event)"></div>
                 <div class="tips" v-if="!form.imgFile[0]">注意：默认会截取图片中央为展示图片，上传后的图片再次点击删除</div>
                 <div class="form-src">
                     <span class="text">点击上传图片</span>
@@ -77,17 +77,10 @@
           this.form['imgFile'] = []
         }
         // 清空预览图片
-        for (let i = 0; i < this.$refs.preview.children.length; i++) {
-          this.$refs.preview.removeChild(this.$refs.preview.children[i])
-        }
+        this.$refs.preview.innerHTML = ''
       },
-      deleteCanvas () {
-        for (let i = 0; i < this.$refs.preview.children.length; i++) {
-          this.$refs.preview.children[i].onclick = () => {
-            this.$refs.preview.removeChild(this.$refs.preview.children[i])
-            this.form.imgFile.splice(i, 1)
-          }
-        }
+      deleteCanvas (e) {
+        this.$refs.preview.removeChild(e.target)
       },
       previewImg (e) {
         let file = e.target.files[0]
@@ -138,6 +131,7 @@
             preview.appendChild(canvas)
 
             canvas.toBlob((data) => {
+              console.log(data)
               that.form.imgFile.push(data)
             }, 'image/jpeg')
           }
