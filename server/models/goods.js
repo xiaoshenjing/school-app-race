@@ -7,7 +7,10 @@ const Schema = mongoose.Schema
 const goodsSchema = new Schema({
   select: Number,
   price: Number,
-  watch: Number,
+  watch: {
+    type: Number,
+    default: 0
+  },
   count: {
     type: Number,
     default: 0

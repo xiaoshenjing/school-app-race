@@ -22,7 +22,7 @@ app.use(logger('dev'))
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
 
-app.use(express.static(path.join(__dirname, 'public')))
+app.use('/public/', express.static(path.join(__dirname, 'public')))
 
 /* add data */
 /*let Users = require('./models/users')
@@ -42,7 +42,7 @@ app.use('/add', function (req, res, next) {
 
 // 验证 token 是否过期，以及全局处理中间件
 app.use(function (req, res, next) {
-  if (req.url === '/users/login') {
+  if (req.url === '/users/login' || /^\/public/.test(req.url)) {
     next()
   } else {
     commonFun.checkToken(req.headers.token, function (flag, userId) {

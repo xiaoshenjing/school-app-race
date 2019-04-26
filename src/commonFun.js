@@ -7,7 +7,7 @@ commonFun.install = function (Vue) {
       return true
 
     for (let item in obj) {
-      if (obj[item] === '' || obj[item] === undefined ||  obj[item].length === 0) {
+      if (obj[item] === '' || obj[item] === undefined || obj[item].length === 0) {
         return item
       }
     }
@@ -20,8 +20,10 @@ commonFun.install = function (Vue) {
       this.$store.commit('login', false)
       this.$store.commit('token', '')
       this.$store.commit('tip', { reason: obj.reason, color: 'red', update: new Date() })
-    } else {
+    } else if (obj.result) {
       return true
+    } else {
+      this.$store.commit('tip', { reason: obj.reason, color: 'red', update: new Date() })
     }
   }
 

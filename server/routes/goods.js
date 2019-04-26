@@ -5,10 +5,10 @@ let path = require('path')
 
 let storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, 'public/ign_upload/goods')// 配置文件保存路径
+    cb(null, 'public/ign_upload/goods')
   },
   filename: function (req, file, cb) {
-    cb(null, file.fieldname + '-' + Date.now())// 文件名
+    cb(null, file.fieldname + '_' + Date.now() + '.jpg')
   }
 })
 let upload = multer({ storage })

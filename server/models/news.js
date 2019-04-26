@@ -5,32 +5,19 @@ mongoose.connect('mongodb://localhost/user')
 const Schema = mongoose.Schema
 
 const newsSchema = new Schema({
-  carousel: [
+  author: String,
+  title: String,
+  content: String,
+  time: String,
+  watches: {
+    type: Number,
+    default: 0
+  },
+  img_file: String,
+  comment: [
     {
-      src: {
-        type: String,
-        default: ''
-      },
-      href: String,
-    }
-  ],
-  news: [
-    {
-      author: String,
-      title: String,
-      content: String,
-      time: {
-        type: Date,
-        default: Date.now
-      },
-      watches: Number,
-      src: String,
-      comment: [
-        {
-          person: String,
-          content: String
-        }
-      ]
+      person: String,
+      content: String
     }
   ]
 })

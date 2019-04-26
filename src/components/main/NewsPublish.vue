@@ -31,7 +31,7 @@
                 </div>
             </div>
             <!-- 设置其 opacity 为 0 -->
-            <input type="file" class="imgPut" @change="imgPut($event)" accept="image/*">
+            <input type="file" class="ImgPut" @change="imgPut($event)" accept="image/*">
             <!--富文本编辑器组件-->
             <div class="edit_container">
                 <quill-editor
@@ -65,10 +65,9 @@
     data () {
       return {
         form: {
-          author: '',
           title: '',
           time: '',
-          imgFile: '',
+          img_file: '',
           content: ''
         },
         previewImage: {
@@ -91,7 +90,7 @@
               handlers: {
                 'image': function (value) {
                   if (value) {
-                    document.querySelector('.imgPut').click()
+                    document.querySelector('.ImgPut').click()
                   } else {
                     this.quill.format('image', false)
                   }
@@ -122,7 +121,7 @@
       endClip () {
         // 获取截图的blob数据
         this.$refs.cropper.getCropBlob((data) => {
-          this.form.imgFile = data
+          this.form.img_file = data
 
           this.previewImage.width = this.previewImage.height = '300'
         })
@@ -135,7 +134,7 @@
       deleteAll () {
         // 清空表单
         for (let item in this.form) {
-          if (item !== 'imgFile') {
+          if (item !== 'img_file') {
             this.form[item] = ''
           }
         }
@@ -144,17 +143,19 @@
       },
       // 提交内容
       publish () {
-        console.log(this.form)
-        /*this.$http.post('/article', {
-          content: this.form.content,
-        })
+        let form = new FormData()
+        form.append('content', this.form.content)
+        form.append('author', this.$store.state.loginMessage.student_id)
+        form.append('title', this.form.title)
+        form.append('time', this.$now())
+        form.append('img_file', this.form.img_file)
+
+        this.$http.post('/news/add', form)
           .then(res => {
-            this.$check(res.data, '文章发布成功', () => {
-              this.form.content = ''
-              // 还原编辑器的内容
-              this.$refs.myQuillEditor.quill.container.children[0].innerHTML = ''
-            })
-          })*/
+            if (this.$jwt(res.data)) {
+              console.log(res.data)
+            }
+          })
       },
       // 获取富文本编辑器内容
       onEditorChange (event) {
@@ -167,19 +168,19 @@
         let form = new FormData()
         form.append('img', file)
 
-        /*this.$http.post('/img', form)
+        this.$http.post('/news/save_img', form)
           .then(res => {
-            this.$check(res.data, false, () => {
-              let quill = this.$refs.myQuillEditor.quill;
+            if (this.$jwt(res.data)) {
+              let quill = this.$refs.myQuillEditor.quill
 
               // 获取光标所在位置
-              let length = quill.getSelection().index;
-              // 插入图片，resres.data.imgUrl 为服务器返回的图片链接地址
-              quill.insertEmbed(length, 'image', res.data.imgUrl);
+              let length = quill.getSelection().index
+              // 插入图片，res.data.img 为服务器返回的图片链接地址
+              quill.insertEmbed(length, 'image', res.data.img)
               // 调整光标到最后
               quill.setSelection(length + 1)
-            });
-          })*/
+            }
+          })
       }
     }
   }
@@ -299,7 +300,7 @@
                 }
             }
 
-            .imgPut {
+            .ImgPut {
                 opacity: 0;
                 height: 0;
             }
