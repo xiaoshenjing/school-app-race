@@ -1,7 +1,6 @@
 var express = require('express')
 var path = require('path')
 var logger = require('morgan')
-var cookieParser = require('cookie-parser')
 
 let commonFun = require('./commonFun')
 var goodsRouter = require('./routes/goods')
@@ -23,9 +22,6 @@ app.use(logger('dev'))
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
 
-// 若需要使用签名，需要指定一个 secret 字符串,否者会报错
-app.use(cookieParser('xiaoze'))
-
 app.use(express.static(path.join(__dirname, 'public')))
 
 /* add data */
@@ -44,20 +40,20 @@ app.use('/add', function (req, res, next) {
   }
 })*/
 
-// 验证 token 是否过期
+// 验证 token 是否过期，以及全局处理中间件
 app.use(function (req, res, next) {
-  if (req.url !== '/users/login') {
-    commonFun.checkToken(req.headers.token, function (flag) {
-      res.cookie('userId', { username: '123' }, { maxAge: 1000 * 24 * 60 * 60 * 7, httpOnly: true, signed: false })
-      console.log('signedCookies:', req.signedCookies, ';cookies:', req.JSONCookies, ';cookies:', req.cookies)
-
+  if (req.url === '/users/login') {
+    next()
+  } else {
+    commonFun.checkToken(req.headers.token, function (flag, userId) {
       if (flag) {
         return res.status(200).json({
-          result: false,
           reason: '登陆状态过期，请重新登陆',
           jwt: true
         })
       }
+      req.userId = userId
+      req.publicUrl = 'http://10.14.4.153:3000/public'
       next()
     })
   }
@@ -72,10 +68,11 @@ app.use('/news', newsRouter)
 app.use(function (err, req, res, next) {
   if (err.reason) {
     console.log(err)
-    return res.status(200).json(err)
+    res.status(200).json(err)
   }
+
   console.log(err)
-  return res.status(200).json({
+  res.status(200).json({
     result: false,
     reason: '服务器错误'
   })

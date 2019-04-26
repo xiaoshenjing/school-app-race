@@ -12,7 +12,7 @@ function checkToken (token, callback) {
     if (err) {
       callback(true)
     } else {
-      callback(false)
+      callback(false, decode.userId)
     }
   })
 }

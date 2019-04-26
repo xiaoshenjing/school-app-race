@@ -9,13 +9,10 @@ let Users = require('../models/users')
 // 登陆
 router.post('/login', async function (req, res, next) {
   try {
-    let body = req.body
-    let search = await Users.findOne(body)
+    let user = req.body
+    let search = await Users.findOne(user)
     if (search) {
       let jwt = commonFun.creatToken(search.school_id, search._id)
-
-      // 保存 userId
-      res.cookie('userId', search._id, { maxAge: 1000 * 24 * 60 * 60 * 7, signed: false })
 
       return res.status(200).json({
         result: true,

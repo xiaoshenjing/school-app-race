@@ -1,10 +1,10 @@
 <template>
     <div id="app">
         <v-tip></v-tip>
-        <v-enter></v-enter>
-        <v-header></v-header>
-        <v-main></v-main>
-        <v-footer></v-footer>
+        <v-login v-show="show"></v-login>
+        <v-header v-show="!show"></v-header>
+        <v-main v-show="!show"></v-main>
+        <v-footer v-show="!show"></v-footer>
     </div>
 </template>
 
@@ -15,8 +15,13 @@
       VHeader: () => import('@/components/header/VHeader'),
       VMain: () => import('@/components/main/VMain'),
       VFooter: () => import('@/components/footer/VFooter'),
-      VEnter: () => import('@/components/VEnter'),
+      VLogin: () => import('@/components/VLogin'),
       VTip: () => import('@/components/VTip')
+    },
+    computed: {
+      show () {
+        return !this.$store.state.login
+      }
     },
     methods: {
       init () {

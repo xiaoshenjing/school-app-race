@@ -24,6 +24,12 @@ commonFun.install = function (Vue) {
       return true
     }
   }
+
+  // 获取标准时间
+  Vue.prototype.$now = function () {
+    let standard = new Date()
+    return `${standard.getFullYear()}-${standard.getMonth() + 1}-${standard.getDate()} ${standard.getHours()}:${standard.getMinutes()}:${standard.getSeconds()}`
+  }
 }
 
 export default commonFun

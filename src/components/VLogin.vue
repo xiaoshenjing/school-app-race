@@ -1,6 +1,6 @@
 <template>
     <transition name="enter">
-        <div class="enter" v-show="show">
+        <div class="enter">
             <div class="login">
                 <div class="select-wrapper">
                     <label for="select">学校：</label>
@@ -35,11 +35,6 @@
           password: '',
         },
         empty: ''
-      }
-    },
-    computed: {
-      show () {
-        return !this.$store.state.login
       }
     },
     methods: {

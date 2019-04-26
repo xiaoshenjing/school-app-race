@@ -5,50 +5,32 @@ mongoose.connect('mongodb://localhost/user')
 const Schema = mongoose.Schema
 
 const goodsSchema = new Schema({
-  carousel: [
+  select: Number,
+  price: Number,
+  watch: Number,
+  count: {
+    type: Number,
+    default: 0
+  },
+  src: Array,
+  title: String,
+  time: String,
+  comment: [
     {
-      src: {
-        type: String,
-        default: '',
-      },
-      href: String
-    }
-  ],
-  goods: [
-    {
-      select: Number,
-      price: Number,
-      watch: Number,
-      count: {
-        type: Number,
-        default: 0
-      },
-      src: Array,
-      title: String,
-      time: {
-        type: Date,
-        default: Date.now,
-      },
-      comment: [
+      person: String,
+      time: String,
+      content: String,
+      callback: [
         {
           person: String,
-          time: {
-            type: Date,
-            default: Date.now,
-          },
           content: String,
-          callback: [
-            {
-              person: String,
-              content: String,
-            }
-          ]
         }
-      ],
-      desc: String,
-      max_count: Number,
+      ]
     }
-  ]
+  ],
+  desc: String,
+  max_count: Number,
+  userId: String,
 })
 
 module.exports = mongoose.model('Good', goodsSchema)

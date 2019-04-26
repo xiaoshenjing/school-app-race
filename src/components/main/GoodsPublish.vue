@@ -42,19 +42,31 @@
           max_count: '',
           imgFile: [],
           title: '',
-          time: '',
         },
       }
     },
     methods: {
       publish () {
-        this.$http.post('/goods/add', {
-          select: this.select.num,
-          form: this.form
+        let form = new FormData()
+        this.form.imgFile.forEach(item => {
+          form.append('imgFile', item)
         })
+        form.append('select', this.select.num)
+        form.append('desc', this.form.desc)
+        form.append('price', this.form.price)
+        form.append('max_count', this.form.max_count)
+        form.append('title', this.form.title)
+        form.append('time', this.$now())
+
+        this.$http.post('/goods/add', form, { headers: { 'Content-Type': 'multipart/form-data' } })
           .then(res => {
             if (this.$jwt(res.data)) {
-              console.log(res)
+              if (res.data.result) {
+                this.deleteAll()
+                this.$store.commit('tip', { reason: res.data.reason, color: 'green', update: new Date() })
+              } else {
+                this.$store.commit('tip', { reason: res.data.reason, color: 'red', update: new Date() })
+              }
             }
           })
       },
