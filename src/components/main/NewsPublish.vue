@@ -66,7 +66,6 @@
       return {
         form: {
           title: '',
-          time: '',
           img_file: '',
           content: ''
         },
@@ -143,6 +142,24 @@
       },
       // 提交内容
       publish () {
+        // check empty
+        let empty = this.$checkEmpty(this.form)
+        if (empty) {
+          switch (empty) {
+            case 'title':
+              this.$store.commit('tip', { reason: '请输入趣事标题', color: 'red', update: new Date() })
+              break
+            case 'img_file':
+              this.$store.commit('tip', { reason: '请上传并剪裁展示图片', color: 'red', update: new Date() })
+              break
+            case 'content':
+              this.$store.commit('tip', { reason: '趣事内容不能为空', color: 'red', update: new Date() })
+              break
+          }
+          return
+        }
+
+        // publish
         let form = new FormData()
         form.append('content', this.form.content)
         form.append('author', this.$store.state.loginMessage.student_id)
@@ -153,7 +170,8 @@
         this.$http.post('/news/add', form)
           .then(res => {
             if (this.$jwt(res.data)) {
-              console.log(res.data)
+              this.deleteAll()
+              this.$store.commit('tip', { reason: res.data.reason, color: 'green', update: new Date() })
             }
           })
       },
