@@ -34,14 +34,14 @@
                     <div class="count">库存：{{goodsData.max_count}}</div>
                 </div>
                 <div class="purchase">
-                    <div class="price">￥{{goodsData.price}}</div>
+                    <div class="price">￥{{goodsData.price.toFixed(2)}}</div>
                     <div class="add-cart" @click="addCart">添加到购物车</div>
                 </div>
             </div>
             <div class="main">
                 <div class="desc">商品描述：{{goodsData.desc}}</div>
             </div>
-            <comment :comment="goodsData.comment"></comment>
+            <comment :comment="goodsData.comment" :goodsId="goodsData._id"></comment>
         </div>
     </div>
 </template>
@@ -65,19 +65,21 @@
     methods: {
       getData () {
         this.goodsData = this.$store.state.goodsShow
+        console.log(this.goodsData)
         this.select.length = this.$store.state.goodsShow.src.length
       },
       carousel (direction) {
         switch (direction) {
           case 'left':
             this.select.arrow = 'left'
-            this.select.num === 0 ? this.select.num = 2 : this.select.num--
+            this.select.num === 0 ? this.select.num = this.select.length - 1 : this.select.num--
             break
           case 'right':
             this.select.arrow = 'right'
-            this.select.num === 2 ? this.select.num = 0 : this.select.num++
+            this.select.num === this.select.length - 1 ? this.select.num = 0 : this.select.num++
             break
         }
+
         if (typeof direction === 'number') {
           if (direction > this.select.num) {
             this.select.arrow = 'right'
@@ -136,7 +138,7 @@
                     left: 0;
                     width: 100%;
                     height: 100%;
-                    opacity: .6;
+                    opacity: 1;
                 }
 
                 &.left-enter-active, &.left-leave-active, &.right-enter-active, &.right-leave-active {

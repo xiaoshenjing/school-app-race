@@ -7,7 +7,7 @@
                 </div>
                 <div class="content">
                     <div class="title">{{good.title}}</div>
-                    <div class="price">￥ {{good.price}}</div>
+                    <div class="price">￥ {{good.price.toFixed(2)}}</div>
                     <count class="count" :good="good"></count>
                 </div>
             </div>
@@ -39,7 +39,7 @@
                         <div class="item" v-for="(good,index) in cartList" :key="index">
                             <div class="show">
                                 <span class="name">{{good.title}}</span>
-                                <span class="price">￥{{good.count * good.price}}</span>
+                                <span class="price">￥{{(good.count * good.price).toFixed(2)}}</span>
                             </div>
                             <count class="count" :good="good"></count>
                         </div>
@@ -137,7 +137,7 @@
 
                 img {
                     border-radius: 10px;
-                    @include img(.4)
+                    @include img(.8)
                 }
             }
 

@@ -38,18 +38,17 @@
     },
     data () {
       return {
-        loading: true,
+        loading: false,
         goods: [],
         carousel: []
       }
     },
     methods: {
       getData () {
-        this.$api.post('/home')
+        this.$http.get('/goods')
           .then((res) => {
-            if (res.status === 200) {
+            if (this.$jwt(res.data)) {
               this.goods = res.data.goods
-              this.carousel = res.data.carousel
             }
           })
       }

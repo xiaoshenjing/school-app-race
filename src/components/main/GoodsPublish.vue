@@ -82,7 +82,7 @@
         form.append('title', this.form.title)
         form.append('time', this.$now())
 
-        this.$http.post('/goods/add', form, { headers: { 'Content-Type': 'multipart/form-data' } })
+        this.$http.post('/goods', form, { headers: { 'Content-Type': 'multipart/form-data' } })
           .then(res => {
             if (this.$jwt(res.data)) {
               this.deleteAll()

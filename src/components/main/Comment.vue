@@ -1,32 +1,21 @@
 <template>
     <div class="wrapper">
         <div class="post">
-            <textarea class="comment"></textarea>
-            <button class="submit">发布</button>
+            <textarea class="comment" v-model="content"></textarea>
+            <button class="submit" @click="submit">发表留言</button>
         </div>
         <transition name="comment" mode="out-in">
-            <div v-if="arrowFlag&&comment" class="all">
+            <div v-if="arrowFlag&&comment.length" class="all">
                 <div class="item" v-for="(item,index) in comment" :key="index">
                     <div class="origin">
                         <div class="person">{{item.person}}</div>
                         <div class="time">{{item.time}}</div>
                     </div>
                     <div class="content">{{item.content}}</div>
-
-                    <div class="callback-wrapper" v-if="item.callback">
-                        <div class="callback" v-for="(callback,index) in item.callback" :key="index">
-                            <span class="name">{{callback.person}}：</span>&nbsp;
-                            <span class="back">{{callback.content}}</span>
-                        </div>
-                        <div class="send">
-                            <textarea class="comment"></textarea>
-                            <i class="material-icons" @click="send">send</i>
-                        </div>
-                    </div>
                 </div>
             </div>
         </transition>
-        <div class="all-comment" @click="arrowFlag=!arrowFlag">
+        <div class="all-comment" @click="arrowFlag=!arrowFlag" v-if="comment.length">
             <span class="text">{{arrowFlag?'收起留言':'展开留言'}}</span>
             <i class="material-icons" v-show="!arrowFlag">keyboard_arrow_down</i>
             <i class="material-icons" v-show="arrowFlag">keyboard_arrow_up</i>
@@ -40,17 +29,47 @@
     props: {
       comment: {
         type: Array
+      },
+      goodsId: {
+        type: String
       }
     },
     data () {
       return {
         arrowFlag: false,
+        content: ''
       }
     },
     methods: {
-      send () {
-        console.log(123)
+      submit () {
+        if (!this.content) {
+          return this.$store.commit('tip', { reason: '内容不能为空', color: 'red', update: new Date() })
+        }
+
+        this.$http.post('/goods/comment', {
+          goodsId: this.goodsId,
+          person: this.$store.state.loginMessage.student_id,
+          time: this.$now(),
+          content: this.content
+        })
+          .then(res => {
+            if (this.$jwt(res.data)) {
+              this.comment.unshift({
+                content: this.content,
+                person: this.$store.state.loginMessage.student_id,
+                time: this.$now(),
+              })
+            }
+            this.$store.commit('tip', { reason: res.data.reason, color: 'green', update: new Date() })
+            this.content = ''
+          })
+      },
+      init () {
+        this.comment.reverse()
       }
+    },
+    created () {
+      this.init()
     }
   }
 </script>
@@ -78,7 +97,7 @@
             }
 
             .submit {
-                width: 6rem;
+                width: 9rem;
                 height: 3rem;
                 border-radius: 10px;
                 border: none;
@@ -87,6 +106,7 @@
                 text-align: center;
                 font-size: 14px;
                 color: $white;
+                letter-spacing: 2px;
 
                 &:active {
                     background-color: $grey;
@@ -144,55 +164,6 @@
                 .content {
                     font-size: 14px;
                     color: $font-color-2;
-                }
-
-                .callback-wrapper {
-                    display: flex;
-                    flex-direction: column;
-                    justify-content: center;
-                    align-items: flex-start;
-
-                    .callback {
-                        margin: 10px 5px 0;
-                        font-size: 12px;
-
-                        .name {
-                            color: $blue;
-                        }
-
-                        .back {
-                            color: $grey;
-                        }
-                    }
-
-                    .send {
-                        position: relative;
-                        width: 34rem;
-                        align-self: self-end;
-                        padding: 1rem;
-
-                        .comment {
-                            width: 100%;
-                            height: 3rem;
-                            border-radius: 10px;
-                            outline: none;
-                            box-sizing: border-box;
-                            border: 1px solid $grey;
-                            padding: 4px 2.8rem 4px 4px;
-                        }
-
-                        .material-icons {
-                            position: absolute;
-                            font-size: 20px;
-                            right: 2rem;
-                            top: 42%;
-                            transform: translateY(-50%) rotate(-30deg);
-
-                            &:active {
-                                color: $orange;
-                            }
-                        }
-                    }
                 }
 
                 &:last-of-type {

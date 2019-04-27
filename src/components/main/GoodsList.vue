@@ -8,7 +8,7 @@
                     </div>
                     <div class="desc">
                         <div class="title">{{item.title}}</div>
-                        <div class="price">￥{{item.price|formatPrice}}</div>
+                        <div class="price">￥{{item.price.toFixed(2)}}</div>
                         <div class="watch"><i class="material-icons">visibility</i>&nbsp;&nbsp;{{item.watch}}</div>
                     </div>
                 </div>
@@ -21,7 +21,7 @@
                     </div>
                     <div class="desc">
                         <div class="title">{{item.title}}</div>
-                        <div class="price">￥{{item.price|formatPrice}}</div>
+                        <div class="price">￥{{item.price.toFixed(2)}}</div>
                         <div class="watch"><i class="material-icons">visibility</i>&nbsp;&nbsp;{{item.watch}}</div>
                     </div>
                 </div>
@@ -62,13 +62,6 @@
         // setting goodsShow and router
         this.$store.commit('goodsShow', data)
         this.$router.push('/home/goodsShow')
-      }
-    },
-    filters: {
-      formatPrice (val) {
-        let str = String(val).split('.')
-        str = str[0] + '.' + str[1].padEnd(2, '0')
-        return str
       }
     },
     computed: {

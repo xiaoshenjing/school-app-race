@@ -17,7 +17,8 @@ const newsSchema = new Schema({
   comment: [
     {
       person: String,
-      content: String
+      content: String,
+      time: String,
     }
   ]
 })

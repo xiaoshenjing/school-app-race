@@ -22,7 +22,7 @@
     },
     data () {
       return {
-        loading: true,
+        loading: false,
         news: [],
         carousel: []
       }
@@ -30,11 +30,10 @@
     ,
     methods: {
       getData () {
-        this.$api.post('/find')
+        this.$http.get('/news')
           .then((res) => {
-            if (res.status === 200) {
+            if (this.$jwt(res.data)) {
               this.news = res.data.news
-              this.carousel = res.data.carousel
             }
           })
       }

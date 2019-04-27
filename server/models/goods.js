@@ -23,12 +23,6 @@ const goodsSchema = new Schema({
       person: String,
       time: String,
       content: String,
-      callback: [
-        {
-          person: String,
-          content: String,
-        }
-      ]
     }
   ],
   desc: String,

@@ -16,6 +16,7 @@
                         :autoCrop="true"
                         :fixed="true"
                         :canMove="false"
+                        v-show="previewImage.img"
                 ></vueCropper>
             </div>
             <div class="clip-wrapper">
@@ -133,12 +134,14 @@
       deleteAll () {
         // 清空表单
         for (let item in this.form) {
-          if (item !== 'img_file') {
-            this.form[item] = ''
-          }
+          this.form[item] = ''
         }
+        this.previewImage.img = ''
+
         // 清空富文本编辑器
         this.$refs.myQuillEditor.quill.container.children[0].innerHTML = ''
+
+        this.$refs.cropper.clearCrop()
       },
       // 提交内容
       publish () {
@@ -167,7 +170,7 @@
         form.append('time', this.$now())
         form.append('img_file', this.form.img_file)
 
-        this.$http.post('/news/add', form)
+        this.$http.post('/news', form)
           .then(res => {
             if (this.$jwt(res.data)) {
               this.deleteAll()
