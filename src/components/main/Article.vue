@@ -7,11 +7,12 @@
             <div class="watches"><i class="material-icons">visibility</i>&nbsp;&nbsp;{{aData.watches}}</div>
         </div>
         <div class="content-wrapper">
-            <div class="content" v-for="(item,index) in aData.content" :key="index">
-                {{item}}
+            <div class="ql-container ql-snow content">
+                <div class="ql-editor" ref="content">
+                </div>
             </div>
         </div>
-        <comment class="comment" :comment="aData.comment"></comment>
+        <comment class="comment" :id="{newsId:aData._id}" :comment="aData.comment"></comment>
     </div>
 </template>
 
@@ -28,10 +29,13 @@
     },
     methods: {
       getData () {
-        this.aData = this.$store.state.article
+        this.$nextTick(() => {
+          this.aData = this.$store.state.article
+          this.$refs.content.innerHTML = this.aData.content
+        })
       }
     },
-    created () {
+    mounted () {
       this.getData()
     }
   }
@@ -68,13 +72,6 @@
 
         .content-wrapper {
             padding: 15px;
-
-            .content {
-                text-indent: 2em;
-                font-size: 16px;
-                line-height: 24px;
-                margin-bottom: 10px;
-            }
         }
 
     }

@@ -58,6 +58,7 @@ router.post('/', upload.single('img_file'), async function (req, res, next) {
 router.get('/', async function (req, res, next) {
   try {
     let news = await News.find()
+
     if (news) {
       return res.status(200).json({
         result: true,
@@ -66,6 +67,34 @@ router.get('/', async function (req, res, next) {
     }
 
     next({ result: false, reason: '发布失败' })
+  } catch (err) {
+    next(err)
+  }
+})
+
+// 趣事留言
+router.post('/comment', async function (req, res, next) {
+  try {
+    let comment = req.body
+    let findNews = await News.findByIdAndUpdate(comment.newsId, {
+      $push: {
+        comment: {
+          time: comment.time,
+          content: comment.content,
+          person: comment.person,
+        }
+      }
+    })
+    console.log(findNews)
+
+    if (findNews) {
+      return res.status(200).json({
+        result: true,
+        reason: '发表成功'
+      })
+    }
+
+    next({ result: false, reason: '发表失败' })
   } catch (err) {
     next(err)
   }

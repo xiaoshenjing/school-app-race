@@ -41,7 +41,7 @@
             <div class="main">
                 <div class="desc">商品描述：{{goodsData.desc}}</div>
             </div>
-            <comment :comment="goodsData.comment" :goodsId="goodsData._id"></comment>
+            <comment :comment="goodsData.comment" :id="{goodsId:goodsData._id}"></comment>
         </div>
     </div>
 </template>

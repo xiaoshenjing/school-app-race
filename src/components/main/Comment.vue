@@ -30,8 +30,14 @@
       comment: {
         type: Array
       },
-      goodsId: {
-        type: String
+      id: {
+        type: Object,
+        default: function () {
+          return {
+            newsId: '',
+            goodsId: ''
+          }
+        }
       }
     },
     data () {
@@ -46,26 +52,49 @@
           return this.$store.commit('tip', { reason: '内容不能为空', color: 'red', update: new Date() })
         }
 
-        this.$http.post('/goods/comment', {
-          goodsId: this.goodsId,
-          person: this.$store.state.loginMessage.student_id,
-          time: this.$now(),
-          content: this.content
-        })
-          .then(res => {
-            if (this.$jwt(res.data)) {
-              this.comment.unshift({
-                content: this.content,
-                person: this.$store.state.loginMessage.student_id,
-                time: this.$now(),
-              })
-            }
-            this.$store.commit('tip', { reason: res.data.reason, color: 'green', update: new Date() })
-            this.content = ''
+        if (this.id.goodsId) {
+          this.$http.post('/goods/comment', {
+            goodsId: this.goodsId,
+            person: this.$store.state.loginMessage.student_id,
+            time: this.$now(),
+            content: this.content
           })
+            .then(res => {
+              if (this.$jwt(res.data)) {
+                this.comment.unshift({
+                  content: this.content,
+                  person: this.$store.state.loginMessage.student_id,
+                  time: this.$now(),
+                })
+              }
+              this.$store.commit('tip', { reason: res.data.reason, color: 'green', update: new Date() })
+              this.content = ''
+            })
+        } else {
+          this.$http.post('/news/comment', {
+            newsId: this.newsId,
+            person: this.$store.state.loginMessage.student_id,
+            time: this.$now(),
+            content: this.content
+          })
+            .then(res => {
+              if (this.$jwt(res.data)) {
+                this.comment.unshift({
+                  content: this.content,
+                  person: this.$store.state.loginMessage.student_id,
+                  time: this.$now(),
+                })
+              }
+              this.$store.commit('tip', { reason: res.data.reason, color: 'green', update: new Date() })
+              this.content = ''
+            })
+        }
       },
+
       init () {
-        this.comment.reverse()
+        this.$nextTick(() => {
+          this.comment.reverse()
+        })
       }
     },
     created () {

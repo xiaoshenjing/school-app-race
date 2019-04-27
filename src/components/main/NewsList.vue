@@ -10,7 +10,7 @@
                 <p><span>#{{item.author}}#</span> {{item.title}}</p>
             </div>
             <div class="img">
-                <img :src="item.src" alt="" @click.prevent="" width="100%" height="100%">
+                <img :src="item.img_file" alt="" @click.prevent="" width="100%" height="100%">
             </div>
             <div class="popular">
                     <span>
@@ -74,7 +74,7 @@
             margin-bottom: 10px;
             padding: 10px;
             box-sizing: border-box;
-            @include img(.4);
+            @include img(.9);
         }
 
         .popular {
