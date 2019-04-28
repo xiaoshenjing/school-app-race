@@ -17,7 +17,7 @@
                         {{item.time}}
                     </span>
                 <div class="right">
-                    <span><i class="material-icons">visibility</i>&nbsp;&nbsp;{{item.watches}}</span>
+                    <span><i class="material-icons">visibility</i>&nbsp;&nbsp;{{item.watch}}</span>
                 </div>
             </div>
         </div>

@@ -54,8 +54,7 @@ app.use(function (req, res, next) {
       }
       req.userId = userId
       // req.publicUrl = 'http://10.14.4.153:3000/public'// dt
-      req.publicUrl = 'http://172.16.153.6:3000/public'// 校园网 教十
-      // req.publicUrl = 'http://172.16.52.123:3000/public'// 校园网 教十二
+      req.publicUrl = 'http://172.16.77.178:3000/public'// 校园网
       // req.publicUrl = 'http://192.168.43.87:3000/public'// 手机
       next()
     })
@@ -70,12 +69,11 @@ app.use('/news', newsRouter)
 // 全局处理错误
 app.use(function (err, req, res, next) {
   if (err.reason) {
-    console.log(err)
-    res.status(200).json(err)
+    return res.status(200).json(err)
   }
 
   console.log(err)
-  res.status(200).json({
+  return res.status(200).json({
     result: false,
     reason: '服务器错误'
   })

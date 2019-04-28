@@ -76,6 +76,7 @@ router.get('/', async function (req, res, next) {
 router.post('/comment', async function (req, res, next) {
   try {
     let comment = req.body
+
     let findNews = await News.findByIdAndUpdate(comment.newsId, {
       $push: {
         comment: {
@@ -85,8 +86,6 @@ router.post('/comment', async function (req, res, next) {
         }
       }
     })
-    console.log(findNews)
-
     if (findNews) {
       return res.status(200).json({
         result: true,
@@ -95,6 +94,28 @@ router.post('/comment', async function (req, res, next) {
     }
 
     next({ result: false, reason: '发表失败' })
+  } catch (err) {
+    next(err)
+  }
+})
+
+// add watch
+router.post('/watch', async function (req, res, next) {
+  try {
+    let watch = req.body
+    let findNews = await News.findOne({ _id: Object(watch.newsId) })
+
+    findNews.watch++
+
+    let updateWatch = await News.findByIdAndUpdate(watch.newsId, {
+      watch: findNews.watch
+    })
+
+    if (updateWatch) {
+      return res.status(200).json({
+        result: true
+      })
+    }
   } catch (err) {
     next(err)
   }

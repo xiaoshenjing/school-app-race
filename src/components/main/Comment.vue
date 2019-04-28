@@ -51,10 +51,9 @@
         if (!this.content) {
           return this.$store.commit('tip', { reason: '内容不能为空', color: 'red', update: new Date() })
         }
-
         if (this.id.goodsId) {
           this.$http.post('/goods/comment', {
-            goodsId: this.goodsId,
+            goodsId: this.id.goodsId,
             person: this.$store.state.loginMessage.student_id,
             time: this.$now(),
             content: this.content
@@ -66,13 +65,13 @@
                   person: this.$store.state.loginMessage.student_id,
                   time: this.$now(),
                 })
+                this.$store.commit('tip', { reason: res.data.reason, color: 'green', update: new Date() })
+                this.content = ''
               }
-              this.$store.commit('tip', { reason: res.data.reason, color: 'green', update: new Date() })
-              this.content = ''
             })
         } else {
           this.$http.post('/news/comment', {
-            newsId: this.newsId,
+            newsId: this.id.newsId,
             person: this.$store.state.loginMessage.student_id,
             time: this.$now(),
             content: this.content
@@ -84,20 +83,18 @@
                   person: this.$store.state.loginMessage.student_id,
                   time: this.$now(),
                 })
+                this.$store.commit('tip', { reason: res.data.reason, color: 'green', update: new Date() })
+                this.content = ''
               }
-              this.$store.commit('tip', { reason: res.data.reason, color: 'green', update: new Date() })
-              this.content = ''
             })
         }
       },
 
       init () {
-        this.$nextTick(() => {
-          this.comment.reverse()
-        })
+        this.comment.reverse()
       }
     },
-    created () {
+    mounted () {
       this.init()
     }
   }

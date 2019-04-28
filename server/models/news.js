@@ -9,7 +9,7 @@ const newsSchema = new Schema({
   title: String,
   content: String,
   time: String,
-  watches: {
+  watch: {
     type: Number,
     default: 0
   },

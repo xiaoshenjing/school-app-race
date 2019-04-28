@@ -29,13 +29,19 @@
     },
     methods: {
       getData () {
+        this.aData = this.$store.state.article
+
         this.$nextTick(() => {
-          this.aData = this.$store.state.article
           this.$refs.content.innerHTML = this.aData.content
         })
-      }
+
+        // watch
+        this.$http.post('/news/watch', {
+          newsId: this.aData._id
+        })
+      },
     },
-    mounted () {
+    created () {
       this.getData()
     }
   }

@@ -83,4 +83,26 @@ router.post('/comment', async function (req, res, next) {
   }
 })
 
+// add watch
+router.post('/watch', async function (req, res, next) {
+  try {
+    let watch = req.body
+    let findGoods = await Goods.findOne({ _id: Object(watch.goodsId) })
+
+    findGoods.watch++
+
+    let updateWatch = await Goods.findByIdAndUpdate(watch.goodsId, {
+      watch: findGoods.watch
+    })
+
+    if (updateWatch) {
+      return res.status(200).json({
+        result: true
+      })
+    }
+  } catch (err) {
+    next(err)
+  }
+})
+
 module.exports = router

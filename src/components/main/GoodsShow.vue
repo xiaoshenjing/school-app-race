@@ -65,8 +65,12 @@
     methods: {
       getData () {
         this.goodsData = this.$store.state.goodsShow
-        console.log(this.goodsData)
         this.select.length = this.$store.state.goodsShow.src.length
+
+        // watch
+        this.$http.post('/goods/watch', {
+          goodsId: this.goodsData._id
+        })
       },
       carousel (direction) {
         switch (direction) {
@@ -105,7 +109,7 @@
         } else {
           alert('已添加到购物车')
         }
-      }
+      },
     },
     created () {
       this.getData()
