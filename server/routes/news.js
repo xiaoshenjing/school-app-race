@@ -14,6 +14,7 @@ let storage = multer.diskStorage({
 let upload = multer({ storage })
 
 let News = require('../models/news')
+let Users = require('../models/users')
 
 // 保存富文本编辑器图片
 router.post('/save_img', upload.single('img'), function (req, res, next) {
@@ -34,12 +35,19 @@ router.post('/save_img', upload.single('img'), function (req, res, next) {
   }
 })
 
-// 保存内容
+// 上传内容
 router.post('/', upload.single('img_file'), async function (req, res, next) {
   try {
     let news = req.body
     news.img_file = req.publicUrl + '/ign_upload/news/' + path.basename(req.file.path)
     let addNews = await new News(news).save()
+
+    // id 添加到我的趣事
+    await Users.update({ news: { $ne: Object(addNews._id) } }, {
+      $push: {
+        news: addNews._id.toString()
+      }
+    })
 
     if (addNews) {
       return res.status(200).json({

@@ -28,6 +28,13 @@ router.post('/', upload.array('img_file'), async function (req, res, next) {
 
     let addGoods = await new Goods(goods).save()
 
+    // id 添加到我的商品
+    await Users.update({ goods: { $ne: Object(addGoods._id) } }, {
+      $push: {
+        goods: addGoods._id.toString()
+      }
+    })
+
     if (addGoods) {
       return res.status(200).json({
         result: true,
@@ -90,25 +97,23 @@ router.post('/click', async function (req, res, next) {
     let watch = req.body
     let findGoods = await Goods.findOne({ _id: Object(watch.goodsId) })
 
-    // 查询商品 id 而不是用户 id
-    let updateUsers = await Users.update({ _id: { $ne: Object(req.userId) } }, {
-      $push: {
-        footStep: findGoods
-      }
-    })
-    console.log(updateUsers)
-
     findGoods.watch++
 
-    let updateWatch = await Goods.findByIdAndUpdate(watch.goodsId, {
+    // 更新 watch
+    await Goods.findByIdAndUpdate(watch.goodsId, {
       watch: findGoods.watch
     })
 
-    if (updateWatch) {
-      return res.status(200).json({
-        result: true
-      })
-    }
+    // 添加足迹
+    await Users.update({ 'footStep': { $ne: Object(watch.goodsId) } }, {
+      $push: {
+        footStep: watch.goodsId
+      }
+    })
+
+    return res.status(200).json({
+      result: true
+    })
   } catch (err) {
     next(err)
   }
