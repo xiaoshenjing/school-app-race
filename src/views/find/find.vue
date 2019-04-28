@@ -24,7 +24,11 @@
       return {
         loading: false,
         news: [],
-        carousel: []
+        carousel: [
+          { href: '#', src: 'find1.png' },
+          { href: '#', src: 'find2.png' },
+          { href: '#', src: 'find3.png' },
+        ]
       }
     }
     ,

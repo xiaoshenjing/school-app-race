@@ -47,6 +47,7 @@ let store = new Vuex.Store({
     tip: {},
     article: {},
     goodsShow: {},
+    publicPath: process.env.BASE_URL,
   },
   mutations: {
     token (state, str) {

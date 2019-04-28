@@ -25,7 +25,7 @@ app.use(express.urlencoded({ extended: false }))
 app.use('/public/', express.static(path.join(__dirname, 'public')))
 
 /* add data */
-/*let Users = require('./models/users')
+let Users = require('./models/users')
 app.use('/add', function (req, res, next) {
   try {
     let user = new Users({
@@ -38,7 +38,7 @@ app.use('/add', function (req, res, next) {
   } catch (err) {
     next(err)
   }
-})*/
+})
 
 // 验证 token 是否过期，以及全局处理中间件
 app.use(function (req, res, next) {
@@ -53,8 +53,8 @@ app.use(function (req, res, next) {
         })
       }
       req.userId = userId
-      // req.publicUrl = 'http://10.14.4.153:3000/public'// dt
-      req.publicUrl = 'http://172.16.77.178:3000/public'// 校园网
+      req.publicUrl = 'http://10.14.4.153:3000/public'// dt
+      // req.publicUrl = 'http://172.16.77.178:3000/public'// 校园网
       // req.publicUrl = 'http://192.168.43.87:3000/public'// 手机
       next()
     })

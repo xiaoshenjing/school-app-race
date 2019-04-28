@@ -14,6 +14,7 @@ let storage = multer.diskStorage({
 let upload = multer({ storage })
 
 let Goods = require('../models/goods')
+let Users = require('../models/users')
 
 // 上传商品
 router.post('/', upload.array('img_file'), async function (req, res, next) {
@@ -83,11 +84,19 @@ router.post('/comment', async function (req, res, next) {
   }
 })
 
-// add watch
-router.post('/watch', async function (req, res, next) {
+// 商品被点击触发的事件，watch、footerStep
+router.post('/click', async function (req, res, next) {
   try {
     let watch = req.body
     let findGoods = await Goods.findOne({ _id: Object(watch.goodsId) })
+
+    // 查询商品 id 而不是用户 id
+    let updateUsers = await Users.update({ _id: { $ne: Object(req.userId) } }, {
+      $push: {
+        footStep: findGoods
+      }
+    })
+    console.log(updateUsers)
 
     findGoods.watch++
 

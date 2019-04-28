@@ -67,8 +67,8 @@
         this.goodsData = this.$store.state.goodsShow
         this.select.length = this.$store.state.goodsShow.src.length
 
-        // watch
-        this.$http.post('/goods/watch', {
+        // click
+        this.$http.post('/goods/click', {
           goodsId: this.goodsData._id
         })
       },
@@ -177,7 +177,7 @@
                     height: $arrow_size;
                     border-radius: 50%;
                     box-shadow: 0 0 10px rgba(0, 0, 0, .3) inset;
-                    opacity: .4;
+                    opacity: .8;
                     @extend %block-center;
 
                     .material-icons {
@@ -194,7 +194,7 @@
                     }
 
                     &:active {
-                        opacity: .6;
+                        opacity: 1;
                         box-shadow: 0 0 20px rgba(0, 0, 0, .3) inset;
                     }
                 }
@@ -209,11 +209,12 @@
                     display: flex;
                     justify-content: center;
                     align-items: center;
-                    opacity: .4;
+                    opacity: .8;
 
                     .material-icons {
                         font-size: 18px;
                         margin: 5px;
+                        color: $grey;
                     }
                 }
             }

@@ -40,7 +40,13 @@
       return {
         loading: false,
         goods: [],
-        carousel: []
+        publicPath: process.env.BASE_URL,
+        carousel: [
+          { href: '#', src: 'goods1.png' },
+          { href: '#', src: 'goods2.png' },
+          { href: '#', src: 'goods3.png' },
+          { href: '#', src: 'goods4.png' },
+        ]
       }
     },
     methods: {

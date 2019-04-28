@@ -4,7 +4,7 @@
         <div class="person-wrapper">
             <div class="author">{{aData.author}}</div>
             <div class="time">{{aData.time}}</div>
-            <div class="watches"><i class="material-icons">visibility</i>&nbsp;&nbsp;{{aData.watches}}</div>
+            <div class="watches"><i class="material-icons">visibility</i>&nbsp;&nbsp;{{aData.watch}}</div>
         </div>
         <div class="content-wrapper">
             <div class="ql-container ql-snow content">
@@ -53,10 +53,10 @@
 
         .title {
             text-align: center;
-            font-size: 24px;
-            color: $font-color-1;
-            font-weight: 700;
-            margin: 10px 0;
+            font-size: 18px;
+            color: $black;
+            font-weight: lighter;
+            margin: 20px 0;
         }
 
         .person-wrapper {

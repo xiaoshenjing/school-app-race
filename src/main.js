@@ -7,9 +7,9 @@ import commonFun from './commonFun'
 import 'element-ui/lib/theme-chalk/index.css'
 
 // 富文本编辑器
-import 'quill/dist/quill.core.css';
-import 'quill/dist/quill.snow.css';
-import 'quill/dist/quill.bubble.css';
+import 'quill/dist/quill.core.css'
+import 'quill/dist/quill.snow.css'
+import 'quill/dist/quill.bubble.css'
 
 Vue.use(ElementUI)
 Vue.use(VueRouter)
@@ -23,8 +23,8 @@ import 'material-design-icons-iconfont/dist/material-design-icons.css'
 
 // http
 let Http = Axios.create({
-  // baseURL: 'http://10.14.4.153:3000', // dt
-  baseURL: 'http://172.16.77.178:3000',// 校园网
+  baseURL: 'http://10.14.4.153:3000', // dt
+  // baseURL: 'http://172.16.77.178:3000',// 校园网
   // baseURL: 'http://192.168.43.87:3000',// 手机
   withCredentials: true,
 })
