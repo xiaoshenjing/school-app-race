@@ -31,15 +31,18 @@
       Divider: () => import('@/components/main/Divider')
     },
     watch: {
-      address: function (newVal,) {
-        this.$http.post('/users/address', {
-          address: newVal
-        })
-          .then(res => {
-            if (this.$jwt(res.data)) {
-              this.$store.commit('tip', { reason: res.data.reason, color: 'red', update: new Date() })
-            }
+      address: function (newVal, oldVal) {
+        console.log(oldVal)
+        if (oldVal.length) {
+          this.$http.post('/users/address', {
+            address: newVal
           })
+            .then(res => {
+              if (this.$jwt(res.data)) {
+                this.$store.commit('tip', { reason: res.data.reason, color: 'green', update: new Date() })
+              }
+            })
+        }
       }
     },
     methods: {
@@ -49,8 +52,8 @@
         } else if (!this.$refs.address.value) {
           return this.$store.commit('tip', { reason: '地址不能为空', color: 'red', update: new Date() })
         }
-
         this.address.push({ pos: this.$refs.address.value, main: false })
+        this.$refs.address.value = ''
       },
       deleteAddress (id) {
         this.address.splice(id, 1)
@@ -67,7 +70,7 @@
         })
           .then(res => {
             if (this.$jwt(res.data)) {
-              this.$store.commit('tip', { reason: res.data.reason, color: 'red', update: new Date() })
+              this.$store.commit('tip', { reason: res.data.reason, color: 'green', update: new Date() })
             }
           })
       },

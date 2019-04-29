@@ -97,17 +97,17 @@
       addCart () {
         let once = true
         this.$store.state.shopCart.forEach(good => {
-          if (good.id === this.goodsData.id) {
+          if (good._id === this.goodsData._id) {
             once = false
           }
         })
 
         if (once) {
           this.once = false
-          alert('添加成功')
+          this.$store.commit('tip', { reason: '添加成功', color: 'green', update: new Date() })
           this.$store.commit('addShopCart', this.goodsData)
         } else {
-          alert('已添加到购物车')
+          this.$store.commit('tip', { reason: '已添加到购物车，请勿重复添加', color: 'yellow', update: new Date() })
         }
       },
     },

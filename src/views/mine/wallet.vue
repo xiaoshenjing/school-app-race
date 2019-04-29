@@ -11,10 +11,18 @@
 
 <script>
   export default {
-    props: {
-      personData: {
-        type: Object
+    data () {
+      return {
+        personData: ''
       }
+    },
+    methods: {
+      init () {
+        this.personData = this.$store.state.personMessage
+      }
+    },
+    created () {
+      this.init()
     }
   }
 </script>

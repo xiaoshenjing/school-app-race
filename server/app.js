@@ -29,7 +29,7 @@ let Users = require('./models/users')
 app.use('/add', function (req, res, next) {
   try {
     new Users({
-      school: '2',
+      school: '1',
       student_id: 'admin1',
       password: 'admin1'
     }).save()
@@ -51,8 +51,8 @@ app.use(function (req, res, next) {
         })
       }
       req.userId = userId
-      // req.publicUrl = 'http://10.14.4.153:3000/public'// dt
-      req.publicUrl = 'http://172.16.77.178:3000/public'// 校园网
+      req.publicUrl = 'http://10.14.4.153:3000/public'// dt
+      // req.publicUrl = 'http://172.16.77.178:3000/public'// 校园网
       // req.publicUrl = 'http://192.168.43.87:3000/public'// 手机
       next()
     })

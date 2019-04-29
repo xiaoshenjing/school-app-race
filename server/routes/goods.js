@@ -199,4 +199,24 @@ router.get('/user-foot-step', async function (req, res, next) {
   }
 })
 
+// 支付数据核实
+router.post('/pay-check', async function (req, res, next) {
+  try {
+    let payData = req.body.pay
+    for (let i = 0; i < payData.length; i++) {
+      let payCheck = await Goods.find({ _id: Object(payData[i].goodsId) })
+      payData[i].price = (payData[i].count * payCheck[0].price).toFixed(2)
+      payData[i].src = payCheck[0].src[0]
+      payData[i].title=payCheck[0].title
+    }
+
+    return res.status(200).json({
+      result: true,
+      pay_check: payData
+    })
+  } catch (err) {
+    next(err)
+  }
+})
+
 module.exports = router

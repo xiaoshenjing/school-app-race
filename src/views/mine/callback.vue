@@ -1,13 +1,27 @@
 <template>
     <div class="callback">
-        <textarea class="content"></textarea>
-        <button class="back-btn">提交反馈</button>
+        <textarea class="content" v-model="content"></textarea>
+        <button class="back-btn" @click="submit">提交反馈</button>
     </div>
 </template>
 
 <script>
   export default {
-    name: 'callback'
+    name: 'callback',
+    data () {
+      return {
+        content: ''
+      }
+    },
+    methods: {
+      submit () {
+        if (!this.content) {
+          return this.$store.commit('tip', { reason: '反馈内容不能为空', color: 'red', update: new Date() })
+        }
+        this.$store.commit('tip', { reason: '反馈成功，我们会认真采纳您的珍贵意见', color: 'green', update: new Date() })
+        this.content = ''
+      }
+    }
   }
 </script>
 

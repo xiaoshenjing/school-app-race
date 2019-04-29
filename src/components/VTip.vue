@@ -73,6 +73,7 @@
         justify-content: center;
         align-items: center;
         min-width: 60%;
+        max-width: 90%;
 
         .desc {
             width: 100%;

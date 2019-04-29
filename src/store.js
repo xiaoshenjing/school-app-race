@@ -20,7 +20,8 @@ let store = new Vuex.Store({
       reducer (val) {
         return {
           login: val.login,
-          loginMessage: val.loginMessage
+          loginMessage: val.loginMessage,
+          shopCart: val.shopCart
         }
       }
     }),

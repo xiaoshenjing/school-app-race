@@ -23,7 +23,7 @@
                 </div>
                 <div class="submit" :class="{active:allCount>0}">
                     <span class="text" v-if="allCount<=0">请添加购物车商品</span>
-                    <span class="text active" v-if="allCount>0">支付</span>
+                    <span class="text active" v-if="allCount>0" @click="submit">支付</span>
                 </div>
             </div>
             <transition name="list">
@@ -47,6 +47,7 @@
                 </div>
             </transition>
         </div>
+        <payment :pay="pay_check" ref="payment"></payment>
     </div>
 </template>
 
@@ -54,12 +55,15 @@
   export default {
     name: 'shopCart',
     components: {
-      Count: () => import('@/components/main/Count')
+      Count: () => import('@/components/main/Count'),
+      Payment: () => import('@/components/main/Payment')
     },
     data () {
       return {
         cart: [],
-        fold: true
+        fold: true,
+        pay: [],
+        pay_check: [],
       }
     },
     methods: {
@@ -79,6 +83,24 @@
       showDetail (data) {
         this.$store.commit('goodsShow', data)
         this.$router.push('/home/goodsShow')
+      },
+      submit () {
+        this.pay = []
+
+        for (let i = 0; i < this.cart.length; i++) {
+          this.pay.push({ goodsId: this.cart[i]._id, count: this.cart[i].count, time: this.$now() }
+          )
+        }
+
+        this.$http.post('/goods/pay-check', {
+          pay: this.pay
+        })
+          .then(res => {
+            if (this.$jwt(res.data)) {
+              this.$refs.payment.open()
+              this.pay_check = res.data.pay_check
+            }
+          })
       }
     },
     computed: {
