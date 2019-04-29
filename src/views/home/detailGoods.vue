@@ -34,26 +34,26 @@
 
         switch (this.select) {
           case '1':
-            this.$api.post('/home')
+            this.$http.get('/goods/self-running')
               .then(res => {
-                if (res.status === 200) {
-                  this.goods = res.data.goods
+                if (res.data) {
+                  this.goods = res.data.one
                 }
               })
             break
           case '2':
-            this.$api.post('/home')
+            this.$http.get('/goods/official-running')
               .then(res => {
-                if (res.status === 200) {
-                  this.goods = res.data.goods
+                if (res.data) {
+                  this.goods = res.data.two
                 }
               })
             break
           case '3':
-            this.$api.post('/home')
+            this.$http.get('/goods/entrusted-running')
               .then(res => {
-                if (res.status === 200) {
-                  this.goods = res.data.goods
+                if (res.data) {
+                  this.goods = res.data.three
                 }
               })
             break

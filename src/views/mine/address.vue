@@ -9,7 +9,7 @@
                 :lineWidth="'35%'"
                 :font="{color:'#ccc',fontSize:'16px'}"
         ></divider>
-        <div class="address" v-for="(item,index) in personData.address" :key="index">
+        <div class="address" v-show="address" v-for="(item,index) in address" :key="index">
             <div class="content">{{item.pos}}</div>
             <div class="set">
                 <div class="set-main" v-show="!item.main" @click="setAddress(index)">设为默认收获地址</div>
@@ -22,27 +22,61 @@
 
 <script>
   export default {
-    props: {
-      personData: {
-        type: Object
+    data () {
+      return {
+        address: []
       }
     },
     components: {
       Divider: () => import('@/components/main/Divider')
     },
+    watch: {
+      address: function (newVal,) {
+        this.$http.post('/users/address', {
+          address: newVal
+        })
+          .then(res => {
+            if (this.$jwt(res.data)) {
+              this.$store.commit('tip', { reason: res.data.reason, color: 'red', update: new Date() })
+            }
+          })
+      }
+    },
     methods: {
       addAddress () {
-        this.personData.address.push({ pos: this.$refs.address.value, main: false })
+        if (this.address.length > 5) {
+          return this.$store.commit('tip', { reason: '地址数量已达上线', color: 'red', update: new Date() })
+        } else if (!this.$refs.address.value) {
+          return this.$store.commit('tip', { reason: '地址不能为空', color: 'red', update: new Date() })
+        }
+
+        this.address.push({ pos: this.$refs.address.value, main: false })
       },
       deleteAddress (id) {
-        this.personData.address.splice(id, 1)
+        this.address.splice(id, 1)
       },
       setAddress (id) {
-        this.personData.address.forEach(item => {
+        this.address.forEach(item => {
           item.main = false
         })
-        this.personData.address[id].main = true
+        this.address[id].main = true
+
+        // submit
+        this.$http.post('/users/address', {
+          address: this.address
+        })
+          .then(res => {
+            if (this.$jwt(res.data)) {
+              this.$store.commit('tip', { reason: res.data.reason, color: 'red', update: new Date() })
+            }
+          })
+      },
+      init () {
+        this.address = this.$store.state.personMessage.address
       }
+    },
+    created () {
+      this.init()
     }
   }
 </script>

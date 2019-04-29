@@ -29,8 +29,8 @@ router.post('/', upload.array('img_file'), async function (req, res, next) {
     let addGoods = await new Goods(goods).save()
 
     // id 添加到我的商品
-    await Users.update({ goods: { $ne: Object(addGoods._id) } }, {
-      $push: {
+    await Users.update({ _id: Object(req.userId) }, {
+      $addToSet: {
         goods: addGoods._id.toString()
       }
     })
@@ -48,7 +48,7 @@ router.post('/', upload.array('img_file'), async function (req, res, next) {
   }
 })
 
-// 获取商品
+// 获取全部商品
 router.get('/', async function (req, res, next) {
   try {
     let getGoods = await Goods.find()
@@ -57,6 +57,54 @@ router.get('/', async function (req, res, next) {
       return res.status(200).json({
         result: true,
         goods: getGoods
+      })
+    }
+  } catch (err) {
+    next(err)
+  }
+})
+
+// 获取学生自营商品
+router.get('/self-running', async function (req, res, next) {
+  try {
+    let one = await Goods.find({ select: 0 })
+
+    if (one) {
+      return res.status(200).json({
+        result: true,
+        one: one
+      })
+    }
+  } catch (err) {
+    next(err)
+  }
+})
+
+// 获取校网经营商品
+router.get('/official-running', async function (req, res, next) {
+  try {
+    let two = await Goods.find({ select: 1 })
+
+    if (two) {
+      return res.status(200).json({
+        result: true,
+        two: two
+      })
+    }
+  } catch (err) {
+    next(err)
+  }
+})
+
+// 获取校会托售商品
+router.get('/entrusted-running', async function (req, res, next) {
+  try {
+    let three = await Goods.find({ select: 2 })
+
+    if (three) {
+      return res.status(200).json({
+        result: true,
+        three: three
       })
     }
   } catch (err) {
@@ -105,15 +153,47 @@ router.post('/click', async function (req, res, next) {
     })
 
     // 添加足迹
-    await Users.update({ 'footStep': { $ne: Object(watch.goodsId) } }, {
-      $push: {
+    await Users.update({ _id: Object(req.userId) }, {
+      $addToSet: {
         footStep: watch.goodsId
       }
     })
+  } catch (err) {
+    next(err)
+  }
+})
 
-    return res.status(200).json({
-      result: true
-    })
+// User goods
+router.get('/user-goods', async function (req, res, next) {
+  try {
+    let goodsId = req.query
+
+    let goods = await Goods.find({ _id: { $in: goodsId.ids } })
+
+    if (goods) {
+      return res.status(200).json({
+        result: true,
+        goods: goods
+      })
+    }
+  } catch (err) {
+    next(err)
+  }
+})
+
+// User footStep
+router.get('/user-foot-step', async function (req, res, next) {
+  try {
+    let footStepId = req.query
+
+    let footStep = await Goods.find({ _id: { $in: footStepId.ids } })
+
+    if (footStep) {
+      return res.status(200).json({
+        result: true,
+        footStep: footStep
+      })
+    }
   } catch (err) {
     next(err)
   }

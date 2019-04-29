@@ -27,4 +27,38 @@ router.post('/login', async function (req, res, next) {
   }
 })
 
+// get user message
+router.get('/', async function (req, res, next) {
+  try {
+    let user = await Users.findOne({ _id: Object(req.userId) })
+
+    if (user) {
+      res.status(200).json({
+        result: true,
+        personData: user
+      })
+    }
+  } catch (err) {
+    next(err)
+  }
+})
+
+// address
+router.post('/address', async function (req, res, next) {
+  try {
+    let address = req.body
+
+    await Users.update({ _id: Object(req.userId) }, {
+      address: address.address
+    })
+
+    res.status(200).json({
+      result: true,
+      reason: '修改成功'
+    })
+  } catch (err) {
+    next(err)
+  }
+})
+
 module.exports = router

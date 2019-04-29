@@ -43,8 +43,8 @@ router.post('/', upload.single('img_file'), async function (req, res, next) {
     let addNews = await new News(news).save()
 
     // id 添加到我的趣事
-    await Users.update({ news: { $ne: Object(addNews._id) } }, {
-      $push: {
+    await Users.update({ _id: Object(req.userId) }, {
+      $addToSet: {
         news: addNews._id.toString()
       }
     })
@@ -122,6 +122,24 @@ router.post('/watch', async function (req, res, next) {
     if (updateWatch) {
       return res.status(200).json({
         result: true
+      })
+    }
+  } catch (err) {
+    next(err)
+  }
+})
+
+// User news
+router.get('/user-news', async function (req, res, next) {
+  try {
+    let newsId = req.query
+
+    let news = await News.find({ _id: { $in: newsId.ids } })
+
+    if (news) {
+      return res.status(200).json({
+        result: true,
+        news: news
       })
     }
   } catch (err) {

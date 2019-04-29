@@ -3,7 +3,7 @@
         <div class="banner">
             <img src="./images/footStep.jpg" alt="">
         </div>
-        <goods-list :goodsData="personData.foot_step"></goods-list>
+        <goods-list :goodsData="footStep"></goods-list>
         <loading :loading="false"></loading>
     </div>
 </template>
@@ -15,13 +15,32 @@
       GoodsList: () => import('@/components/main/GoodsList'),
       Loading: () => import('@/components/main/Loading'),
     },
-    props: {
-      personData: {
-        type: Object
+    data () {
+      return {
+        personData: {},
+        footStep: []
+      }
+    },
+    methods: {
+      init () {
+        this.$store.commit('headerTitle', 'footStep')
+        this.personData = this.$store.state.personMessage
+
+        // get footStep
+        this.$http.get('/goods/user-foot-step', {
+          params: {
+            ids: this.personData.footStep
+          }
+        })
+          .then(res => {
+            if (this.$jwt(res.data)) {
+              this.footStep = res.data.footStep
+            }
+          })
       }
     },
     created () {
-      this.$store.commit('headerTitle', 'footStep')
+      this.init()
     }
   }
 </script>

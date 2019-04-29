@@ -35,11 +35,6 @@
 <script>
   export default {
     name: 'add',
-    props: {
-      personData: {
-        type: Object
-      }
-    },
     components: {
       GoodsPublish: () => import('@/components/main/GoodsPublish'),
       NewsPublish: () => import('@/components/main/NewsPublish')
@@ -47,7 +42,7 @@
     data () {
       return {
         select: {
-          name: ['学生自营', '校园经营', '校会托管', '校园趣事'],
+          name: ['学生自营', '校网经营', '校会托售', '校园趣事'],
           num: 0
         }
       }

@@ -47,24 +47,32 @@
 
 <script>
   export default {
-    props: {
-      personData: {
-        type: Object
-      }
-    },
     data () {
       return {
         titleNum: {
           news: 0,
           foot_step: 0,
           goods: 0,
-        }
+        },
+        personData: ''
       }
     },
-    mounted () {
-      this.titleNum.news = this.personData.news.length
-      this.titleNum.goods = this.personData.goods.length
-      this.titleNum.foot_step = this.personData.foot_step.length
+    methods: {
+      getData () {
+        this.$http.get('/users')
+          .then(res => {
+            if (this.$jwt(res.data)) {
+              this.personData = res.data.personData
+              this.$store.commit('personMessage', this.personData)
+              this.titleNum.news = this.personData.news.length
+              this.titleNum.goods = this.personData.goods.length
+              this.titleNum.foot_step = this.personData.footStep.length
+            }
+          })
+      },
+    },
+    created () {
+      this.getData()
     }
   }
 </script>

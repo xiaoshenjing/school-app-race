@@ -44,6 +44,7 @@ let store = new Vuex.Store({
     shopCart: [],
     footStep: [],
     loginMessage: {},
+    personMessage: {},
     tip: {},
     article: {},
     goodsShow: {},
@@ -71,6 +72,9 @@ let store = new Vuex.Store({
     },
     loginMessage (state, obj) {
       state.loginMessage = { school: obj.school, student_id: obj.student_id, password: obj.password }
+    },
+    personMessage (state, obj) {
+      state.personMessage = obj
     },
     article (state, str) {
       state.article = str
