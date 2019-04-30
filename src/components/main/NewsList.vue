@@ -35,7 +35,7 @@
     methods: {
       article (data) {
         this.$store.commit('article', data)
-        this.$router.push('/find/article')
+        this.$router.push('/article')
       }
     },
   }

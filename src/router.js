@@ -57,8 +57,8 @@ let router = new VueRouter({
     { path: '/mine/foot-step', component: FootStep },
 
     // components
-    { path: '/home/goodsShow', component: GoodsShow },
-    { path: '/find/article', component: Article },
+    { path: '/goodsShow', component: GoodsShow },
+    { path: '/article', component: Article },
 
     // all
     { path: '/set', component: Set }

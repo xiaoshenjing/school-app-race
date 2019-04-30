@@ -61,7 +61,7 @@
 
         // setting goodsShow and router
         this.$store.commit('goodsShow', data)
-        this.$router.push('/home/goodsShow')
+        this.$router.push('/goodsShow')
       }
     },
     computed: {

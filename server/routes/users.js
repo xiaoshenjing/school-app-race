@@ -104,4 +104,41 @@ router.get('/get-cart', async function (req, res, next) {
   }
 })
 
+// 获取订单
+router.get('/get-order', async function (req, res, next) {
+  try {
+    let user = await Users.findOne({ _id: Object(req.userId) })
+
+    return res.status(200).json({
+      result: true,
+      order: user.order
+    })
+  } catch (err) {
+    next(err)
+  }
+})
+
+// 获取订单内容
+router.get('/get-goods', async function (req, res, next) {
+  try {
+    let goodsId = req.query.id
+    console.log(goodsId)
+    let goods = await Goods.findOne({ _id: Object(goodsId) })
+
+    if (goods) {
+      return res.status(200).json({
+        result: true,
+        goods: goods
+      })
+    }
+
+    res.status(200).json({
+      result: false,
+      reason: '抱歉，该商品已下架'
+    })
+  } catch (err) {
+    next(err)
+  }
+})
+
 module.exports = router

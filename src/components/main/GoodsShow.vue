@@ -4,10 +4,10 @@
             <transition-group div="ul" class="carousel" :name="select.arrow" mode="out-in">
                 <li class="img-wrapper" v-for="(item,index) in goodsData.src" v-show="select.num===index"
                     :key="index">
-                    <img class="img" :src="item">
+                    <img class="img" :src="item" :class="select.num">
                 </li>
             </transition-group>
-            <div class="control">
+            <div class="control" v-if="this.select.length>1">
                 <div class="left" @click="carousel('left')">
                     <i class="material-icons">arrow_left</i>
                 </div>

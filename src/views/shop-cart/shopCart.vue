@@ -94,8 +94,7 @@
         this.pay = []
 
         for (let i = 0; i < this.cart.length; i++) {
-          this.pay.push({ goodsId: this.cart[i]._id, count: this.cart[i].count, time: this.$now() }
-          )
+          this.pay.push({ goodsId: this.cart[i]._id, count: this.cart[i].count, time: this.$now() })
         }
 
         this.$http.post('/goods/pay-check', {
