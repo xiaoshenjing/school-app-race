@@ -47,7 +47,7 @@
                 </div>
             </transition>
         </div>
-        <payment :pay="pay_check" ref="payment"></payment>
+        <payment :pay="pay_check" :sumPrice="Number(sumPrice)" ref="payment"></payment>
     </div>
 </template>
 
@@ -64,11 +64,17 @@
         fold: true,
         pay: [],
         pay_check: [],
+        sumPrice: 0,
       }
     },
     methods: {
       getData () {
-        this.cart = this.$store.state.shopCart
+        this.$http.get('/users/get-cart')
+          .then(res => {
+            if (this.$jwt(res.data)) {
+              this.cart = res.data.cart
+            }
+          })
       },
       controlList () {
         if (this.allCount > 0) {
@@ -99,6 +105,7 @@
             if (this.$jwt(res.data)) {
               this.$refs.payment.open()
               this.pay_check = res.data.pay_check
+              this.sumPrice = res.data.sumPrice
             }
           })
       }
@@ -265,10 +272,14 @@
                     width: 150px;
                     height: 70px;
                     background-color: #403e54;
-                    @extend %block-center;
 
 
                     .text {
+                        display: inline-block;
+                        width: 100%;
+                        height: 100%;
+                        line-height: 70px;
+                        text-align: center;
                         font-size: 16px;
                         color: $grey;
                     }

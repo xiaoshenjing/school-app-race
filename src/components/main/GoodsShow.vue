@@ -95,20 +95,14 @@
         }
       },
       addCart () {
-        let once = true
-        this.$store.state.shopCart.forEach(good => {
-          if (good._id === this.goodsData._id) {
-            once = false
-          }
+        this.$http.post('/users/add-cart', {
+          id: this.goodsData._id
         })
-
-        if (once) {
-          this.once = false
-          this.$store.commit('tip', { reason: '添加成功', color: 'green', update: new Date() })
-          this.$store.commit('addShopCart', this.goodsData)
-        } else {
-          this.$store.commit('tip', { reason: '已添加到购物车，请勿重复添加', color: 'yellow', update: new Date() })
-        }
+          .then(res => {
+            if (this.$jwt(res.data)) {
+              this.$store.commit('tip', { reason: res.data.reason, color: 'green', update: new Date() })
+            }
+          })
       },
     },
     created () {

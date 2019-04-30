@@ -21,7 +21,6 @@ let store = new Vuex.Store({
         return {
           login: val.login,
           loginMessage: val.loginMessage,
-          shopCart: val.shopCart
         }
       }
     }),
@@ -42,7 +41,6 @@ let store = new Vuex.Store({
     token: '',
     login: false,
     headerTitle: 'home',
-    shopCart: [],
     footStep: [],
     loginMessage: {},
     personMessage: {},
@@ -64,9 +62,6 @@ let store = new Vuex.Store({
     tip (state, obj) {
       // { reason: '', color: 'red/green/yellow', update: new Date() }
       state.tip = obj
-    },
-    addShopCart (state, obj) {
-      state.shopCart.push(obj)
     },
     footStep (state, obj) {
       state.footStep.push(obj)

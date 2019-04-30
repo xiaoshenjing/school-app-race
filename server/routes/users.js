@@ -5,6 +5,7 @@ let commonFun = require('../commonFun')
 
 // userSchema 的引入
 let Users = require('../models/users')
+let Goods = require('../models/goods')
 
 // 登陆
 router.post('/login', async function (req, res, next) {
@@ -55,6 +56,48 @@ router.post('/address', async function (req, res, next) {
     res.status(200).json({
       result: true,
       reason: '修改成功'
+    })
+  } catch (err) {
+    next(err)
+  }
+})
+
+// 加入购物车
+router.post('/add-cart', async function (req, res, next) {
+  try {
+    let goodsId = req.body.id
+    let addCart = await Users.update({ _id: Object(req.userId) }, {
+      $addToSet: {
+        cart: goodsId
+      }
+    })
+
+    if (addCart.nModified) {
+      return res.status(200).json({
+        result: true,
+        reason: '添加成功'
+      })
+    }
+
+    return res.status(200).json({
+      result: false,
+      reason: '已添加到购物车，请勿重复添加'
+    })
+  } catch (err) {
+    next(err)
+  }
+})
+
+// 获取购物车
+router.get('/get-cart', async function (req, res, next) {
+  try {
+    let user = await Users.findOne({ _id: Object(req.userId) })
+
+    let cart = await Goods.find({ _id: { $in: user.cart } })
+
+    return res.status(200).json({
+      result: true,
+      cart: cart
     })
   } catch (err) {
     next(err)

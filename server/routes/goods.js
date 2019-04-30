@@ -203,16 +203,61 @@ router.get('/user-foot-step', async function (req, res, next) {
 router.post('/pay-check', async function (req, res, next) {
   try {
     let payData = req.body.pay
+    let sumPrice = 0
+    let goodsMsg = []
     for (let i = 0; i < payData.length; i++) {
-      let payCheck = await Goods.find({ _id: Object(payData[i].goodsId) })
-      payData[i].price = (payData[i].count * payCheck[0].price).toFixed(2)
-      payData[i].src = payCheck[0].src[0]
-      payData[i].title=payCheck[0].title
+      if (payData[i].count > 0) {
+        let payCheck = await Goods.find({ _id: Object(payData[i].goodsId) })
+        goodsMsg.push({
+          price: (payData[i].count * payCheck[0].price).toFixed(2),
+          title: payCheck[0].title,
+          count: payData[i].count,
+          time: payCheck[0].time,
+          goodsId: payData[i].goodsId
+        })
+        sumPrice += payData[i].count * payCheck[0].price
+      }
     }
 
     return res.status(200).json({
       result: true,
-      pay_check: payData
+      pay_check: goodsMsg,
+      sumPrice: sumPrice.toFixed(2)
+    })
+  } catch (err) {
+    next(err)
+  }
+})
+
+// 确定支付
+router.post('/pay', async function (req, res, next) {
+  try {
+    let payData = req.body.pay
+    let goodsMsg = []
+
+    for (let i = 0; i < payData.length; i++) {
+      if (payData[i].count > 0) {
+        let payCheck = await Goods.find({ _id: Object(payData[i].goodsId) })
+        goodsMsg.push({
+          price: (payData[i].count * payCheck[0].price).toFixed(2),
+          title: payCheck[0].title,
+          src: payCheck[0].src[0],
+          count: payData[i].count,
+          time: payCheck[0].time,
+          goodsId: payData[i].goodsId
+        })
+      }
+    }
+
+    await Users.update({ _id: Object(req.userId) }, {
+      $addToSet: {
+        'order': { $each: goodsMsg }
+      }
+    })
+
+    return res.status(200).json({
+      result: true,
+      reason: '支付成功'
     })
   } catch (err) {
     next(err)

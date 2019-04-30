@@ -1,10 +1,24 @@
 <template>
     <transition name="payment" mode="out-in">
-        <div class="payment" v-show="flag" @click="hide">
+        <div class="payment" v-show="flag" @click.self="hide">
             <div class="pay-wrapper">
                 <div class="pay">
-                    Payment
-                    {{pay}}
+                    <div class="item" v-for="(item,index) in pay" :key="index">
+                        <div class="content">
+                            <div class="header">
+                                <div class="title">{{item.title}}</div>
+                                <div class="count">x {{item.count}}</div>
+                            </div>
+                            <div class="main">
+                                <div class="price">￥ {{item.price}}</div>
+                                <div class="time">{{item.time}}</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="sum">
+                        ￥ {{sumPrice}}
+                    </div>
+                    <button class="submit" @click="submit">确认支付</button>
                 </div>
             </div>
         </div>
@@ -15,6 +29,7 @@
   export default {
     props: {
       pay: Array,
+      sumPrice: Number
     },
     data () {
       return {
@@ -27,6 +42,17 @@
       },
       open () {
         this.flag = true
+      },
+      submit () {
+        this.$http.post('/goods/pay', {
+          pay: this.pay
+        })
+          .then(res => {
+            if (this.$jwt(res.data)) {
+              this.hide()
+              this.$store.commit('tip', { reason: res.data.reason, color: 'green', update: new Date() })
+            }
+          })
       }
     },
   }
@@ -50,7 +76,7 @@
             top: 50%;
             transform: translate(-50%, -50%);
             z-index: 20;
-            background-color: $white;
+            background-color: #fff;
             border-radius: 20px;
             padding: 20px;
             box-shadow: 0 0 30px rgba(0, 0, 0, .4);
@@ -60,6 +86,71 @@
                 width: 100%;
                 height: 100%;
                 overflow-y: scroll;
+
+                .item {
+                    width: 90%;
+                    margin: 0 auto 20px;
+                    border-radius: 10px;
+                    background-color: $white;
+                    padding: 10px;
+
+                    .content {
+                        font-size: 16px;
+
+                        .header {
+                            display: flex;
+                            justify-content: space-between;
+                            align-items: center;
+                            margin-bottom: 10px;
+
+                            .title {
+                                width: 70%;
+                                overflow: hidden;
+                                white-space: nowrap;
+                                text-overflow: ellipsis;
+                            }
+
+                            .count {
+                                color: $grey;
+                            }
+                        }
+
+                        .main {
+                            display: flex;
+                            justify-content: space-between;
+                            align-items: center;
+                            color: $grey;
+
+                            .price {
+                                color: $orange;
+                                font-size: 18px;
+                            }
+                        }
+                    }
+                }
+
+                .sum {
+                    width: 90%;
+                    padding: 10px;
+                    text-align: right;
+                    font-size: 24px;
+                    color: $orange;
+                    margin: 0 auto;
+                }
+
+                .submit {
+                    display: block;
+                    margin: 10px auto;
+                    width: 90%;
+                    height: 3rem;
+                    background-color: $black;
+                    border-radius: 10px;
+                    line-height: 3rem;
+                    font-size: 18px;
+                    color: $white;
+                    border: none;
+                    outline: none;
+                }
             }
         }
 
