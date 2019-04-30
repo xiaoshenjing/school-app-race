@@ -34,8 +34,9 @@
             <!-- 设置其 opacity 为 0 -->
             <input type="file" class="ImgPut" @change="imgPut($event)" accept="image/*">
             <!--富文本编辑器组件-->
-            <div class="edit_container">
+            <div class="edit-wrapper">
                 <quill-editor
+                        class="edit"
                         ref="myQuillEditor"
                         :options="editorOption"
                         @change="onEditorChange($event)"
@@ -261,6 +262,27 @@
             .preview {
                 width: 300px;
                 height: 300px;
+                background-color: $white;
+                position: relative;
+
+                &:before {
+                    height: 100px;
+                    width: 10px;
+                }
+
+                &:after {
+                    width: 100px;
+                    height: 10px;
+                }
+
+                &:before, &:after {
+                    content: '';
+                    position: absolute;
+                    top: 50%;
+                    left: 50%;
+                    transform: translate(-50%, -50%);
+                    background-color: #ccc;
+                }
             }
 
             .clip-wrapper {
@@ -321,6 +343,14 @@
             .ImgPut {
                 opacity: 0;
                 height: 0;
+            }
+
+            .edit-wrapper {
+                width: 300px;
+
+                .edit {
+                    width: 100%;
+                }
             }
 
             .submit {

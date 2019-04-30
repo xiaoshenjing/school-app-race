@@ -52,7 +52,7 @@
           .then(res => {
             if (this.$jwt(res.data)) {
               this.goods = res.data.goods
-              this.$store.commit('goodsShow',this.goods)
+              this.$store.commit('goodsShow', this.goods)
               this.$router.push('/goodsShow')
             }
           })
@@ -75,6 +75,8 @@
     }
 
     .order-wrapper {
+        padding-bottom: 10px;
+
         .order {
             padding-right: 10px;
             margin: 0 auto 20px;

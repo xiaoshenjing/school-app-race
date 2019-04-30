@@ -85,7 +85,7 @@
         this.$http.post('/goods', form, { headers: { 'Content-Type': 'multipart/form-data' } })
           .then(res => {
             if (this.$jwt(res.data)) {
-              this.deleteAll()
+              // this.deleteAll()
               this.$store.commit('tip', { reason: res.data.reason, color: 'green', update: new Date() })
             }
           })

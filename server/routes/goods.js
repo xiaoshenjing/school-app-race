@@ -8,7 +8,8 @@ let storage = multer.diskStorage({
     cb(null, 'public/ign_upload/goods')
   },
   filename: function (req, file, cb) {
-    cb(null, file.fieldname + '_' + Date.now() + '.jpg')
+    let time = Date.now() + Math.ceil(Math.random() * 100) + Math.ceil(Math.random() * 100)
+    cb(null, file.fieldname + '_' + time + '.jpg')
   }
 })
 let upload = multer({ storage })
@@ -59,6 +60,25 @@ router.get('/', async function (req, res, next) {
         goods: getGoods
       })
     }
+  } catch (err) {
+    next(err)
+  }
+})
+
+// 搜索商品
+router.get('/search', async function (req, res, next) {
+  try {
+    let search = req.query
+
+    let selectGoods = await Goods.find({
+      select: search.select,
+      title: { $regex: search.content, $options: 'i' }
+    })
+
+    return res.status(200).json({
+      result: true,
+      goods: selectGoods
+    })
   } catch (err) {
     next(err)
   }
@@ -234,10 +254,12 @@ router.post('/pay', async function (req, res, next) {
   try {
     let payData = req.body.pay
     let goodsMsg = []
+    let count = []
 
     for (let i = 0; i < payData.length; i++) {
       if (payData[i].count > 0) {
         let payCheck = await Goods.find({ _id: Object(payData[i].goodsId) })
+
         goodsMsg.push({
           price: (payData[i].count * payCheck[0].price).toFixed(2),
           title: payCheck[0].title,
@@ -245,6 +267,26 @@ router.post('/pay', async function (req, res, next) {
           count: payData[i].count,
           time: payCheck[0].time,
           goodsId: payData[i].goodsId
+        })
+
+        count.push({
+          title: payCheck[0].title,
+          goodsId: payData[i].goodsId,
+          count: payCheck[0].max_count - payData[i].count
+        })
+      }
+    }
+
+    // 订单数目统计
+    for (let i = 0; i < count.length; i++) {
+      if (count[i].count > 0) {
+        await Goods.update({ _id: Object(count[i].goodsId) }, { max_count: count[i].count })
+      } else {
+        await Goods.remove({ _id: Object(count[i].goodsId) })
+
+        return res.status(200).json({
+          result: false,
+          reason: '商品 ' + count[i].title + ' 已售空，请您重新选择',
         })
       }
     }
@@ -265,3 +307,5 @@ router.post('/pay', async function (req, res, next) {
 })
 
 module.exports = router
+
+

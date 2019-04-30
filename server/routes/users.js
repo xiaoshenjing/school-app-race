@@ -104,6 +104,24 @@ router.get('/get-cart', async function (req, res, next) {
   }
 })
 
+// 删除购物车
+router.post('/delete-cart', async function (req, res, next) {
+  try {
+    let goodsId = req.body.goodsId
+
+    await Users.update({ _id: Object(req.userId) }, {
+      $pull: { cart: goodsId }
+    })
+
+    return res.status(200).json({
+      result: true,
+      reason: '删除成功'
+    })
+  } catch (err) {
+    next(err)
+  }
+})
+
 // 获取订单
 router.get('/get-order', async function (req, res, next) {
   try {
@@ -122,9 +140,9 @@ router.get('/get-order', async function (req, res, next) {
 router.get('/get-goods', async function (req, res, next) {
   try {
     let goodsId = req.query.id
-    console.log(goodsId)
-    let goods = await Goods.findOne({ _id: Object(goodsId) })
 
+    let goods = await Goods.findOne({ _id: Object(goodsId) })
+    console.log(goods)
     if (goods) {
       return res.status(200).json({
         result: true,

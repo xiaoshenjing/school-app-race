@@ -6,7 +6,7 @@
             <img class="img" v-show="select==='3'" src="./asset/3.png" width="100%">
         </div>
         <div class="search">
-            <input type="search" class="input" @keypress.prevent="search($event)">
+            <input type="search" class="input" v-model="content">
             <i class="material-icons">search</i>
         </div>
         <goods-list :goodsData="goods"></goods-list>
@@ -23,9 +23,27 @@
     },
     data () {
       return {
-        loading: true,
+        loading: false,
         goods: [],
-        select: this.$route.params.select
+        select: this.$route.params.select,
+        content: ''
+      }
+    },
+    watch: {
+      content: function (newVal,) {
+        let select = this.select - 1
+
+        this.$http.get('/goods/search', {
+          params: {
+            select: select,
+            content: newVal,
+          }
+        })
+          .then(res => {
+            if (this.$jwt(res.data)) {
+              this.goods = res.data.goods
+            }
+          })
       }
     },
     methods: {
@@ -59,13 +77,6 @@
             break
         }
       },
-      search (e) {
-        let keyCode = e.which
-        if (keyCode === 13) {
-          let content = e.target.value
-          console.log(content)
-        }
-      }
     },
     created () {
       this.getSelectData()

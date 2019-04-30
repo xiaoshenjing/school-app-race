@@ -2,11 +2,19 @@
     <div class="shop-cart">
         <div v-if="cart">
             <div class="goods" v-for="(good,index) in cart" :key="index">
-                <div class="img" @click="showDetail(good)">
+                <div class="delete" @click="deleteCart(good._id)">
+                    <i class="material-icons">cancel</i>
+                </div>
+
+                <div class="img" @click="showDetail(good._id)">
                     <img :src="good.src[0]" alt="" width="100%" height="100%">
                 </div>
+
                 <div class="content">
-                    <div class="title">{{good.title}}</div>
+                    <div class="title-wrapper">
+                        <div class="title">{{good.title}}</div>
+                        <div class="max-count">库存：{{good.max_count}}</div>
+                    </div>
                     <div class="price">￥ {{good.price.toFixed(2)}}</div>
                     <count class="count" :good="good"></count>
                 </div>
@@ -86,9 +94,18 @@
           good.count = 0
         })
       },
-      showDetail (data) {
-        this.$store.commit('goodsShow', data)
-        this.$router.push('/home/goodsShow')
+      showDetail (id) {
+        this.$http.get('/users/get-goods', {
+          params: {
+            id: id
+          }
+        })
+          .then(res => {
+            if (this.$jwt(res.data)) {
+              this.$store.commit('goodsShow', res.data.goods)
+              this.$router.push('/goodsShow')
+            }
+          })
       },
       submit () {
         this.pay = []
@@ -105,6 +122,24 @@
               this.$refs.payment.open()
               this.pay_check = res.data.pay_check
               this.sumPrice = res.data.sumPrice
+            }
+          })
+      },
+      deleteCart (id) {
+        this.$http.post('/users/delete-cart', {
+          goodsId: id
+        })
+          .then(res => {
+            if (this.$jwt(res.data)) {
+              this.$store.commit('tip', { reason: res.data.reason, color: 'green', update: new Date() })
+
+              // 商品中删除该 goods
+              let index = this.cart.findIndex(item => {
+                if (item._id === id) {
+                  return item
+                }
+              })
+              this.cart.splice(index, 1)
             }
           })
       }
@@ -154,8 +189,28 @@
             width: 90%;
             height: 100px;
             border-radius: 10px;
-            overflow: hidden;
             box-shadow: 0 0 10px rgba(0, 0, 0, .3);
+            position: relative;
+
+            .delete {
+                $size: 30px;
+                position: absolute;
+                top: 0;
+                left: 0;
+                transform: translate(-40%, -40%);
+                z-index: 20;
+                width: $size;
+                height: $size;
+
+                .material-icons {
+                    font-size: $size;
+                    color: $grey;
+
+                    &:active {
+                        color: $orange;
+                    }
+                }
+            }
 
             .img {
                 height: 100%;
@@ -174,13 +229,24 @@
                 padding: 5px;
                 position: relative;
 
-                .title {
+                .title-wrapper {
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
                     width: 100%;
-                    overflow: hidden;
-                    white-space: nowrap;
-                    text-overflow: ellipsis;
                     margin-bottom: 26px;
-                    font-size: 14px;
+
+                    .title {
+                        width: 60%;
+                        overflow: hidden;
+                        white-space: nowrap;
+                        text-overflow: ellipsis;
+                        font-size: 14px;
+                    }
+
+                    .max-count {
+                        font-size: 14px;
+                    }
                 }
 
                 .price {
@@ -190,8 +256,8 @@
 
                 .count {
                     position: absolute;
-                    right: 10px;
-                    bottom: 10px;
+                    right: 5px;
+                    bottom: 5px;
                 }
             }
         }

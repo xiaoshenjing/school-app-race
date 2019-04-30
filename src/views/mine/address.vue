@@ -32,7 +32,6 @@
     },
     watch: {
       address: function (newVal, oldVal) {
-        console.log(oldVal)
         if (oldVal.length) {
           this.$http.post('/users/address', {
             address: newVal

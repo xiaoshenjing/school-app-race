@@ -1,10 +1,12 @@
 <template>
     <div id="app">
         <v-tip></v-tip>
-        <v-login v-show="show"></v-login>
-        <v-header v-show="!show"></v-header>
-        <v-main v-show="!show"></v-main>
-        <v-footer v-show="!show"></v-footer>
+        <v-login v-if="show"></v-login>
+        <div class="main" v-if="!show">
+            <v-header></v-header>
+            <v-main></v-main>
+            <v-footer></v-footer>
+        </div>
     </div>
 </template>
 
@@ -33,7 +35,7 @@
       }
     },
     watch: {
-      '$store.state.token': function (newVal, ) {
+      '$store.state.token': function (newVal,) {
         this.$http.defaults.headers.common['Token'] = newVal
       }
     },
