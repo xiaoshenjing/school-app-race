@@ -65,6 +65,7 @@
       endClip () {
         // 获取截图的blob数据
         this.$refs.cropper.getCropBlob((data) => {
+          // 获取图片
           this.$emit('getFile', data)
 
           this.previewImage.width = this.previewImage.height = '300'
@@ -72,6 +73,8 @@
 
         // 获取截图的base64 数据
         this.$refs.cropper.getCropData((data) => {
+          this.$emit('getPreviewFile', data)
+
           this.previewImage.img = data
         })
       },

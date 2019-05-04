@@ -51,6 +51,7 @@
             if (this.$jwt(res.data)) {
               this.hide()
               this.$store.commit('tip', { reason: res.data.reason, color: 'green', update: new Date() })
+              this.$emit('reset', true)
             }
           })
       }

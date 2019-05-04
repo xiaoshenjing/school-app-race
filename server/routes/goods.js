@@ -255,6 +255,7 @@ router.post('/pay', async function (req, res, next) {
     let payData = req.body.pay
     let goodsMsg = []
     let count = []
+    let sumPrice = 0
 
     for (let i = 0; i < payData.length; i++) {
       if (payData[i].count > 0) {
@@ -274,19 +275,35 @@ router.post('/pay', async function (req, res, next) {
           goodsId: payData[i].goodsId,
           count: payCheck[0].max_count - payData[i].count
         })
+
+        sumPrice += Number((payData[i].count * payCheck[0].price).toFixed(2))
       }
     }
 
-    // 订单数目统计
+    // 订单数目和余额核实
     for (let i = 0; i < count.length; i++) {
-      if (count[i].count > 0) {
+      // 订单数目统计
+      if (count[i].count >= 0) {
         await Goods.update({ _id: Object(count[i].goodsId) }, { max_count: count[i].count })
+
+        // 支付余额统计
+        let user = await Users.findOne({ _id: Object(req.userId) })
+        if (user.money > sumPrice) {
+          await Users.update({ _id: Object(req.userId) }, {
+            money: user.money - sumPrice
+          })
+        } else {
+          return res.status(200).json({
+            result: false,
+            reason: '余额不足'
+          })
+        }
       } else {
         await Goods.remove({ _id: Object(count[i].goodsId) })
 
         return res.status(200).json({
           result: false,
-          reason: '商品 ' + count[i].title + ' 已售空，请您重新选择',
+          reason: '商品 ' + count[i].title + ' 库存不足，请您重新选择',
         })
       }
     }

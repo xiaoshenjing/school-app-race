@@ -1,7 +1,7 @@
 <template>
     <div class="shop-cart">
         <div v-if="cart">
-            <div class="goods" v-for="(good,index) in cart" :key="index">
+            <div class="goods" v-for="(good,index) in cart" :key="index" v-show="good.max_count>0">
                 <div class="delete" @click="deleteCart(good._id)">
                     <i class="material-icons">cancel</i>
                 </div>
@@ -55,7 +55,7 @@
                 </div>
             </transition>
         </div>
-        <payment :pay="pay_check" :sumPrice="Number(sumPrice)" ref="payment"></payment>
+        <payment :pay="pay_check" :sumPrice="Number(sumPrice)" ref="payment" @reset="reset"></payment>
     </div>
 </template>
 
@@ -124,6 +124,12 @@
               this.sumPrice = res.data.sumPrice
             }
           })
+      },
+      reset (flag) {
+        if (flag) {
+          this.empty()
+          this.getData()
+        }
       },
       deleteCart (id) {
         this.$http.post('/users/delete-cart', {

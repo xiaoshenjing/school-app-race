@@ -1,5 +1,18 @@
 var express = require('express')
 var router = express.Router()
+let multer = require('multer')
+let path = require('path')
+
+let storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, 'public/ign_upload/avatar')
+  },
+  filename: function (req, file, cb) {
+    let time = Date.now()
+    cb(null, file.fieldname + '_' + time + '.jpg')
+  }
+})
+let upload = multer({ storage })
 
 let commonFun = require('../commonFun')
 
@@ -142,7 +155,7 @@ router.get('/get-goods', async function (req, res, next) {
     let goodsId = req.query.id
 
     let goods = await Goods.findOne({ _id: Object(goodsId) })
-    console.log(goods)
+
     if (goods) {
       return res.status(200).json({
         result: true,
@@ -154,6 +167,31 @@ router.get('/get-goods', async function (req, res, next) {
       result: false,
       reason: '抱歉，该商品已下架'
     })
+  } catch (err) {
+    next(err)
+  }
+})
+
+// 修改个人资料
+router.post('/set-person', upload.single('avatar'), async function (req, res, next) {
+  try {
+    let person = req.body
+    person.money = Number(person.money)
+
+    if (req.file) {
+      person.avatar = req.publicUrl + '/ign_upload/avatar/' + path.basename(req.file.path)
+    } else {
+      delete person.avatar
+    }
+
+    let updatePerson = await Users.update({ _id: Object(req.userId) }, person)
+
+    if (updatePerson.nModified) {
+      return res.status(200).json({
+        result: true,
+        reason: '上传成功'
+      })
+    }
   } catch (err) {
     next(err)
   }
