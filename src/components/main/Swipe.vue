@@ -1,7 +1,7 @@
 <template>
     <el-carousel :height="height">
         <el-carousel-item v-for="(item,index) in carousel" :key="index">
-            <a :href="item.href"><img :src="$store.state.publicPath+'/carousel/'+item.src" alt="" width="100%" :height="height"></a>
+            <a :href="item.href"><img :src="'./carousel/'+item.src" alt="" width="100%" :height="height"></a>
         </el-carousel-item>
     </el-carousel>
 </template>
