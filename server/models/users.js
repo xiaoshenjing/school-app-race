@@ -2,7 +2,8 @@ let mongoose = require('mongoose')
 
 mongoose.connect('mongodb://localhost/user')
 
-const defaultPath = 'http://10.14.4.153:3000/public' // dt
+const defaultPath = 'http://192.144.183.22:3000/public' // 服务器
+// const defaultPath = 'http://10.14.4.153:3000/public' // dt
 // const defaultPath = 'http://172.16.77.178:3000/public' // 校园网
 // const defaultPath = 'http://192.168.43.87:3000/public' // 手机
 

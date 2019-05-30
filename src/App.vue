@@ -18,12 +18,12 @@
       VMain: () => import('@/components/main/VMain'),
       VFooter: () => import('@/components/footer/VFooter'),
       VLogin: () => import('@/components/VLogin'),
-      VTip: () => import('@/components/VTip')
+      VTip: () => import('@/components/VTip'),
     },
     computed: {
       show () {
         return !this.$store.state.login
-      }
+      },
     },
     methods: {
       init () {
@@ -32,17 +32,21 @@
         document.querySelector('html').style.fontSize = fsz + 'px'
 
         this.$http.defaults.headers.common['Token'] = this.$store.state.token
-      }
+      },
     },
     watch: {
-      '$store.state.token': function (newVal,) {
+      '$store.state.token': function (newVal) {
         this.$http.defaults.headers.common['Token'] = newVal
-      }
+      },
     },
     created () {
       this.init()
-    }
+    },
   }
+
+  //cc
+
+  //cc
 </script>
 
 <style>

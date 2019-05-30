@@ -10,7 +10,7 @@ let storage = multer.diskStorage({
   filename: function (req, file, cb) {
     let time = Date.now()
     cb(null, file.fieldname + '_' + time + '.jpg')
-  }
+  },
 })
 let upload = multer({ storage })
 
@@ -31,7 +31,7 @@ router.post('/login', async function (req, res, next) {
       return res.status(200).json({
         result: true,
         reason: '登陆成功',
-        token: jwt
+        token: jwt,
       })
     } else {
       next({ result: false, reason: '信息验证失败，请确认信息后重新登陆' })
@@ -49,7 +49,7 @@ router.get('/', async function (req, res, next) {
     if (user) {
       res.status(200).json({
         result: true,
-        personData: user
+        personData: user,
       })
     }
   } catch (err) {
@@ -63,12 +63,12 @@ router.post('/address', async function (req, res, next) {
     let address = req.body
 
     await Users.update({ _id: Object(req.userId) }, {
-      address: address.address
+      address: address.address,
     })
 
     res.status(200).json({
       result: true,
-      reason: '修改成功'
+      reason: '修改成功',
     })
   } catch (err) {
     next(err)
@@ -81,20 +81,20 @@ router.post('/add-cart', async function (req, res, next) {
     let goodsId = req.body.id
     let addCart = await Users.update({ _id: Object(req.userId) }, {
       $addToSet: {
-        cart: goodsId
-      }
+        cart: goodsId,
+      },
     })
 
     if (addCart.nModified) {
       return res.status(200).json({
         result: true,
-        reason: '添加成功'
+        reason: '添加成功',
       })
     }
 
     return res.status(200).json({
       result: false,
-      reason: '已添加到购物车，请勿重复添加'
+      reason: '已添加到购物车，请勿重复添加',
     })
   } catch (err) {
     next(err)
@@ -110,7 +110,7 @@ router.get('/get-cart', async function (req, res, next) {
 
     return res.status(200).json({
       result: true,
-      cart: cart
+      cart: cart,
     })
   } catch (err) {
     next(err)
@@ -123,12 +123,12 @@ router.post('/delete-cart', async function (req, res, next) {
     let goodsId = req.body.goodsId
 
     await Users.update({ _id: Object(req.userId) }, {
-      $pull: { cart: goodsId }
+      $pull: { cart: goodsId },
     })
 
     return res.status(200).json({
       result: true,
-      reason: '删除成功'
+      reason: '删除成功',
     })
   } catch (err) {
     next(err)
@@ -142,7 +142,7 @@ router.get('/get-order', async function (req, res, next) {
 
     return res.status(200).json({
       result: true,
-      order: user.order
+      order: user.order,
     })
   } catch (err) {
     next(err)
@@ -159,13 +159,13 @@ router.get('/get-goods', async function (req, res, next) {
     if (goods) {
       return res.status(200).json({
         result: true,
-        goods: goods
+        goods: goods,
       })
     }
 
     res.status(200).json({
       result: false,
-      reason: '抱歉，该商品已下架'
+      reason: '抱歉，该商品已下架',
     })
   } catch (err) {
     next(err)
@@ -173,28 +173,30 @@ router.get('/get-goods', async function (req, res, next) {
 })
 
 // 修改个人资料
-router.post('/set-person', upload.single('avatar'), async function (req, res, next) {
-  try {
-    let person = req.body
-    person.money = Number(person.money)
+router.post('/set-person', upload.single('avatar'),
+  async function (req, res, next) {
+    try {
+      let person = req.body
+      person.money = Number(person.money)
 
-    if (req.file) {
-      person.avatar = req.publicUrl + '/ign_upload/avatar/' + path.basename(req.file.path)
-    } else {
-      delete person.avatar
+      if (req.file) {
+        person.avatar = req.publicUrl + '/ign_upload/avatar/' +
+          path.basename(req.file.path)
+      } else {
+        delete person.avatar
+      }
+
+      let updatePerson = await Users.update({ _id: Object(req.userId) }, person)
+
+      if (updatePerson.nModified) {
+        return res.status(200).json({
+          result: true,
+          reason: '上传成功',
+        })
+      }
+    } catch (err) {
+      next(err)
     }
-
-    let updatePerson = await Users.update({ _id: Object(req.userId) }, person)
-
-    if (updatePerson.nModified) {
-      return res.status(200).json({
-        result: true,
-        reason: '上传成功'
-      })
-    }
-  } catch (err) {
-    next(err)
-  }
-})
+  })
 
 module.exports = router
